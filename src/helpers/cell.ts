@@ -1,22 +1,4 @@
-interface ICoord {
-  x: number;
-  y: number;
-}
-
-export class Coord {
-  readonly x: number;
-
-  readonly y: number;
-
-  constructor({ x, y }: ICoord) {
-    this.x = x;
-    this.y = y;
-  }
-
-  equals({ x, y }: ICoord): boolean {
-    return this.x === x && this.y === y;
-  }
-}
+import { Coord } from 'helpers/coord';
 
 interface Directions {
   top: Coord | null;
