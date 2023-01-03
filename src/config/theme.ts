@@ -1,7 +1,7 @@
-import { alpha, createTheme } from '@mui/material';
+import { ThemeOptions, alpha, createTheme, darken } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 
-export const theme = createTheme({
+const initialTheme = createTheme({
   palette: {
     primary: {
       main: green[400],
@@ -17,3 +17,73 @@ export const theme = createTheme({
     },
   },
 });
+
+export const theme = createTheme(initialTheme, {
+  components: {
+    MuiButton: {
+      defaultProps: {
+        variant: 'contained',
+        disableTouchRipple: true,
+      },
+      styleOverrides: {
+        sizeLarge: {
+          fontWeight: 600,
+          borderRadius: '10px',
+          letterSpacing: 1.8,
+        },
+        contained: {
+          position: 'relative',
+
+          '&, &:hover': {
+            boxShadow: 'none',
+          },
+          ':after': {
+            position: 'absolute',
+            content: '""',
+            width: '100%',
+            height: '100%',
+            top: 4,
+            zIndex: -1,
+            borderRadius: '10px',
+          },
+          '&.Mui-disabled:after': {
+            background: 'none',
+          },
+          ':active': {
+            transform: 'translate(0, 4px)',
+
+            ':after': {
+              background: 'none',
+            },
+          },
+        },
+        containedPrimary: {
+          color: initialTheme.palette.common.white,
+
+          '&:hover, &:active': {
+            background: initialTheme.palette.primary.light,
+          },
+          ':after': {
+            background: initialTheme.palette.primary.dark,
+          },
+        },
+        containedSecondary: {
+          ':hover, :active': {
+            background: initialTheme.palette.secondary.light,
+          },
+          ':after': {
+            background: initialTheme.palette.secondary.dark,
+          },
+        },
+        containedError: {
+          ':hover, :active': {
+            background: initialTheme.palette.error.light,
+          },
+          ':after': {
+            background: darken(initialTheme.palette.error.dark, 0.1),
+          },
+        },
+      },
+    },
+  },
+} as ThemeOptions);

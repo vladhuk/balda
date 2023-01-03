@@ -177,7 +177,7 @@ export const App: FC = () => {
   };
 
   const onCheckWord = () => {
-    if (isNull(enteredLetterCoord)) {
+    if (isNull(enteredLetterCoord) || isEmpty(lastSelected?.value)) {
       setIsLetterNotEnteredError(true);
       shakeLetters();
       return;
@@ -355,23 +355,19 @@ export const App: FC = () => {
           mt={1}
           alignItems="center"
         >
-          <Button
-            variant="contained"
-            onClick={onCheckWord}
-            disabled={isEmpty(selectedCells) || isEmpty(lastSelected?.value)}
-          >
+          <Button size="large" onClick={onCheckWord}>
             Завершити хід
           </Button>
           <Button
+            size="large"
             color="secondary"
-            variant="contained"
             onClick={() => clearSelection()}
           >
             Скинути вибір
           </Button>
           <Button
+            size="large"
             color="error"
-            variant="contained"
             onClick={() => {
               setTurn((prev) => !prev);
               clearSelection();
