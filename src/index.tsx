@@ -1,4 +1,4 @@
-import { App } from 'App';
+import { App } from 'components/App';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { reportWebVitals } from 'utils/report-web-vitals';
 import { theme } from 'config/theme';

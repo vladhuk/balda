@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Divider,
+  FormHelperText,
   InputBase,
   Typography,
   Zoom,
@@ -60,8 +61,27 @@ export const App: FC = () => {
   const [score1, setScore1] = useState(0);
   const [score2, setScore2] = useState(0);
   const [turn, setTurn] = useState(true);
+  const [isLettersShaking, setIsLettersShaking] = useState(false);
+  const [isWordWrongError, setIsWordWrongError] = useState(false);
+  const [isLetterNotEnteredError, setIsLetterNotEnteredError] = useState(false);
 
   const lastSelected = selectedCells[selectedCells.length - 1];
+  const isError = isWordWrongError || isLetterNotEnteredError;
+
+  const resetErrors = () => {
+    setIsWordWrongError(false);
+    setIsLetterNotEnteredError(false);
+  };
+
+  const getErrorMessage = () => {
+    if (isWordWrongError) {
+      return 'Слово не знайдено';
+    }
+    if (isLetterNotEnteredError) {
+      return 'Слово має містити одну введену букву';
+    }
+    return '';
+  };
 
   const setTableCell = (coord: Coord, value: string) => {
     setCells((prevCells) =>
@@ -131,40 +151,52 @@ export const App: FC = () => {
     if (!checkCanClick(cell)) {
       return;
     }
-
     if (isEmpty(cell.value)) {
       setEnteredLetterCoord(cell.coord);
     }
+
+    resetErrors();
     setSelectedCells((prevCells) => [...prevCells, cell]);
   };
 
   const clearSelection = (options?: { saveEntered?: boolean }) => {
     setSelectedCells([]);
     setEnteredLetterCoord(null);
+    resetErrors();
 
     if (isNotNull(enteredLetterCoord) && !options?.saveEntered) {
       setTableCell(enteredLetterCoord, '');
     }
   };
 
+  const shakeLetters = () => {
+    setIsLettersShaking(true);
+    setTimeout(() => {
+      setIsLettersShaking(false);
+    }, 300);
+  };
+
   const onCheckWord = () => {
     if (isNull(enteredLetterCoord)) {
+      setIsLetterNotEnteredError(true);
+      shakeLetters();
       return;
     }
 
     const word = selectedCells.map(({ value }) => value).join('');
     const isWordExist = checkIsWordExist(word);
 
-    // eslint-disable-next-line no-alert
-    alert(isWordExist ? 'correct' : 'wrong');
-    clearSelection({ saveEntered: isWordExist });
-
     if (isWordExist) {
       const setScore = turn ? setScore1 : setScore2;
 
       setScore((prev) => prev + word.length);
       setTurn((prev) => !prev);
+      clearSelection({ saveEntered: true });
+      return;
     }
+
+    setIsWordWrongError(true);
+    shakeLetters();
   };
 
   const checkIsEmptySelectedCell = (cell: Cell) =>
@@ -187,10 +219,13 @@ export const App: FC = () => {
 
   return (
     <Box height="100vh" bgcolor="background.default">
-      <Box display="flex" flexDirection="column" alignItems="center" gap={1}>
+      <Box display="flex" flexDirection="column" alignItems="center">
         <Box display="flex" mt={1}>
-          {(isEmpty(selectedCells)
-            ? [{ value: '\u2000', coord: new Coord({ x: 0, y: 0 }) }]
+          {(isNull(enteredLetterCoord)
+            ? [
+                ...selectedCells,
+                { value: '\u2000', coord: new Coord({ x: 0, y: 0 }) },
+              ]
             : selectedCells
           ).map((cell, i, arr) => (
             <Box
@@ -200,6 +235,25 @@ export const App: FC = () => {
               alignItems="center"
               mr={1}
               minWidth={arr.length < 7 ? 45 : 35}
+              sx={{
+                ...(isLettersShaking && {
+                  animation: 'shake 0.4s',
+                  animationIterationCount: 'infinite',
+                }),
+
+                '@keyframes shake': {
+                  '10%': { transform: 'translate(-1px, -2px) rotate(-1deg)' },
+                  '20%': { transform: 'translate(-3px, 0px) rotate(1deg)' },
+                  '30%': { transform: 'translate(3px, 2px) rotate(0deg)' },
+                  '40%': { transform: 'translate(1px, -1px) rotate(1deg)' },
+                  '50%': { transform: 'translate(-1px, 2px) rotate(-1deg)' },
+                  '60%': { transform: 'translate(-3px, 1px) rotate(0deg)' },
+                  '70%': { transform: 'translate(3px, 1px) rotate(-1deg)' },
+                  '80%': { transform: 'translate(-1px, -1px) rotate(1deg)' },
+                  '90%': { transform: 'translate(1px, 2px) rotate(0deg)' },
+                  '100%': { transform: 'translate(1px, -2px) rotate(-1deg)' },
+                },
+              }}
             >
               <Zoom in>
                 <Typography
@@ -215,10 +269,21 @@ export const App: FC = () => {
                   {cell.value || '\u2000'}
                 </Typography>
               </Zoom>
-              <Divider sx={{ width: 1 }} />
+              <Divider
+                sx={{
+                  width: 1,
+                  boxSizing: 'border-box',
+                  height: 4,
+                }}
+              />
             </Box>
           ))}
         </Box>
+        <FormHelperText sx={{ lineHeight: 1, height: 12 }} error>
+          <Zoom in={isError}>
+            <div>{getErrorMessage()}</div>
+          </Zoom>
+        </FormHelperText>
         <div>
           {cells.map((row) => (
             <Box
@@ -283,39 +348,54 @@ export const App: FC = () => {
             </Box>
           ))}
         </div>
-        <Button variant="contained" onClick={onCheckWord}>
-          Завершити хід
-        </Button>
-        <Button
-          color="secondary"
-          variant="contained"
-          onClick={() => clearSelection()}
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap={1}
+          mt={1}
+          alignItems="center"
         >
-          Скинути вибір
-        </Button>
-        <Button
-          color="error"
-          variant="contained"
-          onClick={() => setTurn((prev) => !prev)}
-        >
-          Пропустити хід
-        </Button>
-        <Box display="flex">
-          <Typography
-            variant="h4"
-            fontWeight={900}
-            color={turn ? palette.primary.main : palette.text.disabled}
-            mr={4}
+          <Button
+            variant="contained"
+            onClick={onCheckWord}
+            disabled={isEmpty(selectedCells) || isEmpty(lastSelected?.value)}
           >
-            {score1}
-          </Typography>
-          <Typography
-            variant="h4"
-            fontWeight={900}
-            color={turn ? palette.text.disabled : palette.primary.main}
+            Завершити хід
+          </Button>
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={() => clearSelection()}
           >
-            {score2}
-          </Typography>
+            Скинути вибір
+          </Button>
+          <Button
+            color="error"
+            variant="contained"
+            onClick={() => {
+              setTurn((prev) => !prev);
+              clearSelection();
+            }}
+          >
+            Пропустити хід
+          </Button>
+          <Box display="flex">
+            <Typography
+              variant="h4"
+              fontWeight={900}
+              color={turn ? palette.primary.main : palette.text.disabled}
+              mr={4}
+            >
+              {score1}
+            </Typography>
+            <Typography
+              variant="h4"
+              fontWeight={900}
+              color={turn ? palette.text.disabled : palette.primary.main}
+            >
+              {score2}
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Box>
