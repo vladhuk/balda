@@ -31,6 +31,11 @@ export const theme = createTheme(initialTheme, {
           borderRadius: '10px',
           letterSpacing: 1.8,
         },
+        sizeMedium: {
+          fontWeight: 600,
+          borderRadius: '10px',
+          letterSpacing: 1.8,
+        },
         contained: {
           position: 'relative',
 

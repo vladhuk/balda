@@ -1,3 +1,4 @@
+import { ActionsDialog } from 'components/ActionsDialog';
 import {
   Box,
   Button,
@@ -14,6 +15,10 @@ import { Coord } from 'helpers/coord';
 import { isEmpty, isNull, random, range } from 'lodash';
 import { isNotEmpty } from 'utils/is-not-empty';
 import { isNotNull } from 'utils/is-not-null';
+import BackspaceIcon from '@mui/icons-material/Backspace';
+import DeleteIcon from '@mui/icons-material/Delete';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import React, { ChangeEvent, FC, useState } from 'react';
 import nouns from 'data/nouns.json';
 
@@ -64,6 +69,7 @@ export const App: FC = () => {
   const [isLettersShaking, setIsLettersShaking] = useState(false);
   const [isWordWrongError, setIsWordWrongError] = useState(false);
   const [isLetterNotEnteredError, setIsLetterNotEnteredError] = useState(false);
+  const [isActionsDialogOpened, setIsActionsDialogOpened] = useState(false);
 
   const lastSelected = selectedCells[selectedCells.length - 1];
   const isError = isWordWrongError || isLetterNotEnteredError;
@@ -94,6 +100,19 @@ export const App: FC = () => {
         }),
       ),
     );
+  };
+
+  const undo = () => {
+    if (
+      isNotNull(enteredLetterCoord) &&
+      lastSelected?.coord.equals(enteredLetterCoord)
+    ) {
+      setTableCell(enteredLetterCoord, '');
+      setEnteredLetterCoord(null);
+    }
+
+    setSelectedCells((prev) => prev.slice(0, prev.length - 1));
+    resetErrors();
   };
 
   const checkIsCellSelected = (cell: Cell) =>
@@ -199,6 +218,11 @@ export const App: FC = () => {
     shakeLetters();
   };
 
+  const skipTurn = () => {
+    setTurn((prev) => !prev);
+    clearSelection();
+  };
+
   const checkIsEmptySelectedCell = (cell: Cell) =>
     isNotNull(enteredLetterCoord) &&
     enteredLetterCoord.equals(cell.coord) &&
@@ -219,8 +243,24 @@ export const App: FC = () => {
 
   return (
     <Box height="100vh" bgcolor="background.default">
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <Box display="flex" mt={1}>
+      <Box display="flex" flexDirection="column" alignItems="center" mx={0.5}>
+        <Box display="flex" width={360} justifyContent="space-between" mt={1}>
+          <Typography
+            variant="h4"
+            fontWeight={900}
+            color={turn ? palette.primary.main : palette.text.disabled}
+          >
+            {score1}
+          </Typography>
+          <Typography
+            variant="h4"
+            fontWeight={900}
+            color={turn ? palette.text.disabled : palette.primary.main}
+          >
+            {score2}
+          </Typography>
+        </Box>
+        <Box display="flex">
           {(isNull(enteredLetterCoord)
             ? [
                 ...selectedCells,
@@ -279,7 +319,11 @@ export const App: FC = () => {
             </Box>
           ))}
         </Box>
-        <FormHelperText sx={{ lineHeight: 1, height: 12 }} error>
+        <FormHelperText
+          component="div"
+          sx={{ lineHeight: 1, height: 12 }}
+          error
+        >
           <Zoom in={isError}>
             <div>{getErrorMessage()}</div>
           </Zoom>
@@ -349,49 +393,51 @@ export const App: FC = () => {
           ))}
         </div>
         <Box
+          width={360}
           display="flex"
-          flexDirection="column"
-          gap={1}
           mt={1}
-          alignItems="center"
+          px={0.5}
+          justifyContent="space-between"
         >
-          <Button size="large" onClick={onCheckWord}>
+          <Button
+            color="secondary"
+            onClick={() => setIsActionsDialogOpened(true)}
+          >
+            <MoreHorizIcon />
+          </Button>
+          <ActionsDialog
+            open={isActionsDialogOpened}
+            setOpen={setIsActionsDialogOpened}
+            onSkipTurn={skipTurn}
+          />
+          <Button color="secondary" onClick={() => clearSelection()}>
+            <DeleteIcon />
+          </Button>
+          <Button color="secondary" onClick={undo}>
+            <BackspaceIcon />
+          </Button>
+        </Box>
+        <Box
+          sx={(theme) => ({
+            position: 'fixed',
+            bottom: 16,
+            width: 360,
+
+            [theme.breakpoints.up('sm')]: {
+              position: 'static',
+              mt: 5,
+              px: 0.5,
+            },
+          })}
+        >
+          <Button
+            size="large"
+            endIcon={<KeyboardReturnIcon />}
+            onClick={onCheckWord}
+            fullWidth
+          >
             Завершити хід
           </Button>
-          <Button
-            size="large"
-            color="secondary"
-            onClick={() => clearSelection()}
-          >
-            Скинути вибір
-          </Button>
-          <Button
-            size="large"
-            color="error"
-            onClick={() => {
-              setTurn((prev) => !prev);
-              clearSelection();
-            }}
-          >
-            Пропустити хід
-          </Button>
-          <Box display="flex">
-            <Typography
-              variant="h4"
-              fontWeight={900}
-              color={turn ? palette.primary.main : palette.text.disabled}
-              mr={4}
-            >
-              {score1}
-            </Typography>
-            <Typography
-              variant="h4"
-              fontWeight={900}
-              color={turn ? palette.text.disabled : palette.primary.main}
-            >
-              {score2}
-            </Typography>
-          </Box>
         </Box>
       </Box>
     </Box>
