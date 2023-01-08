@@ -12,12 +12,12 @@ import {
 } from '@mui/material';
 import { Cell } from 'helpers/cell';
 import { Coord } from 'helpers/coord';
+import { FinishTurnButton } from 'components/FinishTurnButton/FinishTurnButton';
 import { isEmpty, isNull, random, range } from 'lodash';
 import { isNotEmpty } from 'utils/is-not-empty';
 import { isNotNull } from 'utils/is-not-null';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import DeleteIcon from '@mui/icons-material/Delete';
-import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import React, { ChangeEvent, FC, MouseEvent, useState } from 'react';
 import nouns from 'data/nouns.json';
@@ -438,28 +438,7 @@ export const App: FC = () => {
             <BackspaceIcon />
           </Button>
         </Box>
-        <Box
-          sx={(theme) => ({
-            position: 'fixed',
-            bottom: 16,
-            width: 360,
-
-            [theme.breakpoints.up('sm')]: {
-              position: 'static',
-              mt: 5,
-              px: 0.5,
-            },
-          })}
-        >
-          <Button
-            size="large"
-            endIcon={<KeyboardReturnIcon />}
-            onClick={onCheckWord}
-            fullWidth
-          >
-            Завершити хід
-          </Button>
-        </Box>
+        <FinishTurnButton onClick={onCheckWord} />
       </Box>
     </Box>
   );
