@@ -19,7 +19,7 @@ import BackspaceIcon from '@mui/icons-material/Backspace';
 import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC, MouseEvent, useState } from 'react';
 import nouns from 'data/nouns.json';
 
 const SIZE = 5;
@@ -102,7 +102,7 @@ export const App: FC = () => {
     );
   };
 
-  const undo = () => {
+  const undo = (activeElement?: HTMLElement) => {
     if (
       isNotNull(enteredLetterCoord) &&
       lastSelected?.coord.equals(enteredLetterCoord)
@@ -113,6 +113,7 @@ export const App: FC = () => {
 
     setSelectedCells((prev) => prev.slice(0, prev.length - 1));
     resetErrors();
+    activeElement?.blur();
   };
 
   const checkIsCellSelected = (cell: Cell) =>
@@ -143,7 +144,13 @@ export const App: FC = () => {
       }
     };
 
+  const checkIsLastSelected = (cell: Cell) =>
+    lastSelected?.coord.equals(cell.coord);
+
   const checkCanClick = (cell: Cell) => {
+    if (checkIsLastSelected(cell)) {
+      return true;
+    }
     if (checkIsCellSelected(cell)) {
       return false;
     }
@@ -157,17 +164,21 @@ export const App: FC = () => {
       return false;
     }
 
-    const isAnyCellSelectedLastSelectedEmpty =
+    const isAnyCellSelectedAndLastSelectedEmpty =
       isNotEmpty(selectedCells) && isEmpty(lastSelected.value);
-    if (isAnyCellSelectedLastSelectedEmpty) {
+    if (isAnyCellSelectedAndLastSelectedEmpty) {
       return false;
     }
 
     return true;
   };
 
-  const handleClickCell = (cell: Cell) => () => {
+  const handleClickCell = (cell: Cell) => (event: MouseEvent) => {
     if (!checkCanClick(cell)) {
+      return;
+    }
+    if (checkIsLastSelected(cell)) {
+      undo(event.target as HTMLElement);
       return;
     }
     if (isEmpty(cell.value)) {
@@ -365,14 +376,24 @@ export const App: FC = () => {
                         cursor: 'pointer',
 
                         '&:hover': {
-                          background: alpha(palette.primary.light, 0.5),
+                          background: checkIsLastSelected(cell)
+                            ? alpha(palette.primary.main, 0.9)
+                            : alpha(palette.primary.light, 0.5),
                         },
                       }),
                       ...(checkIsCellSelected(cell) && {
-                        background: enteredLetterCoord?.equals(cell.coord)
-                          ? palette.secondary.main
-                          : palette.primary.main,
                         color: palette.common.black,
+                        background: palette.primary.main,
+
+                        ...(enteredLetterCoord?.equals(cell.coord) && {
+                          background: palette.secondary.main,
+
+                          ...(checkIsCellSelected(cell) && {
+                            ':hover': {
+                              background: alpha(palette.secondary.main, 0.9),
+                            },
+                          }),
+                        }),
 
                         '&.Mui-disabled': {
                           WebkitTextFillColor: palette.common.white,
@@ -413,7 +434,7 @@ export const App: FC = () => {
           <Button color="secondary" onClick={() => clearSelection()}>
             <DeleteIcon />
           </Button>
-          <Button color="secondary" onClick={undo}>
+          <Button color="secondary" onClick={() => undo()}>
             <BackspaceIcon />
           </Button>
         </Box>
