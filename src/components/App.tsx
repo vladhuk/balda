@@ -251,7 +251,7 @@ export const App: FC = () => {
 
   return (
     <Box height="100vh" bgcolor="background.default">
-      <Box display="flex" flexDirection="column" alignItems="center" mx={0.5}>
+      <Box display="flex" flexDirection="column" alignItems="center">
         <Box display="flex" width={360} justifyContent="space-between" mt={1}>
           <Typography
             variant="h4"
@@ -263,7 +263,7 @@ export const App: FC = () => {
           <Typography
             variant="h4"
             fontWeight={900}
-            color={turn === 1 ? palette.text.disabled : palette.primary.main}
+            color={turn === 1 ? palette.primary.main : palette.text.disabled}
           >
             {score2}
           </Typography>
@@ -349,13 +349,7 @@ export const App: FC = () => {
             </Box>
           ))}
         </div>
-        <Box
-          width={360}
-          display="flex"
-          mt={1}
-          px={0.5}
-          justifyContent="space-between"
-        >
+        <Box width={352} display="flex" mt={1} justifyContent="space-between">
           <Button
             color="secondary"
             onClick={() => setIsActionsDialogOpened(true)}

@@ -22,7 +22,7 @@ export const WordPreview: FC<Props> = ({
   lettersShaking,
 }) => {
   return (
-    <div>
+    <Box display="flex" flexDirection="column" alignItems="center">
       <Box display="flex">
         {(isNull(enteredLetterCoord)
           ? [
@@ -66,6 +66,6 @@ export const WordPreview: FC<Props> = ({
           <div>{errorMessage}</div>
         </Zoom>
       </FormHelperText>
-    </div>
+    </Box>
   );
 };
