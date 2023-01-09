@@ -2,17 +2,16 @@ import { ActionsDialog } from 'components/ActionsDialog';
 import {
   Box,
   Button,
-  Divider,
-  FormHelperText,
   InputBase,
   Typography,
-  Zoom,
   alpha,
   useTheme,
 } from '@mui/material';
-import { Cell } from 'helpers/cell';
+import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { FinishTurnButton } from 'components/FinishTurnButton/FinishTurnButton';
+import { WordPreview } from 'components/WordPreview/WordPreview';
+import { getCellKey } from 'utils/get-cell-key';
 import { isEmpty, isNull, random, range } from 'lodash';
 import { isNotEmpty } from 'utils/is-not-empty';
 import { isNotNull } from 'utils/is-not-null';
@@ -51,10 +50,6 @@ function checkIsWordExist(word: string): boolean {
   return nouns.includes(word.toLowerCase());
 }
 
-function getCellKey(cell: Pick<Cell, 'coord' | 'value'>): string {
-  return `${cell.coord.x} ${cell.coord.y} ${cell.value}`;
-}
-
 export const App: FC = () => {
   const { palette } = useTheme();
 
@@ -65,7 +60,7 @@ export const App: FC = () => {
   );
   const [score1, setScore1] = useState(0);
   const [score2, setScore2] = useState(0);
-  const [turn, setTurn] = useState(true);
+  const [turn, setTurn] = useState<0 | 1>(0);
   const [isLettersShaking, setIsLettersShaking] = useState(false);
   const [isWordWrongError, setIsWordWrongError] = useState(false);
   const [isLetterNotEnteredError, setIsLetterNotEnteredError] = useState(false);
@@ -206,6 +201,8 @@ export const App: FC = () => {
     }, 300);
   };
 
+  const switchTurn = () => setTurn((prev) => (prev === 0 ? 1 : 0));
+
   const onCheckWord = () => {
     if (isNull(enteredLetterCoord) || isEmpty(lastSelected?.value)) {
       setIsLetterNotEnteredError(true);
@@ -217,10 +214,10 @@ export const App: FC = () => {
     const isWordExist = checkIsWordExist(word);
 
     if (isWordExist) {
-      const setScore = turn ? setScore1 : setScore2;
+      const setScore = turn === 0 ? setScore1 : setScore2;
 
       setScore((prev) => prev + word.length);
-      setTurn((prev) => !prev);
+      switchTurn();
       clearSelection({ saveEntered: true });
       return;
     }
@@ -230,7 +227,7 @@ export const App: FC = () => {
   };
 
   const skipTurn = () => {
-    setTurn((prev) => !prev);
+    switchTurn();
     clearSelection();
   };
 
@@ -259,86 +256,25 @@ export const App: FC = () => {
           <Typography
             variant="h4"
             fontWeight={900}
-            color={turn ? palette.primary.main : palette.text.disabled}
+            color={turn === 0 ? palette.primary.main : palette.text.disabled}
           >
             {score1}
           </Typography>
           <Typography
             variant="h4"
             fontWeight={900}
-            color={turn ? palette.text.disabled : palette.primary.main}
+            color={turn === 1 ? palette.text.disabled : palette.primary.main}
           >
             {score2}
           </Typography>
         </Box>
-        <Box display="flex">
-          {(isNull(enteredLetterCoord)
-            ? [
-                ...selectedCells,
-                { value: '\u2000', coord: new Coord({ x: 0, y: 0 }) },
-              ]
-            : selectedCells
-          ).map((cell, i, arr) => (
-            <Box
-              key={getCellKey(cell)}
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              mr={1}
-              minWidth={arr.length < 7 ? 45 : 35}
-              sx={{
-                ...(isLettersShaking && {
-                  animation: 'shake 0.4s',
-                  animationIterationCount: 'infinite',
-                }),
-
-                '@keyframes shake': {
-                  '10%': { transform: 'translate(-1px, -2px) rotate(-1deg)' },
-                  '20%': { transform: 'translate(-3px, 0px) rotate(1deg)' },
-                  '30%': { transform: 'translate(3px, 2px) rotate(0deg)' },
-                  '40%': { transform: 'translate(1px, -1px) rotate(1deg)' },
-                  '50%': { transform: 'translate(-1px, 2px) rotate(-1deg)' },
-                  '60%': { transform: 'translate(-3px, 1px) rotate(0deg)' },
-                  '70%': { transform: 'translate(3px, 1px) rotate(-1deg)' },
-                  '80%': { transform: 'translate(-1px, -1px) rotate(1deg)' },
-                  '90%': { transform: 'translate(1px, 2px) rotate(0deg)' },
-                  '100%': { transform: 'translate(1px, -2px) rotate(-1deg)' },
-                },
-              }}
-            >
-              <Zoom in>
-                <Typography
-                  fontSize={arr.length < 7 ? 36 : 28}
-                  lineHeight={1.1}
-                  fontWeight={600}
-                  color={
-                    enteredLetterCoord?.equals(cell.coord)
-                      ? 'secondary'
-                      : 'text.primary'
-                  }
-                >
-                  {cell.value || '\u2000'}
-                </Typography>
-              </Zoom>
-              <Divider
-                sx={{
-                  width: 1,
-                  boxSizing: 'border-box',
-                  height: 4,
-                }}
-              />
-            </Box>
-          ))}
-        </Box>
-        <FormHelperText
-          component="div"
-          sx={{ lineHeight: 1, height: 12 }}
-          error
-        >
-          <Zoom in={isError}>
-            <div>{getErrorMessage()}</div>
-          </Zoom>
-        </FormHelperText>
+        <WordPreview
+          enteredLetterCoord={enteredLetterCoord}
+          selectedCells={selectedCells}
+          error={isError}
+          errorMessage={getErrorMessage()}
+          lettersShaking={isLettersShaking}
+        />
         <div>
           {cells.map((row) => (
             <Box
