@@ -10,15 +10,18 @@ import {
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { FinishTurnButton } from 'components/FinishTurnButton/FinishTurnButton';
+import { Key } from 'enums/key.enum';
 import { WordPreview } from 'components/WordPreview/WordPreview';
 import { getCellKey } from 'utils/get-cell-key';
 import { isEmpty, isNull, random, range } from 'lodash';
 import { isNotEmpty } from 'utils/is-not-empty';
 import { isNotNull } from 'utils/is-not-null';
+import { useCellHandlerOnPressArrows } from 'hooks/use-cell-handler-on-press-arrows';
+import { useOnKeyDown } from 'hooks/use-on-key-down';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import React, { ChangeEvent, FC, MouseEvent, useState } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 import nouns from 'data/nouns.json';
 
 const SIZE = 5;
@@ -97,7 +100,7 @@ export const App: FC = () => {
     );
   };
 
-  const undo = (activeElement?: HTMLElement) => {
+  const undo = () => {
     if (
       isNotNull(enteredLetterCoord) &&
       lastSelected?.coord.equals(enteredLetterCoord)
@@ -108,7 +111,7 @@ export const App: FC = () => {
 
     setSelectedCells((prev) => prev.slice(0, prev.length - 1));
     resetErrors();
-    activeElement?.blur();
+    (document.activeElement as HTMLElement).blur();
   };
 
   const checkIsCellSelected = (cell: Cell) =>
@@ -130,13 +133,18 @@ export const App: FC = () => {
     (cell: Cell) => (event: ChangeEvent<HTMLInputElement>) => {
       const uppercasedValue = event.target.value.toUpperCase();
 
-      if (LETTERS.includes(uppercasedValue)) {
-        setTableCell(cell.coord, uppercasedValue);
-        setSelectedCells((prevSelected) => [
-          ...prevSelected.slice(0, prevSelected.length - 1),
-          { ...cell, value: uppercasedValue },
-        ]);
+      if (!LETTERS.includes(uppercasedValue)) {
+        return;
       }
+      if (isNull(enteredLetterCoord)) {
+        setEnteredLetterCoord(cell.coord);
+      }
+
+      setTableCell(cell.coord, uppercasedValue);
+      setSelectedCells((prevSelected) => [
+        ...prevSelected.slice(0, prevSelected.length - 1),
+        { ...cell, value: uppercasedValue },
+      ]);
     };
 
   const checkIsLastSelected = (cell: Cell) =>
@@ -168,12 +176,12 @@ export const App: FC = () => {
     return true;
   };
 
-  const handleClickCell = (cell: Cell) => (event: MouseEvent) => {
+  const selectCell = (cell: Cell) => {
     if (!checkCanClick(cell)) {
       return;
     }
     if (checkIsLastSelected(cell)) {
-      undo(event.target as HTMLElement);
+      undo();
       return;
     }
     if (isEmpty(cell.value)) {
@@ -226,9 +234,28 @@ export const App: FC = () => {
     shakeLetters();
   };
 
+  useOnKeyDown({
+    keys: [Key.ENTER],
+    callback: onCheckWord,
+  });
+  useOnKeyDown({
+    keys: [Key.BACKSPACE],
+    callback: undo,
+  });
+  useOnKeyDown({
+    keys: [Key.ESCAPE],
+    callback: () => clearSelection(),
+  });
+  useCellHandlerOnPressArrows({
+    cellHandler: selectCell,
+    directions: lastSelected?.directions,
+    cells,
+  });
+
   const skipTurn = () => {
     switchTurn();
     clearSelection();
+    setIsActionsDialogOpened(false);
   };
 
   const checkIsEmptySelectedCell = (cell: Cell) =>
@@ -285,8 +312,16 @@ export const App: FC = () => {
               {row.map((cell) => (
                 <InputBase
                   key={getCellKey(cell)}
+                  inputRef={(input: HTMLInputElement | null) => {
+                    if (isNotNull(input) && checkIsEmptySelectedCell(cell)) {
+                      input.focus();
+                    }
+                  }}
                   sx={{
+                    cursor: 'default',
+
                     '& input': {
+                      cursor: 'default',
                       p: 0,
                       m: 0.5,
                       width: 64,
@@ -298,9 +333,7 @@ export const App: FC = () => {
                       transition: '.13s',
                       fontWeight: 600,
 
-                      '&.Mui-disabled': {
-                        WebkitTextFillColor: palette.text.primary,
-
+                      '&.MuiInputBase-readOnly': {
                         ...(isNotEmpty(selectedCells) &&
                           !checkIsCellSelected(cell) &&
                           !checkCanClick(cell) && {
@@ -316,6 +349,12 @@ export const App: FC = () => {
                             ? alpha(palette.primary.main, 0.9)
                             : alpha(palette.primary.light, 0.5),
                         },
+
+                        ...(!checkIsLastSelected(cell) && {
+                          '&:focus-visible': {
+                            background: alpha(palette.primary.light, 0.5),
+                          },
+                        }),
                       }),
                       ...(checkIsCellSelected(cell) && {
                         color: palette.common.black,
@@ -325,14 +364,14 @@ export const App: FC = () => {
                           background: palette.secondary.main,
 
                           ...(checkIsCellSelected(cell) && {
-                            ':hover': {
+                            ':hover, &:focus-visible': {
                               background: alpha(palette.secondary.main, 0.9),
                             },
                           }),
                         }),
 
-                        '&.Mui-disabled': {
-                          WebkitTextFillColor: palette.common.white,
+                        '&.MuiInputBase-readOnly': {
+                          color: palette.common.white,
                         },
                       }),
                     },
@@ -341,9 +380,14 @@ export const App: FC = () => {
                     maxLength: 1,
                   }}
                   value={cell.value}
-                  onClick={handleClickCell(cell)}
+                  onClick={() => selectCell(cell)}
+                  onKeyDown={({ key }) => {
+                    if (key === Key.SPACE) {
+                      selectCell(cell);
+                    }
+                  }}
                   onChange={handleEnterLetter(cell)}
-                  disabled={!checkIsEnabled(cell)}
+                  readOnly={!checkIsEnabled(cell)}
                 />
               ))}
             </Box>

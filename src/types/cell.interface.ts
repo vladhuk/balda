@@ -1,11 +1,5 @@
 import { Coord } from 'helpers/coord';
-
-interface Directions {
-  top: Coord | null;
-  right: Coord | null;
-  bottom: Coord | null;
-  left: Coord | null;
-}
+import { Directions } from 'types/directions.interface';
 
 export interface Cell {
   directions: Directions;
