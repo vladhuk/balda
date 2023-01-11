@@ -6,14 +6,15 @@ import { Field } from 'components/Field/Field';
 import { FinishTurnButton } from 'components/FinishTurnButton/FinishTurnButton';
 import { InputError } from 'enums/error.enum';
 import { Key } from 'enums/key.enum';
+import { LETTERS_SHAKING_DURATION, LETTER_ROTATING_DURATION } from 'contants';
 import { WordPreview } from 'components/WordPreview/WordPreview';
 import { checkIsWordExist } from 'utils/word/check-is-word-exist';
 import { isEmpty, isNull } from 'lodash';
 import { isNotNull } from 'utils/null/is-not-null';
 import { useField } from 'hooks/use-field';
 import { useInputError } from 'hooks/use-input-error';
-import { useLettersShaking } from 'hooks/use-letters-shaking';
 import { useOnKeyDown } from 'hooks/use-on-key-down';
+import { useTimeout } from 'hooks/use-timeout';
 import React, { FC, useState } from 'react';
 
 export const App: FC = () => {
@@ -28,7 +29,12 @@ export const App: FC = () => {
 
   const { error, setError, resetError } = useInputError();
   const { cells, setFieldCell } = useField();
-  const { isLettersShaking, shakeLetters } = useLettersShaking();
+  const { isRunning: isLettersShaking, run: shakeLetters } = useTimeout(
+    LETTERS_SHAKING_DURATION,
+  );
+  const { isRunning: isEnteredLetterRotating, run: rotateLetter } = useTimeout(
+    LETTER_ROTATING_DURATION,
+  );
 
   const lastSelected = selectedCells[selectedCells.length - 1];
 
@@ -46,14 +52,20 @@ export const App: FC = () => {
     (document.activeElement as HTMLElement).blur();
   };
 
-  const clearSelection = (options?: { saveEntered?: boolean }) => {
+  const clearSelection = (options?: { keepEntered?: boolean }) => {
     setSelectedCells([]);
-    setEnteredLetterCoord(null);
     resetError();
 
-    if (isNotNull(enteredLetterCoord) && !options?.saveEntered) {
-      setFieldCell(enteredLetterCoord, '');
+    if (isNull(enteredLetterCoord)) {
+      return;
     }
+    if (options?.keepEntered) {
+      rotateLetter(() => setEnteredLetterCoord(null));
+      return;
+    }
+
+    setFieldCell(enteredLetterCoord, '');
+    setEnteredLetterCoord(null);
   };
 
   const switchTurn = () => setTurn((prev) => (prev === 0 ? 1 : 0));
@@ -73,7 +85,7 @@ export const App: FC = () => {
 
       setScore((prev) => prev + word.length);
       switchTurn();
-      clearSelection({ saveEntered: true });
+      clearSelection({ keepEntered: true });
       return;
     }
 
@@ -137,6 +149,7 @@ export const App: FC = () => {
           setSelectedCells={setSelectedCells}
           resetError={resetError}
           undo={undo}
+          enteredLetterRotating={isEnteredLetterRotating}
         />
         <Actions
           clearSelection={clearSelection}

@@ -20,6 +20,7 @@ interface Props {
   setEnteredLetterCoord: Dispatch<SetStateAction<Coord | null>>;
   undo: () => void;
   resetError: () => void;
+  enteredLetterRotating?: boolean;
 }
 
 export const Field: FC<Props> = ({
@@ -31,6 +32,7 @@ export const Field: FC<Props> = ({
   setEnteredLetterCoord,
   undo,
   resetError,
+  enteredLetterRotating,
 }) => {
   const lastSelected: Cell | undefined =
     selectedCells[selectedCells.length - 1];
@@ -107,6 +109,9 @@ export const Field: FC<Props> = ({
   const checkCanEnterLetter = (cell: Cell) =>
     isEmpty(cell.value) && checkIsLastSelected(cell);
 
+  const checkIsCellEntered = (cell: Cell) =>
+    enteredLetterCoord?.equals(cell.coord);
+
   useCellHandlerOnPressArrows({
     cellHandler: selectCell,
     directions: lastSelected?.directions,
@@ -135,7 +140,8 @@ export const Field: FC<Props> = ({
               clickable={checkCanClick(cell)}
               lastSelected={checkIsLastSelected(cell)}
               selected={checkIsCellSelected(cell)}
-              entered={enteredLetterCoord?.equals(cell.coord)}
+              entered={checkIsCellEntered(cell)}
+              rotating={checkIsCellEntered(cell) && enteredLetterRotating}
               inputProps={{
                 maxLength: 1,
               }}

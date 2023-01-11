@@ -4,7 +4,7 @@ import { Coord } from 'helpers/coord';
 import { InputError } from 'enums/error.enum';
 import { Letter, LetterContainer } from 'components/WordPreview/styled';
 import { getCellKey } from 'utils/cell/get-cell-key';
-import { isNull } from 'lodash';
+import { isEmpty, isNull } from 'lodash';
 import React, { FC } from 'react';
 
 interface Props {
@@ -23,7 +23,7 @@ export const WordPreview: FC<Props> = ({
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <Box display="flex">
-        {(isNull(enteredLetterCoord)
+        {(isNull(enteredLetterCoord) || isEmpty(selectedCells)
           ? [
               ...selectedCells,
               { value: '\u2000', coord: new Coord({ x: 0, y: 0 }) },

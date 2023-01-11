@@ -1,4 +1,5 @@
 import { InputBase, alpha, styled } from '@mui/material';
+import { LETTER_ROTATING_DURATION } from 'contants';
 import isPropValid from '@emotion/is-prop-valid';
 
 interface FieldCellProps {
@@ -7,6 +8,7 @@ interface FieldCellProps {
   lastSelected?: boolean;
   selected?: boolean;
   entered?: boolean;
+  rotating?: boolean;
 }
 
 export const FieldCell = styled(InputBase, {
@@ -24,7 +26,7 @@ export const FieldCell = styled(InputBase, {
     borderRadius: '10px',
     background: palette.action.disabledBackground,
     textAlign: 'center',
-    transition: '.13s',
+    transition: '.2s',
     fontWeight: 600,
 
     ...(props.translucent && {
@@ -48,16 +50,53 @@ export const FieldCell = styled(InputBase, {
     ...(props.selected && {
       color: palette.common.white,
       background: palette.primary.main,
+    }),
+    ...(props.entered && {
+      background: palette.secondary.main,
 
-      ...(props.entered && {
-        background: palette.secondary.main,
-
-        ...(props.lastSelected && {
-          ':hover': {
-            background: alpha(palette.secondary.main, 0.9),
-          },
-        }),
+      ...(props.lastSelected && {
+        ':hover': {
+          background: alpha(palette.secondary.main, 0.9),
+        },
       }),
     }),
+    ...(props.rotating && {
+      animation: `rotate ${LETTER_ROTATING_DURATION}ms`,
+      background: palette.secondary.main,
+      color: palette.common.white,
+    }),
+
+    '@keyframes rotate': {
+      '10%': { transform: 'rotateY(10deg)' },
+      '15%': { transform: 'rotateY(20deg)' },
+      '20%': { transform: 'rotateY(30deg)' },
+      '25%': { transform: 'rotateY(40deg)' },
+      '30%': { transform: 'rotateY(50deg)' },
+      '35%': { transform: 'rotateY(60deg)' },
+      '40%': { transform: 'rotateY(70deg)' },
+      '45%': { transform: 'rotateY(80deg)' },
+      '50%': {
+        transform: 'rotateY(90deg)',
+        background: palette.secondary.main,
+        color: palette.common.white,
+      },
+      '55%': {
+        transform: 'rotateY(80deg)',
+        background: palette.action.disabledBackground,
+        color: palette.text.primary,
+      },
+      '60%': { transform: 'rotateY(70deg)' },
+      '65%': { transform: 'rotateY(60deg)' },
+      '70%': { transform: 'rotateY(50deg)' },
+      '75%': { transform: 'rotateY(40deg)' },
+      '80%': { transform: 'rotateY(30deg)' },
+      '85%': { transform: 'rotateY(20deg)' },
+      '90%': { transform: 'rotateY(10deg)' },
+      '100%': {
+        transform: 'rotateY(0deg)',
+        background: palette.action.disabledBackground,
+        color: palette.text.primary,
+      },
+    },
   },
 }));
