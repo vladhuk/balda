@@ -1,14 +1,14 @@
 import { Box, Divider, FormHelperText, Zoom } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
+import { InputError } from 'enums/error.enum';
 import { Letter, LetterContainer } from 'components/WordPreview/styled';
-import { getCellKey } from 'utils/get-cell-key';
+import { getCellKey } from 'utils/cell/get-cell-key';
 import { isNull } from 'lodash';
 import React, { FC } from 'react';
 
 interface Props {
-  error?: boolean;
-  errorMessage?: string;
+  error: InputError;
   enteredLetterCoord: Coord | null;
   selectedCells: Cell[];
   lettersShaking?: boolean;
@@ -16,7 +16,6 @@ interface Props {
 
 export const WordPreview: FC<Props> = ({
   error,
-  errorMessage,
   enteredLetterCoord,
   selectedCells,
   lettersShaking,
@@ -62,8 +61,8 @@ export const WordPreview: FC<Props> = ({
         }}
         error
       >
-        <Zoom in={error}>
-          <div>{errorMessage}</div>
+        <Zoom in={error !== InputError.NONE}>
+          <div>{error}</div>
         </Zoom>
       </FormHelperText>
     </Box>
