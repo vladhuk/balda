@@ -1,63 +1,43 @@
-import { ActionsDialog } from 'components/ActionsDialog';
-import { Box, Button, Typography } from '@mui/material';
+import { Actions } from 'components/Actions/Actions';
+import { Box, Typography } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
-import { FIELD_SIZE } from 'contants';
 import { Field } from 'components/Field/Field';
 import { FinishTurnButton } from 'components/FinishTurnButton/FinishTurnButton';
 import { InputError } from 'enums/error.enum';
 import { Key } from 'enums/key.enum';
 import { WordPreview } from 'components/WordPreview/WordPreview';
 import { checkIsWordExist } from 'utils/word/check-is-word-exist';
-import { createTable } from 'utils/cell/create-table';
-import { getRandomWord } from 'utils/word/get-random-word';
 import { isEmpty, isNull } from 'lodash';
 import { isNotNull } from 'utils/null/is-not-null';
+import { useField } from 'hooks/use-field';
+import { useInputError } from 'hooks/use-input-error';
 import { useLettersShaking } from 'hooks/use-letters-shaking';
 import { useOnKeyDown } from 'hooks/use-on-key-down';
-import BackspaceIcon from '@mui/icons-material/Backspace';
-import DeleteIcon from '@mui/icons-material/Delete';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import React, { FC, useState } from 'react';
 
 export const App: FC = () => {
-  const [cells, setCells] = useState(createTable(FIELD_SIZE, getRandomWord()));
   const [selectedCells, setSelectedCells] = useState<Cell[]>([]);
   const [enteredLetterCoord, setEnteredLetterCoord] = useState<Coord | null>(
     null,
   );
-  const [inputError, setInputError] = useState(InputError.NONE);
-  const [isActionsDialogOpened, setIsActionsDialogOpened] = useState(false);
 
   const [score1, setScore1] = useState(0);
   const [score2, setScore2] = useState(0);
   const [turn, setTurn] = useState<0 | 1>(0);
 
+  const { error, setError, resetError } = useInputError();
+  const { cells, setFieldCell } = useField();
   const { isLettersShaking, shakeLetters } = useLettersShaking();
 
   const lastSelected = selectedCells[selectedCells.length - 1];
-
-  const setTableCell = (coord: Coord, value: string) => {
-    setCells((prevCells) =>
-      prevCells.map((row, y) =>
-        row.map((cell, x) => {
-          if (y === coord.y && x === coord.x) {
-            return { ...cell, value };
-          }
-          return cell;
-        }),
-      ),
-    );
-  };
-
-  const resetError = () => setInputError(InputError.NONE);
 
   const undo = () => {
     if (
       isNotNull(enteredLetterCoord) &&
       lastSelected?.coord.equals(enteredLetterCoord)
     ) {
-      setTableCell(enteredLetterCoord, '');
+      setFieldCell(enteredLetterCoord, '');
       setEnteredLetterCoord(null);
     }
 
@@ -72,7 +52,7 @@ export const App: FC = () => {
     resetError();
 
     if (isNotNull(enteredLetterCoord) && !options?.saveEntered) {
-      setTableCell(enteredLetterCoord, '');
+      setFieldCell(enteredLetterCoord, '');
     }
   };
 
@@ -80,7 +60,7 @@ export const App: FC = () => {
 
   const onCheckWord = () => {
     if (isNull(enteredLetterCoord) || isEmpty(lastSelected?.value)) {
-      setInputError(InputError.LETTER_NOT_ENTERED);
+      setError(InputError.LETTER_NOT_ENTERED);
       shakeLetters();
       return;
     }
@@ -97,14 +77,13 @@ export const App: FC = () => {
       return;
     }
 
-    setInputError(InputError.WORD_DOES_NOT_EXIST);
+    setError(InputError.WORD_DOES_NOT_EXIST);
     shakeLetters();
   };
 
   const skipTurn = () => {
     switchTurn();
     clearSelection();
-    setIsActionsDialogOpened(false);
   };
 
   useOnKeyDown({
@@ -146,12 +125,12 @@ export const App: FC = () => {
         <WordPreview
           enteredLetterCoord={enteredLetterCoord}
           selectedCells={selectedCells}
-          error={inputError}
+          error={error}
           lettersShaking={isLettersShaking}
         />
         <Field
           cells={cells}
-          setTableCell={setTableCell}
+          setFieldCell={setFieldCell}
           enteredLetterCoord={enteredLetterCoord}
           setEnteredLetterCoord={setEnteredLetterCoord}
           selectedCells={selectedCells}
@@ -159,25 +138,11 @@ export const App: FC = () => {
           resetError={resetError}
           undo={undo}
         />
-        <Box width={352} display="flex" mt={1} justifyContent="space-between">
-          <Button
-            color="secondary"
-            onClick={() => setIsActionsDialogOpened(true)}
-          >
-            <MoreHorizIcon />
-          </Button>
-          <ActionsDialog
-            open={isActionsDialogOpened}
-            setOpen={setIsActionsDialogOpened}
-            onSkipTurn={skipTurn}
-          />
-          <Button color="secondary" onClick={() => clearSelection()}>
-            <DeleteIcon />
-          </Button>
-          <Button color="secondary" onClick={() => undo()}>
-            <BackspaceIcon />
-          </Button>
-        </Box>
+        <Actions
+          clearSelection={clearSelection}
+          skipTurn={skipTurn}
+          undo={undo}
+        />
         <FinishTurnButton onClick={onCheckWord} />
       </Box>
     </Box>

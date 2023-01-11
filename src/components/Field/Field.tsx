@@ -13,7 +13,7 @@ import React, { ChangeEvent, Dispatch, FC, SetStateAction } from 'react';
 
 interface Props {
   cells: Cell[][];
-  setTableCell: (coord: Coord, value: string) => void;
+  setFieldCell: (coord: Coord, value: string) => void;
   selectedCells: Cell[];
   setSelectedCells: Dispatch<SetStateAction<Cell[]>>;
   enteredLetterCoord: Coord | null;
@@ -24,7 +24,7 @@ interface Props {
 
 export const Field: FC<Props> = ({
   cells,
-  setTableCell,
+  setFieldCell,
   selectedCells,
   setSelectedCells,
   enteredLetterCoord,
@@ -97,7 +97,7 @@ export const Field: FC<Props> = ({
         setEnteredLetterCoord(cell.coord);
       }
 
-      setTableCell(cell.coord, uppercasedValue);
+      setFieldCell(cell.coord, uppercasedValue);
       setSelectedCells((prevSelected) => [
         ...prevSelected.slice(0, prevSelected.length - 1),
         { ...cell, value: uppercasedValue },
