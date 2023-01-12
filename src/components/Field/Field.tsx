@@ -8,6 +8,7 @@ import { getCellKey } from 'utils/cell/get-cell-key';
 import { isEmpty, isNull } from 'lodash';
 import { isNotEmpty } from 'utils/null/is-not-empty';
 import { isNotNull } from 'utils/null/is-not-null';
+import { isNotUndefined } from 'utils/null/is-not-undefined';
 import { useCellHandlerOnPressArrows } from 'components/Field/hooks/use-cell-handler-on-press-arrows';
 import React, { ChangeEvent, Dispatch, FC, SetStateAction } from 'react';
 
@@ -65,6 +66,9 @@ export const Field: FC<Props> = ({
     const isEmptyCellAndWordAlreadyHasEnteredLetter =
       isEmpty(cell.value) && isNotNull(enteredLetterCoord);
     if (isEmptyCellAndWordAlreadyHasEnteredLetter) {
+      return false;
+    }
+    if (isNotUndefined(lastSelected) && isEmpty(lastSelected.value)) {
       return false;
     }
 
