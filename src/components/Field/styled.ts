@@ -13,13 +13,13 @@ interface FieldCellProps {
 
 export const FieldCell = styled(InputBase, {
   shouldForwardProp: (prop: string) => isPropValid(prop) || prop === 'inputRef',
-})<FieldCellProps>(({ theme: { spacing, palette }, ...props }) => ({
+})<FieldCellProps>(({ theme: { palette, ...theme }, ...props }) => ({
   cursor: 'default',
 
   '& input': {
     cursor: 'default',
     padding: 0,
-    margin: spacing(0.5),
+    margin: theme.spacing(0.5),
     width: 64,
     height: 64,
     fontSize: 28,
@@ -35,10 +35,12 @@ export const FieldCell = styled(InputBase, {
     ...(props.clickable && {
       cursor: 'pointer',
 
-      '&:hover': {
-        background: props.lastSelected
-          ? alpha(palette.primary.main, 0.9)
-          : alpha(palette.primary.light, 0.5),
+      [theme.breakpoints.up('md')]: {
+        '&:hover': {
+          background: props.lastSelected
+            ? alpha(palette.primary.main, 0.9)
+            : alpha(palette.primary.light, 0.5),
+        },
       },
 
       ...(!props.lastSelected && {
@@ -55,8 +57,10 @@ export const FieldCell = styled(InputBase, {
       background: palette.secondary.main,
 
       ...(props.lastSelected && {
-        ':hover': {
-          background: alpha(palette.secondary.main, 0.9),
+        [theme.breakpoints.up('md')]: {
+          '&:hover': {
+            background: alpha(palette.secondary.main, 0.9),
+          },
         },
       }),
     }),

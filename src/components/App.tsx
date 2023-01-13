@@ -38,6 +38,10 @@ export const App: FC = () => {
 
   const lastSelected = selectedCells[selectedCells.length - 1];
 
+  const blurActiveCell = () => {
+    (document.activeElement as HTMLElement).blur();
+  };
+
   const undo = () => {
     if (
       isNotNull(enteredLetterCoord) &&
@@ -49,7 +53,7 @@ export const App: FC = () => {
 
     setSelectedCells((prev) => prev.slice(0, prev.length - 1));
     resetError();
-    (document.activeElement as HTMLElement).blur();
+    blurActiveCell();
   };
 
   const clearSelection = (options?: { keepEntered?: boolean }) => {

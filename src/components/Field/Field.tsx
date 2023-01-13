@@ -56,7 +56,7 @@ export const Field: FC<Props> = ({
   const checkIsLastSelected = (cell: Cell) =>
     lastSelected?.coord.equals(cell.coord);
 
-  const checkCanClick = (cell: Cell) => {
+  const checkCanSelect = (cell: Cell) => {
     if (checkIsLastSelected(cell)) {
       return true;
     }
@@ -76,7 +76,7 @@ export const Field: FC<Props> = ({
   };
 
   const selectCell = (cell: Cell) => {
-    if (!checkCanClick(cell)) {
+    if (!checkCanSelect(cell)) {
       return;
     }
     if (checkIsLastSelected(cell)) {
@@ -108,6 +108,9 @@ export const Field: FC<Props> = ({
         ...prevSelected.slice(0, prevSelected.length - 1),
         { ...cell, value: uppercasedValue },
       ]);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      });
     };
 
   const checkCanEnterLetter = (cell: Cell) =>
@@ -139,9 +142,9 @@ export const Field: FC<Props> = ({
               translucent={
                 isNotEmpty(selectedCells) &&
                 !checkIsCellSelected(cell) &&
-                !checkCanClick(cell)
+                !checkCanSelect(cell)
               }
-              clickable={checkCanClick(cell)}
+              clickable={checkCanSelect(cell)}
               lastSelected={checkIsLastSelected(cell)}
               selected={checkIsCellSelected(cell)}
               entered={checkIsCellEntered(cell)}

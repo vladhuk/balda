@@ -16,8 +16,17 @@ export const Actions: FC<Props> = ({ skipTurn, clearSelection, undo }) => {
 
   return (
     <Box width={352} display="flex" mt={1} justifyContent="space-between">
-      <Button color="secondary" onClick={() => setIsActionsDialogOpened(true)}>
+      <Button
+        color="secondary"
+        onClick={() => setTimeout(() => setIsActionsDialogOpened(true))}
+      >
         <MoreHorizIcon />
+      </Button>
+      <Button color="secondary" onClick={() => clearSelection()}>
+        <DeleteIcon />
+      </Button>
+      <Button color="secondary" onClick={() => setTimeout(() => undo())}>
+        <BackspaceIcon />
       </Button>
       <ActionsDialog
         open={isActionsDialogOpened}
@@ -27,12 +36,6 @@ export const Actions: FC<Props> = ({ skipTurn, clearSelection, undo }) => {
           setIsActionsDialogOpened(false);
         }}
       />
-      <Button color="secondary" onClick={() => clearSelection()}>
-        <DeleteIcon />
-      </Button>
-      <Button color="secondary" onClick={() => undo()}>
-        <BackspaceIcon />
-      </Button>
     </Box>
   );
 };
