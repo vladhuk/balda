@@ -5,7 +5,7 @@ export const container: SxProps<Theme> = (theme) => ({
   bottom: 16,
   width: 352,
 
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up('md')]: {
     position: 'static',
     mt: 5,
   },

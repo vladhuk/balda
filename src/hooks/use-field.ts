@@ -2,14 +2,13 @@ import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { FIELD_SIZE } from 'contants';
 import { createTable } from 'utils/cell/create-table';
-import { getRandomWord } from 'utils/word/get-random-word';
 import { useState } from 'react';
 
-export function useField(): {
+export function useField(initialWord: string): {
   cells: Cell[][];
   setFieldCell: (coord: Coord, value: string) => void;
 } {
-  const [cells, setCells] = useState(createTable(FIELD_SIZE, getRandomWord()));
+  const [cells, setCells] = useState(createTable(FIELD_SIZE, initialWord));
 
   return {
     cells,

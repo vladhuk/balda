@@ -1,5 +1,5 @@
 import { Actions } from 'components/Actions/Actions';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { Field } from 'components/Field/Field';
@@ -7,28 +7,30 @@ import { FinishTurnButton } from 'components/FinishTurnButton/FinishTurnButton';
 import { InputError } from 'enums/error.enum';
 import { Key } from 'enums/key.enum';
 import { LETTERS_SHAKING_DURATION, LETTER_ROTATING_DURATION } from 'contants';
+import { PlayerInformation } from 'components/PlayerInformation/PlayerInformation';
+import { ScoreOrientation } from 'components/PlayerInformation/enums/score-orientation.enum';
 import { WordPreview } from 'components/WordPreview/WordPreview';
 import { checkIsWordExist } from 'utils/word/check-is-word-exist';
+import { getRandomWord } from 'utils/word/get-random-word';
 import { isEmpty, isNull } from 'lodash';
 import { isNotNull } from 'utils/null/is-not-null';
 import { useField } from 'hooks/use-field';
 import { useInputError } from 'hooks/use-input-error';
 import { useOnKeyDown } from 'hooks/use-on-key-down';
+import { usePlayers } from 'hooks/use-players';
 import { useTimeout } from 'hooks/use-timeout';
-import React, { FC, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 
 export const App: FC = () => {
+  const initialWord = useMemo(() => getRandomWord(), []);
+
   const [selectedCells, setSelectedCells] = useState<Cell[]>([]);
   const [enteredLetterCoord, setEnteredLetterCoord] = useState<Coord | null>(
     null,
   );
-
-  const [score1, setScore1] = useState(0);
-  const [score2, setScore2] = useState(0);
-  const [turn, setTurn] = useState<0 | 1>(0);
-
+  const { players, turn, switchTurn, finishTurn } = usePlayers();
   const { error, setError, resetError } = useInputError();
-  const { cells, setFieldCell } = useField();
+  const { cells, setFieldCell } = useField(initialWord);
   const { isRunning: isLettersShaking, run: shakeLetters } = useTimeout(
     LETTERS_SHAKING_DURATION,
   );
@@ -72,29 +74,39 @@ export const App: FC = () => {
     setEnteredLetterCoord(null);
   };
 
-  const switchTurn = () => setTurn((prev) => (prev === 0 ? 1 : 0));
+  const handleError = (inputError: InputError) => {
+    shakeLetters();
+    setError(inputError);
+  };
 
   const onCheckWord = () => {
     if (isNull(enteredLetterCoord) || isEmpty(lastSelected?.value)) {
-      setError(InputError.LETTER_NOT_ENTERED);
-      shakeLetters();
+      handleError(InputError.LETTER_NOT_ENTERED);
       return;
     }
 
-    const word = selectedCells.map(({ value }) => value).join('');
-    const isWordExist = checkIsWordExist(word);
+    const word = selectedCells
+      .map(({ value }) => value)
+      .join('')
+      .toLowerCase();
+    const usedWords = players
+      .flatMap(({ words }) => words.map(({ letters }) => letters))
+      .concat(initialWord);
 
-    if (isWordExist) {
-      const setScore = turn === 0 ? setScore1 : setScore2;
-
-      setScore((prev) => prev + word.length);
-      switchTurn();
-      clearSelection({ keepEntered: true });
+    if (usedWords.includes(word)) {
+      handleError(InputError.WORD_HAS_BEEN_ALREADY_ENTERED);
+      return;
+    }
+    if (!checkIsWordExist(word)) {
+      handleError(InputError.WORD_DOES_NOT_EXIST);
       return;
     }
 
-    setError(InputError.WORD_DOES_NOT_EXIST);
-    shakeLetters();
+    finishTurn({
+      letters: word,
+      coords: selectedCells.map(({ coord }) => coord),
+    });
+    clearSelection({ keepEntered: true });
   };
 
   const skipTurn = () => {
@@ -116,28 +128,26 @@ export const App: FC = () => {
   });
 
   return (
-    <Box height="100vh" bgcolor="background.default">
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <Box display="flex" width={360} justifyContent="space-between" mt={1}>
-          <Typography
-            variant="h4"
-            fontWeight={900}
-            color={({ palette }) =>
-              turn === 0 ? palette.primary.main : palette.text.disabled
-            }
-          >
-            {score1}
-          </Typography>
-          <Typography
-            variant="h4"
-            fontWeight={900}
-            color={({ palette }) =>
-              turn === 1 ? palette.primary.main : palette.text.disabled
-            }
-          >
-            {score2}
-          </Typography>
-        </Box>
+    <Box
+      minHeight="100vh"
+      bgcolor="background.default"
+      display="flex"
+      justifyContent="center"
+    >
+      <Box
+        flex={1}
+        display={{ xs: 'none', md: 'flex' }}
+        pr={12}
+        justifyContent="end"
+        pt={1.5}
+      >
+        <PlayerInformation
+          player={players[0]}
+          scoreOrientation={ScoreOrientation.RIGHT}
+          active={turn === 0}
+        />
+      </Box>
+      <Box display="flex" flexDirection="column" alignItems="center" pt={1.5}>
         <WordPreview
           enteredLetterCoord={enteredLetterCoord}
           selectedCells={selectedCells}
@@ -160,7 +170,38 @@ export const App: FC = () => {
           skipTurn={skipTurn}
           undo={undo}
         />
+        <Box
+          display={{ xs: 'flex', md: 'none' }}
+          justifyContent="space-between"
+          width={352}
+          mt={2}
+          mb={8}
+        >
+          <PlayerInformation
+            player={players[0]}
+            scoreOrientation={ScoreOrientation.LEFT}
+            active={turn === 0}
+          />
+          <PlayerInformation
+            player={players[1]}
+            scoreOrientation={ScoreOrientation.RIGHT}
+            active={turn === 1}
+          />
+        </Box>
         <FinishTurnButton onClick={onCheckWord} />
+      </Box>
+      <Box
+        flex={1}
+        display={{ xs: 'none', md: 'flex' }}
+        pl={12}
+        justifyContent="start"
+        pt={1.5}
+      >
+        <PlayerInformation
+          player={players[1]}
+          scoreOrientation={ScoreOrientation.LEFT}
+          active={turn === 1}
+        />
       </Box>
     </Box>
   );

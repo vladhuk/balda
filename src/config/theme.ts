@@ -65,24 +65,36 @@ export const theme = createTheme(initialTheme, {
         containedPrimary: {
           color: initialTheme.palette.common.white,
 
-          '&:hover, &:active': {
-            background: initialTheme.palette.primary.light,
+          ':hover': {
+            background: initialTheme.palette.primary.main,
+
+            [initialTheme.breakpoints.up('md')]: {
+              background: initialTheme.palette.primary.light,
+            },
           },
           ':after': {
             background: initialTheme.palette.primary.dark,
           },
         },
         containedSecondary: {
-          ':hover, :active': {
-            background: initialTheme.palette.secondary.light,
+          ':hover': {
+            background: initialTheme.palette.secondary.main,
+
+            [initialTheme.breakpoints.up('md')]: {
+              background: initialTheme.palette.secondary.light,
+            },
           },
           ':after': {
             background: initialTheme.palette.secondary.dark,
           },
         },
         containedError: {
-          ':hover, :active': {
-            background: initialTheme.palette.error.light,
+          ':hover': {
+            background: initialTheme.palette.error.main,
+
+            [initialTheme.breakpoints.up('md')]: {
+              background: initialTheme.palette.error.light,
+            },
           },
           ':after': {
             background: darken(initialTheme.palette.error.dark, 0.1),
