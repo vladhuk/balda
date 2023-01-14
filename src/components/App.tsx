@@ -5,7 +5,6 @@ import { Coord } from 'helpers/coord';
 import { Field } from 'components/Field/Field';
 import { FinishTurnButton } from 'components/FinishTurnButton/FinishTurnButton';
 import { InputError } from 'enums/error.enum';
-import { Key } from 'enums/key.enum';
 import { LETTERS_SHAKING_DURATION, LETTER_ROTATING_DURATION } from 'contants';
 import { PlayerInformation } from 'components/PlayerInformation/PlayerInformation';
 import { ScoreOrientation } from 'components/PlayerInformation/enums/score-orientation.enum';
@@ -16,7 +15,7 @@ import { isEmpty, isNull } from 'lodash';
 import { isNotNull } from 'utils/null/is-not-null';
 import { useField } from 'hooks/use-field';
 import { useInputError } from 'hooks/use-input-error';
-import { useOnKeyDown } from 'hooks/use-on-key-down';
+import { useKeyboard } from 'hooks/use-keyboard';
 import { usePlayers } from 'hooks/use-players';
 import { useTimeout } from 'hooks/use-timeout';
 import React, { FC, useMemo, useState } from 'react';
@@ -114,17 +113,10 @@ export const App: FC = () => {
     clearSelection();
   };
 
-  useOnKeyDown({
-    keys: [Key.ENTER],
-    callback: onCheckWord,
-  });
-  useOnKeyDown({
-    keys: [Key.BACKSPACE],
-    callback: undo,
-  });
-  useOnKeyDown({
-    keys: [Key.ESCAPE],
-    callback: () => clearSelection(),
+  useKeyboard({
+    checkWord: onCheckWord,
+    clearSelection,
+    undo,
   });
 
   return (
