@@ -6,11 +6,15 @@ import { Field } from 'components/Field/Field';
 import { FinishTurnButton } from 'components/FinishTurnButton/FinishTurnButton';
 import { InputError } from 'enums/error.enum';
 import { LETTERS_SHAKING_DURATION, LETTER_ROTATING_DURATION } from 'contants';
-import { PlayerInformation } from 'components/PlayerInformation/PlayerInformation';
-import { ScoreOrientation } from 'components/PlayerInformation/enums/score-orientation.enum';
+import { ScoreOrientation } from 'components/Statistic/enums/score-orientation.enum';
+import { SideSection } from 'components/styled';
+import { Statistic } from 'components/Statistic/Statistic';
+import { StatisticsButton } from 'components/StatisticsButton/StatisticsButton';
+import { TopScores } from 'components/TopScores';
 import { WordPreview } from 'components/WordPreview/WordPreview';
 import { checkIsWordExist } from 'utils/word/check-is-word-exist';
 import { getRandomWord } from 'utils/word/get-random-word';
+import { getWordsFromPlayers, mapCellsToWord } from 'components/utils';
 import { isEmpty, isNull } from 'lodash';
 import { isNotNull } from 'utils/null/is-not-null';
 import { useField } from 'hooks/use-field';
@@ -84,13 +88,8 @@ export const App: FC = () => {
       return;
     }
 
-    const word = selectedCells
-      .map(({ value }) => value)
-      .join('')
-      .toLowerCase();
-    const usedWords = players
-      .flatMap(({ words }) => words.map(({ letters }) => letters))
-      .concat(initialWord);
+    const word = mapCellsToWord(selectedCells);
+    const usedWords = getWordsFromPlayers(players).concat(initialWord);
 
     if (usedWords.includes(word)) {
       handleError(InputError.WORD_HAS_BEEN_ALREADY_ENTERED);
@@ -126,20 +125,15 @@ export const App: FC = () => {
       display="flex"
       justifyContent="center"
     >
-      <Box
-        flex={1}
-        display={{ xs: 'none', md: 'flex' }}
-        pr={12}
-        justifyContent="end"
-        pt={1.5}
-      >
-        <PlayerInformation
+      <SideSection stick="right">
+        <Statistic
           player={players[0]}
           scoreOrientation={ScoreOrientation.RIGHT}
           active={turn === 0}
         />
-      </Box>
+      </SideSection>
       <Box display="flex" flexDirection="column" alignItems="center" pt={1.5}>
+        <TopScores players={players} turn={turn} />
         <WordPreview
           enteredLetterCoord={enteredLetterCoord}
           selectedCells={selectedCells}
@@ -162,39 +156,16 @@ export const App: FC = () => {
           skipTurn={skipTurn}
           undo={undo}
         />
-        <Box
-          display={{ xs: 'flex', md: 'none' }}
-          justifyContent="space-between"
-          width={352}
-          mt={2}
-          mb={8}
-        >
-          <PlayerInformation
-            player={players[0]}
-            scoreOrientation={ScoreOrientation.LEFT}
-            active={turn === 0}
-          />
-          <PlayerInformation
-            player={players[1]}
-            scoreOrientation={ScoreOrientation.RIGHT}
-            active={turn === 1}
-          />
-        </Box>
+        <StatisticsButton players={players} turn={turn} />
         <FinishTurnButton onClick={onCheckWord} />
       </Box>
-      <Box
-        flex={1}
-        display={{ xs: 'none', md: 'flex' }}
-        pl={12}
-        justifyContent="start"
-        pt={1.5}
-      >
-        <PlayerInformation
+      <SideSection stick="left">
+        <Statistic
           player={players[1]}
           scoreOrientation={ScoreOrientation.LEFT}
           active={turn === 1}
         />
-      </Box>
+      </SideSection>
     </Box>
   );
 };
