@@ -9,7 +9,7 @@ import { LETTERS_SHAKING_DURATION, LETTER_ROTATING_DURATION } from 'contants';
 import { ScoreOrientation } from 'components/Statistic/enums/score-orientation.enum';
 import { SideSection } from 'components/styled';
 import { Statistic } from 'components/Statistic/Statistic';
-import { StatisticsButton } from 'components/StatisticsButton/StatisticsButton';
+import { StatisticsButton } from 'components/Statistic/StatisticsButton';
 import { TopScores } from 'components/TopScores';
 import { WordPreview } from 'components/WordPreview/WordPreview';
 import { checkIsWordExist } from 'utils/word/check-is-word-exist';

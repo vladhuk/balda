@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import { Drawer } from 'components/StatisticsButton/components/Drawer/Drawer';
+import { Drawer } from 'components/Statistic/components/Drawer/Drawer';
 import { Player } from 'types/player.interface';
 import React, { FC, useState } from 'react';
 
