@@ -9,6 +9,7 @@ interface FieldCellProps {
   selected?: boolean;
   entered?: boolean;
   rotating?: boolean;
+  highlighted?: boolean;
 }
 
 export const FieldCell = styled(InputBase, {
@@ -28,6 +29,7 @@ export const FieldCell = styled(InputBase, {
     textAlign: 'center',
     transition: '.2s',
     fontWeight: 600,
+    boxSizing: 'border-box',
 
     ...(props.translucent && {
       opacity: 0.4,
@@ -63,6 +65,10 @@ export const FieldCell = styled(InputBase, {
           },
         },
       }),
+    }),
+    ...(props.highlighted && {
+      boxShadow: `0px 0px 5px 2px ${palette.primary.main}`,
+      border: `2px solid ${palette.primary.main}`,
     }),
     ...(props.rotating && {
       animation: `rotate ${LETTER_ROTATING_DURATION}ms`,

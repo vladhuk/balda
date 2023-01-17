@@ -22,6 +22,7 @@ interface Props {
   undo: () => void;
   resetError: () => void;
   enteredLetterRotating?: boolean;
+  highlightedCoords: Coord[];
 }
 
 export const Field: FC<Props> = ({
@@ -34,6 +35,7 @@ export const Field: FC<Props> = ({
   undo,
   resetError,
   enteredLetterRotating,
+  highlightedCoords,
 }) => {
   const lastSelected: Cell | undefined =
     selectedCells[selectedCells.length - 1];
@@ -119,6 +121,20 @@ export const Field: FC<Props> = ({
   const checkIsCellEntered = (cell: Cell) =>
     enteredLetterCoord?.equals(cell.coord);
 
+  const checkIsCellHighlighted = (cell: Cell) =>
+    isNotUndefined(highlightedCoords.find((coord) => coord.equals(cell.coord)));
+
+  const checkIsCellTranslucent = (cell: Cell) => {
+    if (isNotEmpty(highlightedCoords)) {
+      return !checkIsCellHighlighted(cell);
+    }
+    if (isNotEmpty(selectedCells)) {
+      return !checkIsCellSelected(cell) && !checkCanSelect(cell);
+    }
+
+    return false;
+  };
+
   useCellHandlerOnPressArrows({
     cellHandler: selectCell,
     directions: lastSelected?.directions,
@@ -139,16 +155,15 @@ export const Field: FC<Props> = ({
                   input.focus();
                 }
               }}
-              translucent={
-                isNotEmpty(selectedCells) &&
-                !checkIsCellSelected(cell) &&
-                !checkCanSelect(cell)
-              }
+              translucent={checkIsCellTranslucent(cell)}
               clickable={checkCanSelect(cell)}
               lastSelected={checkIsLastSelected(cell)}
-              selected={checkIsCellSelected(cell)}
+              selected={
+                checkIsCellSelected(cell) && !checkIsCellHighlighted(cell)
+              }
               entered={checkIsCellEntered(cell)}
               rotating={checkIsCellEntered(cell) && enteredLetterRotating}
+              highlighted={checkIsCellHighlighted(cell)}
               inputProps={{
                 maxLength: 1,
               }}

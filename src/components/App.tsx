@@ -31,6 +31,7 @@ export const App: FC = () => {
   const [enteredLetterCoord, setEnteredLetterCoord] = useState<Coord | null>(
     null,
   );
+  const [highlightedCoords, setHighlightedCoords] = useState<Coord[]>([]);
   const { players, turn, switchTurn, finishTurn } = usePlayers();
   const { error, setError, resetError } = useInputError();
   const { cells, setFieldCell } = useField(initialWord);
@@ -130,6 +131,7 @@ export const App: FC = () => {
           player={players[0]}
           scoreOrientation={ScoreOrientation.RIGHT}
           active={turn === 0}
+          setHighlightedCoords={setHighlightedCoords}
         />
       </SideSection>
       <Box display="flex" flexDirection="column" alignItems="center" pt={1.5}>
@@ -150,6 +152,7 @@ export const App: FC = () => {
           resetError={resetError}
           undo={undo}
           enteredLetterRotating={isEnteredLetterRotating}
+          highlightedCoords={highlightedCoords}
         />
         <Actions
           clearSelection={clearSelection}
@@ -164,6 +167,7 @@ export const App: FC = () => {
           player={players[1]}
           scoreOrientation={ScoreOrientation.LEFT}
           active={turn === 1}
+          setHighlightedCoords={setHighlightedCoords}
         />
       </SideSection>
     </Box>

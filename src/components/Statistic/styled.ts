@@ -12,6 +12,7 @@ export const ScoreOrientationContainer = styled(
   display: 'flex',
   justifyContent: 'space-between',
   flexDirection: orientation === ScoreOrientation.RIGHT ? 'row' : 'row-reverse',
+  cursor: 'pointer',
 }));
 
 interface NameScoreOrientationContainerProps {
@@ -26,6 +27,7 @@ export const NameAndScoreOrientationContainer = styled(
 )<NameScoreOrientationContainerProps>(({ theme: { palette }, active }) => ({
   alignItems: 'baseline',
   color: active ? palette.primary.main : palette.text.disabled,
+  cursor: 'auto',
 }));
 
 interface NameProps {
