@@ -1,7 +1,7 @@
-import { ThemeOptions, alpha, createTheme, darken } from '@mui/material';
+import { alpha, createTheme, darken } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 
-const initialTheme = createTheme({
+export const theme = createTheme({
   palette: {
     primary: {
       main: green[400],
@@ -16,9 +16,6 @@ const initialTheme = createTheme({
       primary: grey[800],
     },
   },
-});
-
-export const theme = createTheme(initialTheme, {
   components: {
     MuiButton: {
       defaultProps: {
@@ -62,45 +59,45 @@ export const theme = createTheme(initialTheme, {
             },
           },
         },
-        containedPrimary: {
-          color: initialTheme.palette.common.white,
+        containedPrimary: ({ theme: { palette, breakpoints } }) => ({
+          color: palette.common.white,
 
           ':hover': {
-            background: initialTheme.palette.primary.main,
+            background: palette.primary.main,
 
-            [initialTheme.breakpoints.up('md')]: {
-              background: initialTheme.palette.primary.light,
+            [breakpoints.up('md')]: {
+              background: palette.primary.light,
             },
           },
           ':after': {
-            background: initialTheme.palette.primary.dark,
+            background: palette.primary.dark,
           },
-        },
-        containedSecondary: {
+        }),
+        containedSecondary: ({ theme: { palette, breakpoints } }) => ({
           ':hover': {
-            background: initialTheme.palette.secondary.main,
+            background: palette.secondary.main,
 
-            [initialTheme.breakpoints.up('md')]: {
-              background: initialTheme.palette.secondary.light,
+            [breakpoints.up('md')]: {
+              background: palette.secondary.light,
             },
           },
           ':after': {
-            background: initialTheme.palette.secondary.dark,
+            background: palette.secondary.dark,
           },
-        },
-        containedError: {
+        }),
+        containedError: ({ theme: { palette, breakpoints } }) => ({
           ':hover': {
-            background: initialTheme.palette.error.main,
+            background: palette.error.main,
 
-            [initialTheme.breakpoints.up('md')]: {
-              background: initialTheme.palette.error.light,
+            [breakpoints.up('md')]: {
+              background: palette.error.light,
             },
           },
           ':after': {
-            background: darken(initialTheme.palette.error.dark, 0.1),
+            background: darken(palette.error.dark, 0.1),
           },
-        },
+        }),
       },
     },
   },
-} as ThemeOptions);
+});
