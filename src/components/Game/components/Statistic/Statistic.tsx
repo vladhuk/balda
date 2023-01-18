@@ -1,9 +1,9 @@
 import { Box, Divider } from '@mui/material';
 import { Coord } from 'helpers/coord';
-import { NameAndScore } from 'components/Statistic/NameAndScore';
+import { NameAndScore } from 'components/Game/components/Statistic/NameAndScore';
 import { Player } from 'types/player.interface';
-import { ScoreOrientation } from 'components/Statistic/enums/score-orientation.enum';
-import { WordScore } from 'components/Statistic/components/WordScore';
+import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
+import { WordScore } from 'components/Game/components/Statistic/components/WordScore';
 import React, { Dispatch, FC } from 'react';
 
 interface Props {

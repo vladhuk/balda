@@ -1,4 +1,4 @@
-import { ScoreOrientation } from 'components/Statistic/enums/score-orientation.enum';
+import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
 import { Typography, styled } from '@mui/material';
 import isPropValid from '@emotion/is-prop-valid';
 

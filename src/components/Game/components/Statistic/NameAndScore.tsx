@@ -1,10 +1,10 @@
-import * as styles from 'components/Statistic/styles';
+import * as styles from 'components/Game/components/Statistic/styles';
 import {
   Name,
   NameAndScoreOrientationContainer,
-} from 'components/Statistic/styled';
+} from 'components/Game/components/Statistic/styled';
 import { Player } from 'types/player.interface';
-import { ScoreOrientation } from 'components/Statistic/enums/score-orientation.enum';
+import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
 import { Typography } from '@mui/material';
 import React, { FC } from 'react';
 

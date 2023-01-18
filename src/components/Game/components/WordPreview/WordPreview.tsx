@@ -2,7 +2,10 @@ import { Box, Divider, FormHelperText, Zoom } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { InputError } from 'enums/error.enum';
-import { Letter, LetterContainer } from 'components/WordPreview/styled';
+import {
+  Letter,
+  LetterContainer,
+} from 'components/Game/components/WordPreview/styled';
 import { getCellKey } from 'utils/cell/get-cell-key';
 import { isEmpty, isNull } from 'lodash';
 import React, { FC } from 'react';

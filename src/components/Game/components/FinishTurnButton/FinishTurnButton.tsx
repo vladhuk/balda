@@ -1,4 +1,4 @@
-import * as styles from 'components/FinishTurnButton/styles';
+import * as styles from 'components/Game/components/FinishTurnButton/styles';
 import { Box, Button } from '@mui/material';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import React, { FC } from 'react';

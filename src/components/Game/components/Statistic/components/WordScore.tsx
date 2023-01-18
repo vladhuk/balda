@@ -1,6 +1,6 @@
 import { Coord } from 'helpers/coord';
-import { ScoreOrientation } from 'components/Statistic/enums/score-orientation.enum';
-import { ScoreOrientationContainer } from 'components/Statistic/styled';
+import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
+import { ScoreOrientationContainer } from 'components/Game/components/Statistic/styled';
 import { Typography } from '@mui/material';
 import { Word } from 'types/word.interface';
 import React, { Dispatch, FC, useState } from 'react';

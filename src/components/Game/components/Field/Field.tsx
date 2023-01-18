@@ -1,15 +1,15 @@
-import { ALPHABET } from 'components/Field/constants';
+import { ALPHABET } from 'components/Game/components/Field/constants';
 import { Box } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
-import { FieldCell } from 'components/Field/styled';
+import { FieldCell } from 'components/Game/components/Field/styled';
 import { Key } from 'enums/key.enum';
 import { getCellKey } from 'utils/cell/get-cell-key';
 import { isEmpty, isNull } from 'lodash';
 import { isNotEmpty } from 'utils/null/is-not-empty';
 import { isNotNull } from 'utils/null/is-not-null';
 import { isNotUndefined } from 'utils/null/is-not-undefined';
-import { useCellHandlerOnPressArrows } from 'components/Field/hooks/use-cell-handler-on-press-arrows';
+import { useCellHandlerOnPressArrows } from 'components/Game/components/Field/hooks/use-cell-handler-on-press-arrows';
 import React, { ChangeEvent, Dispatch, FC, SetStateAction } from 'react';
 
 interface Props {
