@@ -2,16 +2,21 @@ import { Actions } from 'components/Game/components/Actions/Actions';
 import { Box } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
+import {
+  FIELD_SIZE,
+  LETTERS_SHAKING_DURATION,
+  LETTER_ROTATING_DURATION,
+} from 'contants';
 import { Field } from 'components/Game/components/Field/Field';
 import { FinishTurnButton } from 'components/Game/components/FinishTurnButton/FinishTurnButton';
-import { InputError } from 'enums/error.enum';
-import { LETTERS_SHAKING_DURATION, LETTER_ROTATING_DURATION } from 'contants';
+import { InputError } from 'components/Game/enums/input-error.enum';
 import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
 import { SideSection } from 'components/Game/styled';
 import { Statistic } from 'components/Game/components/Statistic/Statistic';
 import { StatisticsButton } from 'components/Game/components/Statistic/StatisticsButton';
 import { TopScores } from 'components/Game/components/TopScores';
 import { WordPreview } from 'components/Game/components/WordPreview/WordPreview';
+import { checkIsFieldFilled } from 'components/Game/utils/check-is-field-filled';
 import { checkIsWordExist } from 'utils/word/check-is-word-exist';
 import { getRandomWord } from 'utils/word/get-random-word';
 import { getWordsFromPlayers } from 'components/Game/utils/get-words-from-players';
@@ -23,17 +28,25 @@ import { useInputError } from 'components/Game/hooks/use-input-error';
 import { useKeyboard } from 'components/Game/hooks/use-keyboard';
 import { usePlayers } from 'components/Game/hooks/use-players';
 import { useTimeout } from 'hooks/use-timeout';
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
-export const Game: FC = () => {
-  const initialWord = useMemo(() => getRandomWord(), []);
+interface Props {
+  pause?: boolean;
+  names: string[];
+  openMenu: () => void;
+}
 
+export const Game: FC<Props> = ({ pause, names, openMenu }) => {
+  const [initialWord, setInitialWord] = useState('');
   const [selectedCells, setSelectedCells] = useState<Cell[]>([]);
   const [enteredLetterCoord, setEnteredLetterCoord] = useState<Coord | null>(
     null,
   );
   const [highlightedCoords, setHighlightedCoords] = useState<Coord[]>([]);
-  const { players, turn, switchTurn, finishTurn } = usePlayers();
+  const { players, turn, switchTurn, finishTurn } = usePlayers({
+    names,
+    isPause: pause,
+  });
   const { error, setError, resetError } = useInputError();
   const { cells, setFieldCell } = useField(initialWord);
   const { isRunning: isLettersShaking, run: shakeLetters } = useTimeout(
@@ -44,6 +57,7 @@ export const Game: FC = () => {
   );
 
   const lastSelected = selectedCells[selectedCells.length - 1];
+  const endGame = checkIsFieldFilled(cells) && isNull(enteredLetterCoord);
 
   const blurActiveCell = () => {
     (document.activeElement as HTMLElement).blur();
@@ -119,7 +133,20 @@ export const Game: FC = () => {
     checkWord: onCheckWord,
     clearSelection,
     undo,
+    isPause: pause,
   });
+
+  useEffect(() => {
+    if (pause) {
+      return;
+    }
+
+    setInitialWord(getRandomWord(FIELD_SIZE));
+    setSelectedCells([]);
+    setEnteredLetterCoord(null);
+    resetError();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pause]);
 
   return (
     <Box display="flex" justifyContent="center">
@@ -152,12 +179,16 @@ export const Game: FC = () => {
           highlightedCoords={highlightedCoords}
         />
         <Actions
-          clearSelection={clearSelection}
-          skipTurn={skipTurn}
-          undo={undo}
+          onClearSelection={clearSelection}
+          onSkipTurn={skipTurn}
+          onUndo={undo}
+          onCapitulate={openMenu}
         />
         <StatisticsButton players={players} turn={turn} />
-        <FinishTurnButton onClick={onCheckWord} />
+        <FinishTurnButton
+          onClick={endGame ? openMenu : onCheckWord}
+          endGame={endGame}
+        />
       </Box>
       <SideSection stick="left">
         <Statistic

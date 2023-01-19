@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { InputError } from 'enums/error.enum';
+import { InputError } from 'components/Game/enums/input-error.enum';
 
 export function useInputError(): {
   error: InputError;

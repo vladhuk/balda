@@ -99,5 +99,24 @@ export const theme = createTheme({
         }),
       },
     },
+    MuiAccordion: {
+      defaultProps: {
+        elevation: 0,
+      },
+      styleOverrides: {
+        root: ({ theme: { palette } }) => ({
+          border: `3px solid ${palette.divider}`,
+
+          ':before': {
+            height: 0,
+          },
+        }),
+        rounded: {
+          '&, &:first-of-type, &:last-of-type': {
+            borderRadius: '10px',
+          },
+        },
+      },
+    },
   },
 });

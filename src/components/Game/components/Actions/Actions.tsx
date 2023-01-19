@@ -6,13 +6,21 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import React, { FC, useState } from 'react';
 
 interface Props {
-  skipTurn: () => void;
-  clearSelection: () => void;
-  undo: () => void;
+  onSkipTurn: () => void;
+  onClearSelection: () => void;
+  onUndo: () => void;
+  onCapitulate: () => void;
 }
 
-export const Actions: FC<Props> = ({ skipTurn, clearSelection, undo }) => {
+export const Actions: FC<Props> = ({
+  onSkipTurn,
+  onClearSelection,
+  onUndo,
+  onCapitulate,
+}) => {
   const [isActionsDialogOpened, setIsActionsDialogOpened] = useState(false);
+
+  const onClose = () => setIsActionsDialogOpened(false);
 
   return (
     <Box width={352} display="flex" mt={1} justifyContent="space-between">
@@ -22,18 +30,22 @@ export const Actions: FC<Props> = ({ skipTurn, clearSelection, undo }) => {
       >
         <MoreHorizIcon />
       </Button>
-      <Button color="secondary" onClick={() => clearSelection()}>
+      <Button color="secondary" onClick={() => onClearSelection()}>
         <DeleteIcon />
       </Button>
-      <Button color="secondary" onClick={() => setTimeout(() => undo())}>
+      <Button color="secondary" onClick={() => setTimeout(() => onUndo())}>
         <BackspaceIcon />
       </Button>
       <ActionsDialog
         open={isActionsDialogOpened}
-        setOpen={setIsActionsDialogOpened}
+        onClose={onClose}
         onSkipTurn={() => {
-          skipTurn();
-          setIsActionsDialogOpened(false);
+          onSkipTurn();
+          onClose();
+        }}
+        onCapitulate={() => {
+          onCapitulate();
+          onClose();
         }}
       />
     </Box>

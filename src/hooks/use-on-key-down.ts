@@ -9,12 +9,20 @@ const callbacks = new Map<string, OnKeyDownHandler>();
 export function useOnKeyDown<T extends Key[], K extends Key = T[number]>({
   keys,
   callback,
+  isPause,
 }: {
   keys: T;
   callback: (key: K) => void;
+  isPause?: boolean;
 }): void {
+  const callbackId = keys.join(',');
+
   useEffect(() => {
-    callbacks.set(keys.join(','), ({ key }) => {
+    if (isPause) {
+      return () => {};
+    }
+
+    callbacks.set(callbackId, ({ key }) => {
       if (isEmpty(keys) || keys.includes(key as Key)) {
         callback(key as K);
       }
@@ -24,8 +32,7 @@ export function useOnKeyDown<T extends Key[], K extends Key = T[number]>({
       Array.from(callbacks.values()).forEach((cb) => cb(event));
 
     return () => {
-      document.onkeydown = () => {};
-      callbacks.clear();
+      callbacks.delete(callbackId);
     };
-  }, [callback, keys]);
+  }, [callback, keys, callbackId, isPause]);
 }

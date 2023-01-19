@@ -1,7 +1,7 @@
 import { Box, Divider, FormHelperText, Zoom } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
-import { InputError } from 'enums/error.enum';
+import { InputError } from 'components/Game/enums/input-error.enum';
 import {
   Letter,
   LetterContainer,
