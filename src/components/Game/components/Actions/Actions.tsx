@@ -10,6 +10,7 @@ interface Props {
   onClearSelection: () => void;
   onUndo: () => void;
   onCapitulate: () => void;
+  disabled?: boolean;
 }
 
 export const Actions: FC<Props> = ({
@@ -17,6 +18,7 @@ export const Actions: FC<Props> = ({
   onClearSelection,
   onUndo,
   onCapitulate,
+  disabled,
 }) => {
   const [isActionsDialogOpened, setIsActionsDialogOpened] = useState(false);
 
@@ -27,13 +29,22 @@ export const Actions: FC<Props> = ({
       <Button
         color="secondary"
         onClick={() => setTimeout(() => setIsActionsDialogOpened(true))}
+        disabled={disabled}
       >
         <MoreHorizIcon />
       </Button>
-      <Button color="secondary" onClick={() => onClearSelection()}>
+      <Button
+        color="secondary"
+        onClick={() => onClearSelection()}
+        disabled={disabled}
+      >
         <DeleteIcon />
       </Button>
-      <Button color="secondary" onClick={() => setTimeout(() => onUndo())}>
+      <Button
+        color="secondary"
+        onClick={() => setTimeout(() => onUndo())}
+        disabled={disabled}
+      >
         <BackspaceIcon />
       </Button>
       <ActionsDialog

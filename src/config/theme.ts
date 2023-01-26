@@ -33,7 +33,7 @@ export const theme = createTheme({
           borderRadius: '10px',
           letterSpacing: 1.8,
         },
-        contained: {
+        contained: ({ theme: { palette } }) => ({
           position: 'relative',
 
           '&, &:hover': {
@@ -48,8 +48,11 @@ export const theme = createTheme({
             zIndex: -1,
             borderRadius: '10px',
           },
+          '&.Mui-disabled': {
+            background: '#c8d2d4',
+          },
           '&.Mui-disabled:after': {
-            background: 'none',
+            background: palette.text.disabled,
           },
           ':active': {
             transform: 'translate(0, 4px)',
@@ -58,7 +61,7 @@ export const theme = createTheme({
               background: 'none',
             },
           },
-        },
+        }),
         containedPrimary: ({ theme: { palette, breakpoints } }) => ({
           color: palette.common.white,
 

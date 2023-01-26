@@ -1,5 +1,5 @@
 import { InputBase, alpha, styled } from '@mui/material';
-import { LETTER_ROTATING_DURATION } from 'contants';
+import { LETTER_ROTATING_DURATION } from 'components/Game/constants';
 import isPropValid from '@emotion/is-prop-valid';
 
 interface FieldCellProps {

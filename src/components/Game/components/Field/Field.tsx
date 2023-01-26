@@ -23,6 +23,7 @@ interface Props {
   resetError: () => void;
   enteredLetterRotating?: boolean;
   highlightedCoords: Coord[];
+  botsTurn?: boolean;
 }
 
 export const Field: FC<Props> = ({
@@ -36,6 +37,7 @@ export const Field: FC<Props> = ({
   resetError,
   enteredLetterRotating,
   highlightedCoords,
+  botsTurn,
 }) => {
   const lastSelected: Cell | undefined =
     selectedCells[selectedCells.length - 1];
@@ -59,6 +61,9 @@ export const Field: FC<Props> = ({
     lastSelected?.coord.equals(cell.coord);
 
   const checkCanSelect = (cell: Cell) => {
+    if (botsTurn) {
+      return false;
+    }
     if (checkIsLastSelected(cell)) {
       return true;
     }
@@ -127,6 +132,9 @@ export const Field: FC<Props> = ({
   const checkIsCellTranslucent = (cell: Cell) => {
     if (isNotEmpty(highlightedCoords)) {
       return !checkIsCellHighlighted(cell);
+    }
+    if (botsTurn) {
+      return false;
     }
     if (isNotEmpty(selectedCells)) {
       return !checkIsCellSelected(cell) && !checkCanSelect(cell);

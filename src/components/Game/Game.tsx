@@ -2,13 +2,15 @@ import { Actions } from 'components/Game/components/Actions/Actions';
 import { Box } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
+import { Difficulty } from 'enums/difficulty.enum';
 import {
   FIELD_SIZE,
   LETTERS_SHAKING_DURATION,
   LETTER_ROTATING_DURATION,
-} from 'contants';
+} from 'components/Game/constants';
 import { Field } from 'components/Game/components/Field/Field';
 import { FinishTurnButton } from 'components/Game/components/FinishTurnButton/FinishTurnButton';
+import { GameMode } from 'enums/game-mode.enum';
 import { InputError } from 'components/Game/enums/input-error.enum';
 import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
 import { SideSection } from 'components/Game/styled';
@@ -23,6 +25,7 @@ import { getWordsFromPlayers } from 'components/Game/utils/get-words-from-player
 import { isEmpty, isNull } from 'lodash';
 import { isNotNull } from 'utils/null/is-not-null';
 import { mapCellsToWord } from 'components/Game/utils/map-cells-to-word';
+import { useBotsTurn } from 'components/Game/hooks/use-bots-turn/use-bots-turn';
 import { useField } from 'components/Game/hooks/use-field';
 import { useInputError } from 'components/Game/hooks/use-input-error';
 import { useKeyboard } from 'components/Game/hooks/use-keyboard';
@@ -33,10 +36,18 @@ import React, { FC, useEffect, useState } from 'react';
 interface Props {
   pause?: boolean;
   names: string[];
+  gameMode: GameMode;
+  difficulty: Difficulty;
   openMenu: () => void;
 }
 
-export const Game: FC<Props> = ({ pause, names, openMenu }) => {
+export const Game: FC<Props> = ({
+  pause,
+  names,
+  gameMode,
+  difficulty,
+  openMenu,
+}) => {
   const [initialWord, setInitialWord] = useState('');
   const [selectedCells, setSelectedCells] = useState<Cell[]>([]);
   const [enteredLetterCoord, setEnteredLetterCoord] = useState<Coord | null>(
@@ -57,7 +68,10 @@ export const Game: FC<Props> = ({ pause, names, openMenu }) => {
   );
 
   const lastSelected = selectedCells[selectedCells.length - 1];
-  const endGame = checkIsFieldFilled(cells) && isNull(enteredLetterCoord);
+  const isEndGame = checkIsFieldFilled(cells) && isNull(enteredLetterCoord);
+  const isBotsTurn = gameMode === GameMode.WITH_BOT && turn === 1;
+
+  const getUsedWords = () => getWordsFromPlayers(players).concat(initialWord);
 
   const blurActiveCell = () => {
     (document.activeElement as HTMLElement).blur();
@@ -106,9 +120,8 @@ export const Game: FC<Props> = ({ pause, names, openMenu }) => {
     }
 
     const word = mapCellsToWord(selectedCells);
-    const usedWords = getWordsFromPlayers(players).concat(initialWord);
 
-    if (usedWords.includes(word)) {
+    if (getUsedWords().includes(word)) {
       handleError(InputError.WORD_HAS_BEEN_ALREADY_ENTERED);
       return;
     }
@@ -129,11 +142,22 @@ export const Game: FC<Props> = ({ pause, names, openMenu }) => {
     clearSelection();
   };
 
+  useBotsTurn({
+    cells,
+    isBotsTurn,
+    onFinishTurn: onCheckWord,
+    setEnteredLetterCoord,
+    setFieldCell,
+    setSelectedCells,
+    difficulty,
+    usedWords: getUsedWords(),
+  });
+
   useKeyboard({
     checkWord: onCheckWord,
     clearSelection,
     undo,
-    isPause: pause,
+    disabled: pause || isBotsTurn,
   });
 
   useEffect(() => {
@@ -177,17 +201,20 @@ export const Game: FC<Props> = ({ pause, names, openMenu }) => {
           undo={undo}
           enteredLetterRotating={isEnteredLetterRotating}
           highlightedCoords={highlightedCoords}
+          botsTurn={isBotsTurn}
         />
         <Actions
           onClearSelection={clearSelection}
           onSkipTurn={skipTurn}
           onUndo={undo}
           onCapitulate={openMenu}
+          disabled={isBotsTurn}
         />
         <StatisticsButton players={players} turn={turn} />
         <FinishTurnButton
-          onClick={endGame ? openMenu : onCheckWord}
-          endGame={endGame}
+          onClick={isEndGame ? openMenu : onCheckWord}
+          botsTurn={isBotsTurn}
+          endGame={isEndGame}
         />
       </Box>
       <SideSection stick="left">

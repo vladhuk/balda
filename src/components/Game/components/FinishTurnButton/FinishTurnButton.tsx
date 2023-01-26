@@ -6,19 +6,31 @@ import React, { FC } from 'react';
 interface Props {
   onClick: () => void;
   endGame?: boolean;
+  botsTurn?: boolean;
 }
 
-export const FinishTurnButton: FC<Props> = ({ onClick, endGame }) => {
+export const FinishTurnButton: FC<Props> = ({ onClick, endGame, botsTurn }) => {
+  const getMessage = () => {
+    if (endGame) {
+      return 'Повернутися до меню';
+    }
+    if (botsTurn) {
+      return 'Хід опонента...';
+    }
+    return 'Завершити хід';
+  };
+
   return (
     <Box sx={styles.container}>
       <Button
         size="large"
-        endIcon={<KeyboardReturnIcon />}
+        endIcon={botsTurn ? null : <KeyboardReturnIcon />}
         onClick={onClick}
         color={endGame ? 'secondary' : 'primary'}
+        disabled={!endGame && botsTurn}
         fullWidth
       >
-        {endGame ? 'Повернутися до меню' : 'Завершити хід'}
+        {getMessage()}
       </Button>
     </Box>
   );

@@ -12,6 +12,9 @@ export const App: FC = () => {
   const [isMenuOpened, setIsMenuOpened] = useState(true);
 
   const onStart = () => {
+    if (gameMode === GameMode.WITH_BOT) {
+      setNames(['Ти', 'Бот 🤖']);
+    }
     setIsMenuOpened(false);
   };
 
@@ -30,6 +33,8 @@ export const App: FC = () => {
       <Game
         pause={isMenuOpened}
         names={names}
+        gameMode={gameMode}
+        difficulty={difficulty}
         openMenu={() => setIsMenuOpened(true)}
       />
     </Box>

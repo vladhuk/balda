@@ -1,6 +1,6 @@
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
-import { FIELD_SIZE } from 'contants';
+import { FIELD_SIZE } from 'components/Game/constants';
 import { createTable } from 'utils/cell/create-table';
 import { useEffect, useState } from 'react';
 

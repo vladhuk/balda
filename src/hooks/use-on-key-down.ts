@@ -9,16 +9,16 @@ const callbacks = new Map<string, OnKeyDownHandler>();
 export function useOnKeyDown<T extends Key[], K extends Key = T[number]>({
   keys,
   callback,
-  isPause,
+  disabled,
 }: {
   keys: T;
   callback: (key: K) => void;
-  isPause?: boolean;
+  disabled?: boolean;
 }): void {
   const callbackId = keys.join(',');
 
   useEffect(() => {
-    if (isPause) {
+    if (disabled) {
       return () => {};
     }
 
@@ -34,5 +34,5 @@ export function useOnKeyDown<T extends Key[], K extends Key = T[number]>({
     return () => {
       callbacks.delete(callbackId);
     };
-  }, [callback, keys, callbackId, isPause]);
+  }, [callback, keys, callbackId, disabled]);
 }

@@ -101,12 +101,10 @@ export function getAvailableWords(
   return Object.keys(templatesGroups)
     .map((template) => {
       const regExp = mapTemplateToRegExp(template);
-      const randomWord = sample(vocabulary.filter((noun) => regExp.test(noun)));
-      const randomCoords = sample(templatesGroups[template])?.coords;
 
       return {
-        letters: randomWord?.toUpperCase() ?? '',
-        coords: randomCoords ?? [],
+        letters: sample(vocabulary.filter((noun) => regExp.test(noun))) ?? '',
+        coords: sample(templatesGroups[template])?.coords ?? [],
       };
     })
     .filter(({ letters }) => isNotEmpty(letters));

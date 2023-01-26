@@ -15,7 +15,7 @@ import {
 import { Difficulty } from 'enums/difficulty.enum';
 import { GameMode } from 'enums/game-mode.enum';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React, { Dispatch, FC, SetStateAction } from 'react';
+import React, { Dispatch, FC, SetStateAction, useEffect } from 'react';
 
 interface Props {
   difficulty: Difficulty;
@@ -38,6 +38,13 @@ export const MainMenu: FC<Props> = ({
   open,
   onStart,
 }) => {
+  useEffect(() => {
+    if (open && gameMode === GameMode.WITH_BOT) {
+      setNames(['', '']);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
   return (
     <Dialog
       open={open}

@@ -5,26 +5,26 @@ export function useKeyboard({
   checkWord,
   undo,
   clearSelection,
-  isPause,
+  disabled,
 }: {
   checkWord: () => void;
   undo: () => void;
   clearSelection: () => void;
-  isPause?: boolean;
+  disabled?: boolean;
 }): void {
   useOnKeyDown({
     keys: [Key.ENTER],
     callback: checkWord,
-    isPause,
+    disabled,
   });
   useOnKeyDown({
     keys: [Key.BACKSPACE],
     callback: undo,
-    isPause,
+    disabled,
   });
   useOnKeyDown({
     keys: [Key.ESCAPE],
     callback: () => clearSelection(),
-    isPause,
+    disabled,
   });
 }
