@@ -15,44 +15,35 @@ import {
 import { Difficulty } from 'enums/difficulty.enum';
 import { GameMode } from 'enums/game-mode.enum';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React, { Dispatch, FC, SetStateAction, useEffect } from 'react';
+import React, { FC, useState } from 'react';
 
 interface Props {
-  difficulty: Difficulty;
-  setDifficulty: Dispatch<SetStateAction<Difficulty>>;
-  gameMode: GameMode;
-  setGameMode: Dispatch<SetStateAction<GameMode>>;
-  names: string[];
-  setNames: Dispatch<SetStateAction<string[]>>;
   open: boolean;
-  onStart: () => void;
+  onStart: ({
+    difficulty,
+    gameMode,
+    names,
+  }: {
+    difficulty: Difficulty;
+    gameMode: GameMode;
+    names: string[];
+  }) => void;
 }
 
-export const MainMenu: FC<Props> = ({
-  difficulty,
-  setDifficulty,
-  gameMode,
-  setGameMode,
-  names,
-  setNames,
-  open,
-  onStart,
-}) => {
-  useEffect(() => {
-    if (open && gameMode === GameMode.WITH_BOT) {
-      setNames(['', '']);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+export const MainMenu: FC<Props> = ({ open, onStart }) => {
+  const [difficulty, setDifficulty] = useState(Difficulty.MEDIUM);
+  const [gameMode, setGameMode] = useState<GameMode>(GameMode.WITH_BOT);
+  const [names, setNames] = useState(['', '']);
+
+  const onClickStart = () => {
+    onStart({ gameMode, names, difficulty });
+  };
 
   return (
     <Dialog
       open={open}
       PaperProps={{
         sx: styles.dialogPaper,
-      }}
-      slotProps={{
-        backdrop: { style: { backdropFilter: 'blur(5px)' } },
       }}
     >
       <DialogTitle variant="h4" textAlign="center">
@@ -130,7 +121,7 @@ export const MainMenu: FC<Props> = ({
         </Accordion>
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'center' }}>
-        <Button size="large" onClick={onStart}>
+        <Button size="large" onClick={onClickStart}>
           Почати!
         </Button>
       </DialogActions>

@@ -54,10 +54,7 @@ export const Game: FC<Props> = ({
     null,
   );
   const [highlightedCoords, setHighlightedCoords] = useState<Coord[]>([]);
-  const { players, turn, switchTurn, finishTurn } = usePlayers({
-    names,
-    isPause: pause,
-  });
+  const { players, turn, switchTurn, finishTurn } = usePlayers(names);
   const { error, setError, resetError } = useInputError();
   const { cells, setFieldCell } = useField(initialWord);
   const { isRunning: isLettersShaking, run: shakeLetters } = useTimeout(

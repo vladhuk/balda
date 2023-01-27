@@ -1,7 +1,7 @@
-import { Box } from '@mui/material';
 import { Difficulty } from 'enums/difficulty.enum';
 import { Game } from 'components/Game/Game';
 import { GameMode } from 'enums/game-mode.enum';
+import { MainContainer } from 'components/styled';
 import { MainMenu } from 'components/MainMenu/MainMenu';
 import React, { FC, useState } from 'react';
 
@@ -11,25 +11,27 @@ export const App: FC = () => {
   const [names, setNames] = useState(['', '']);
   const [isMenuOpened, setIsMenuOpened] = useState(true);
 
-  const onStart = () => {
-    if (gameMode === GameMode.WITH_BOT) {
+  const onStart = (options: {
+    difficulty: Difficulty;
+    gameMode: GameMode;
+    names: string[];
+  }) => {
+    setGameMode(options.gameMode);
+    setDifficulty(options.difficulty);
+
+    if (options.gameMode === GameMode.TOGETHER) {
+      setNames(options.names);
+    }
+    if (options.gameMode === GameMode.WITH_BOT) {
       setNames(['Ти', 'Бот 🤖']);
     }
+
     setIsMenuOpened(false);
   };
 
   return (
-    <Box minHeight="100vh" bgcolor="background.default">
-      <MainMenu
-        difficulty={difficulty}
-        setDifficulty={setDifficulty}
-        gameMode={gameMode}
-        setGameMode={setGameMode}
-        names={names}
-        setNames={setNames}
-        onStart={onStart}
-        open={isMenuOpened}
-      />
+    <MainContainer blur={isMenuOpened}>
+      <MainMenu onStart={onStart} open={isMenuOpened} />
       <Game
         pause={isMenuOpened}
         names={names}
@@ -37,6 +39,6 @@ export const App: FC = () => {
         difficulty={difficulty}
         openMenu={() => setIsMenuOpened(true)}
       />
-    </Box>
+    </MainContainer>
   );
 };

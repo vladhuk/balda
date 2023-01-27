@@ -11,13 +11,7 @@ function createPlayer(name: string, playerIndex: number): Player {
   };
 }
 
-export function usePlayers({
-  names,
-  isPause,
-}: {
-  names: string[];
-  isPause?: boolean;
-}): {
+export function usePlayers(names: string[]): {
   players: Player[];
   turn: number;
   switchTurn: () => void;
@@ -27,13 +21,9 @@ export function usePlayers({
   const [turn, setTurn] = useState(0);
 
   useEffect(() => {
-    if (isPause) {
-      return;
-    }
-
     setPlayers(names.map(createPlayer));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPause]);
+  }, [names]);
 
   const switchTurn = () =>
     setTurn((prevTurn) => (prevTurn === players.length - 1 ? 0 : prevTurn + 1));
