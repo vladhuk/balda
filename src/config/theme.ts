@@ -44,6 +44,7 @@ export const theme = createTheme({
             content: '""',
             width: '100%',
             height: '100%',
+            left: 0,
             top: 4,
             zIndex: -1,
             borderRadius: '10px',
