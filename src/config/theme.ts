@@ -48,7 +48,7 @@ export const theme = createTheme({
             zIndex: -1,
             borderRadius: '10px',
           },
-          '&.Mui-disabled': {
+          '&.Mui-disabled, &.Mui-disabled:hover': {
             background: '#c8d2d4',
           },
           '&.Mui-disabled:after': {
