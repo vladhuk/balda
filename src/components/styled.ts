@@ -8,7 +8,7 @@ interface MainContainerProps {
 export const MainContainer = styled('div', {
   shouldForwardProp: isPropValid,
 })<MainContainerProps>(({ theme: { palette }, blur }) => ({
-  minHeight: '100vh',
+  height: '100%',
   background: palette.background.default,
   filter: blur ? 'blur(5px)' : undefined,
 }));
