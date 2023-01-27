@@ -1,5 +1,5 @@
 import { ALPHABET } from 'components/Game/components/Field/constants';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { FieldCell } from 'components/Game/components/Field/styled';
@@ -39,6 +39,8 @@ export const Field: FC<Props> = ({
   highlightedCoords,
   botsTurn,
 }) => {
+  const isUpMd = useMediaQuery(useTheme().breakpoints.up('md'));
+
   const lastSelected: Cell | undefined =
     selectedCells[selectedCells.length - 1];
 
@@ -115,13 +117,17 @@ export const Field: FC<Props> = ({
         ...prevSelected.slice(0, prevSelected.length - 1),
         { ...cell, value: uppercasedValue },
       ]);
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-      });
     };
 
-  const checkCanEnterLetter = (cell: Cell) =>
-    isEmpty(cell.value) && checkIsLastSelected(cell);
+  const checkCanEnterLetter = (cell: Cell) => {
+    if (isNotEmpty(cell.value)) {
+      return false;
+    }
+    if (isUpMd) {
+      return checkIsLastSelected(cell);
+    }
+    return checkCanSelect(cell);
+  };
 
   const checkIsCellEntered = (cell: Cell) =>
     enteredLetterCoord?.equals(cell.coord);
@@ -160,7 +166,7 @@ export const Field: FC<Props> = ({
             <FieldCell
               key={getCellKey(cell)}
               inputRef={(input: HTMLInputElement | null) => {
-                if (isNotNull(input) && checkCanEnterLetter(cell)) {
+                if (isUpMd && isNotNull(input) && checkCanEnterLetter(cell)) {
                   input.focus();
                 }
               }}
