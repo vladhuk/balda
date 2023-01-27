@@ -1,9 +1,10 @@
 import { ALPHABET } from 'components/Game/components/Field/constants';
-import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { FieldCell } from 'components/Game/components/Field/styled';
 import { Key } from 'enums/key.enum';
+import { checkIsTouchDevice } from 'components/Game/utils/check-is-touch-device';
 import { getCellKey } from 'utils/cell/get-cell-key';
 import { isEmpty, isNull } from 'lodash';
 import { isNotEmpty } from 'utils/null/is-not-empty';
@@ -39,8 +40,7 @@ export const Field: FC<Props> = ({
   highlightedCoords,
   botsTurn,
 }) => {
-  const isUpMd = useMediaQuery(useTheme().breakpoints.up('md'));
-
+  const isTouchDevice = checkIsTouchDevice();
   const lastSelected: Cell | undefined =
     selectedCells[selectedCells.length - 1];
 
@@ -123,10 +123,10 @@ export const Field: FC<Props> = ({
     if (isNotEmpty(cell.value)) {
       return false;
     }
-    if (isUpMd) {
-      return checkIsLastSelected(cell);
+    if (isTouchDevice) {
+      return checkCanSelect(cell);
     }
-    return checkCanSelect(cell);
+    return checkIsLastSelected(cell);
   };
 
   const checkIsCellEntered = (cell: Cell) =>
@@ -166,7 +166,11 @@ export const Field: FC<Props> = ({
             <FieldCell
               key={getCellKey(cell)}
               inputRef={(input: HTMLInputElement | null) => {
-                if (isUpMd && isNotNull(input) && checkCanEnterLetter(cell)) {
+                if (
+                  !isTouchDevice &&
+                  isNotNull(input) &&
+                  checkCanEnterLetter(cell)
+                ) {
                   input.focus();
                 }
               }}
