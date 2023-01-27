@@ -154,6 +154,7 @@ export const Field: FC<Props> = ({
       {cells.map((row) => (
         <Box
           key={`${row[0]?.coord.y} ${row.map(({ value }) => value).join(' ')}`}
+          display="flex"
         >
           {row.map((cell) => (
             <FieldCell

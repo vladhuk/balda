@@ -16,6 +16,7 @@ export const FieldCell = styled(InputBase, {
   shouldForwardProp: (prop: string) => isPropValid(prop) || prop === 'inputRef',
 })<FieldCellProps>(({ theme: { palette, ...theme }, ...props }) => ({
   cursor: 'default',
+  display: 'block',
 
   '& input': {
     cursor: 'default',
