@@ -26,6 +26,7 @@ import { isEmpty, isNull } from 'lodash';
 import { isNotNull } from 'utils/null/is-not-null';
 import { mapCellsToWord } from 'components/Game/utils/map-cells-to-word';
 import { useBotsTurn } from 'components/Game/hooks/use-bots-turn/use-bots-turn';
+import { useEndGame } from 'components/Game/hooks/use-end-game';
 import { useField } from 'components/Game/hooks/use-field';
 import { useInputError } from 'components/Game/hooks/use-input-error';
 import { useKeyboard } from 'components/Game/hooks/use-keyboard';
@@ -63,9 +64,11 @@ export const Game: FC<Props> = ({
   const { isRunning: isEnteredLetterRotating, run: rotateLetter } = useTimeout(
     LETTER_ROTATING_DURATION,
   );
+  const { isEndGame, endGame } = useEndGame(
+    checkIsFieldFilled(cells) && isNull(enteredLetterCoord),
+  );
 
   const lastSelected = selectedCells[selectedCells.length - 1];
-  const isEndGame = checkIsFieldFilled(cells) && isNull(enteredLetterCoord);
   const isBotsTurn = gameMode === GameMode.WITH_BOT && turn === 1;
 
   const getUsedWords = () => getWordsFromPlayers(players).concat(initialWord);
@@ -148,6 +151,7 @@ export const Game: FC<Props> = ({
     setSelectedCells,
     difficulty,
     usedWords: getUsedWords(),
+    endGame,
   });
 
   useKeyboard({

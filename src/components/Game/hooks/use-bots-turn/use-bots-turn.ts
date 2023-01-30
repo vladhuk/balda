@@ -17,6 +17,7 @@ export function useBotsTurn({
   setFieldCell,
   isBotsTurn,
   difficulty,
+  endGame,
 }: {
   onFinishTurn: () => void;
   cells: Cell[][];
@@ -26,6 +27,7 @@ export function useBotsTurn({
   setFieldCell: (coord: Coord, value: string) => void;
   isBotsTurn: boolean;
   difficulty: Difficulty;
+  endGame: () => void;
 }): void {
   const getAvailableWordsWorker = useMemo(
     () =>
@@ -73,6 +75,7 @@ export function useBotsTurn({
       const word = getWordByDifficulty(words, difficulty);
 
       if (isUndefined(word)) {
+        endGame();
         return;
       }
 

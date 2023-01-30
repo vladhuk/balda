@@ -20,14 +20,16 @@ export const FinishTurnButton: FC<Props> = ({ onClick, endGame, botsTurn }) => {
     return 'Завершити хід';
   };
 
+  const isBotsTurn = !endGame && botsTurn;
+
   return (
     <Box sx={styles.container}>
       <Button
         size="large"
-        endIcon={botsTurn ? null : <KeyboardReturnIcon />}
+        endIcon={isBotsTurn ? null : <KeyboardReturnIcon />}
         onClick={onClick}
         color={endGame ? 'secondary' : 'primary'}
-        disabled={!endGame && botsTurn}
+        disabled={isBotsTurn}
         fullWidth
       >
         {getMessage()}
