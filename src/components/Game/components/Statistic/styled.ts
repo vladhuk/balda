@@ -12,7 +12,6 @@ export const ScoreOrientationContainer = styled(
   display: 'flex',
   justifyContent: 'space-between',
   flexDirection: orientation === ScoreOrientation.RIGHT ? 'row' : 'row-reverse',
-  cursor: 'pointer',
 }));
 
 interface NameScoreOrientationContainerProps {
