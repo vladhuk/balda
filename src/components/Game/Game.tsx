@@ -166,7 +166,7 @@ export const Game: FC<Props> = ({
       return;
     }
 
-    setInitialWord(getRandomWord(FIELD_SIZE));
+    setInitialWord(getRandomWord(FIELD_SIZE) ?? '');
     setSelectedCells([]);
     setEnteredLetterCoord(null);
     resetError();
