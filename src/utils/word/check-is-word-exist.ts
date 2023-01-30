@@ -1,5 +1,5 @@
-import nouns from 'data/nouns.json';
+import { getNouns } from 'data/lazy';
 
 export function checkIsWordExist(word: string): boolean {
-  return nouns.includes(word.toLowerCase());
+  return getNouns().includes(word.toLowerCase());
 }
