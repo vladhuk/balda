@@ -3,15 +3,14 @@ import { Box } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { Difficulty } from 'enums/difficulty.enum';
-import {
-  FIELD_SIZE,
-  LETTERS_SHAKING_DURATION,
-  LETTER_ROTATING_DURATION,
-} from 'components/Game/constants';
 import { Field } from 'components/Game/components/Field/Field';
 import { FinishTurnButton } from 'components/Game/components/FinishTurnButton/FinishTurnButton';
 import { GameMode } from 'enums/game-mode.enum';
 import { InputError } from 'components/Game/enums/input-error.enum';
+import {
+  LETTERS_SHAKING_DURATION,
+  LETTER_ROTATING_DURATION,
+} from 'components/Game/constants';
 import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
 import { SideSection } from 'components/Game/styled';
 import { Statistic } from 'components/Game/components/Statistic/Statistic';
@@ -20,11 +19,11 @@ import { TopScores } from 'components/Game/components/TopScores';
 import { WordPreview } from 'components/Game/components/WordPreview/WordPreview';
 import { checkIsFieldFilled } from 'components/Game/utils/check-is-field-filled';
 import { checkIsWordExist } from 'utils/word/check-is-word-exist';
-import { getRandomWord } from 'utils/word/get-random-word';
 import { getWordsFromPlayers } from 'components/Game/utils/get-words-from-players';
 import { isEmpty, isNull } from 'lodash';
 import { isNotNull } from 'utils/null/is-not-null';
 import { mapCellsToWord } from 'components/Game/utils/map-cells-to-word';
+import { useAnimatedStart } from 'components/Game/hooks/use-animated-start';
 import { useBotsTurn } from 'components/Game/hooks/use-bots-turn/use-bots-turn';
 import { useEndGame } from 'components/Game/hooks/use-end-game';
 import { useField } from 'components/Game/hooks/use-field';
@@ -32,7 +31,7 @@ import { useInputError } from 'components/Game/hooks/use-input-error';
 import { useKeyboard } from 'components/Game/hooks/use-keyboard';
 import { usePlayers } from 'components/Game/hooks/use-players';
 import { useTimeout } from 'hooks/use-timeout';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 
 interface Props {
   pause?: boolean;
@@ -49,7 +48,6 @@ export const Game: FC<Props> = ({
   difficulty,
   openMenu,
 }) => {
-  const [initialWord, setInitialWord] = useState('');
   const [selectedCells, setSelectedCells] = useState<Cell[]>([]);
   const [enteredLetterCoord, setEnteredLetterCoord] = useState<Coord | null>(
     null,
@@ -57,13 +55,21 @@ export const Game: FC<Props> = ({
   const [highlightedCoords, setHighlightedCoords] = useState<Coord[]>([]);
   const { players, turn, switchTurn, finishTurn } = usePlayers(names);
   const { error, setError, resetError } = useInputError();
-  const { cells, setFieldCell } = useField(initialWord);
   const { isRunning: isLettersShaking, run: shakeLetters } = useTimeout(
     LETTERS_SHAKING_DURATION,
   );
   const { isRunning: isEnteredLetterRotating, run: rotateLetter } = useTimeout(
     LETTER_ROTATING_DURATION,
   );
+  const { initialWord, isZoomIn, isZoomOut } = useAnimatedStart({
+    isPause: pause,
+    onRestart: () => {
+      setSelectedCells([]);
+      setEnteredLetterCoord(null);
+      resetError();
+    },
+  });
+  const { cells, setFieldCell } = useField(initialWord);
   const { isEndGame, endGame } = useEndGame(
     checkIsFieldFilled(cells) && isNull(enteredLetterCoord),
   );
@@ -161,18 +167,6 @@ export const Game: FC<Props> = ({
     disabled: pause || isBotsTurn,
   });
 
-  useEffect(() => {
-    if (pause) {
-      return;
-    }
-
-    setInitialWord(getRandomWord(FIELD_SIZE) ?? '');
-    setSelectedCells([]);
-    setEnteredLetterCoord(null);
-    resetError();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pause]);
-
   return (
     <Box display="flex" justifyContent="center">
       <SideSection stick="right">
@@ -203,6 +197,8 @@ export const Game: FC<Props> = ({
           enteredLetterRotating={isEnteredLetterRotating}
           highlightedCoords={highlightedCoords}
           botsTurn={isBotsTurn}
+          lettersZoomIn={isZoomIn}
+          lettersZoomOut={isZoomOut}
         />
         <Actions
           onClearSelection={clearSelection}

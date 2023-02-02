@@ -1,5 +1,8 @@
 import { InputBase, alpha, styled } from '@mui/material';
-import { LETTER_ROTATING_DURATION } from 'components/Game/constants';
+import {
+  LETTERS_ZOOM_DURATION,
+  LETTER_ROTATING_DURATION,
+} from 'components/Game/constants';
 import isPropValid from '@emotion/is-prop-valid';
 
 const LETTER_ROTATING_DURATION_ERROR_MS = 10;
@@ -14,6 +17,26 @@ interface FieldCellProps {
   entered?: boolean;
   rotating?: boolean;
   highlighted?: boolean;
+  zoomIn?: boolean;
+  zoomOut?: boolean;
+}
+
+function getAnimation({
+  rotating,
+  zoomIn,
+  zoomOut,
+}: FieldCellProps): string | undefined {
+  if (rotating) {
+    return `rotateColor ${rotatingDuration}ms`;
+  }
+  if (zoomIn) {
+    return `zoomIn ${LETTERS_ZOOM_DURATION}ms`;
+  }
+  if (zoomOut) {
+    return `zoomOut ${LETTERS_ZOOM_DURATION}ms`;
+  }
+
+  return undefined;
 }
 
 export const FieldCell = styled(InputBase, {
@@ -35,6 +58,7 @@ export const FieldCell = styled(InputBase, {
     transition: '.2s',
     fontWeight: 600,
     boxSizing: 'border-box',
+    animation: getAnimation(props),
 
     ...(props.translucent && {
       opacity: 0.4,
@@ -75,9 +99,7 @@ export const FieldCell = styled(InputBase, {
       boxShadow: `0px 0px 5px 2px ${palette.primary.main}`,
       border: `2px solid ${palette.primary.main}`,
     }),
-    ...(props.rotating && {
-      animation: `rotateColor ${rotatingDuration}ms`,
-    }),
+
     '@keyframes rotateColor': {
       '0%': {
         background: palette.secondary.main,
@@ -94,6 +116,22 @@ export const FieldCell = styled(InputBase, {
       '100%': {
         background: palette.action.disabledBackground,
         color: palette.text.primary,
+      },
+    },
+    '@keyframes zoomOut': {
+      from: {
+        fontSize: 28,
+      },
+      to: {
+        fontSize: 0,
+      },
+    },
+    '@keyframes zoomIn': {
+      from: {
+        fontSize: 0,
+      },
+      to: {
+        fontSize: 28,
       },
     },
   },

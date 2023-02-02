@@ -25,6 +25,8 @@ interface Props {
   enteredLetterRotating?: boolean;
   highlightedCoords: Coord[];
   botsTurn?: boolean;
+  lettersZoomIn?: boolean;
+  lettersZoomOut?: boolean;
 }
 
 export const Field: FC<Props> = ({
@@ -39,6 +41,8 @@ export const Field: FC<Props> = ({
   enteredLetterRotating,
   highlightedCoords,
   botsTurn,
+  lettersZoomIn,
+  lettersZoomOut,
 }) => {
   const isTouchDevice = checkIsTouchDevice();
   const lastSelected: Cell | undefined =
@@ -195,6 +199,8 @@ export const Field: FC<Props> = ({
               }}
               onChange={handleEnterLetter(cell)}
               readOnly={!checkCanEnterLetter(cell)}
+              zoomIn={lettersZoomIn}
+              zoomOut={lettersZoomOut}
             />
           ))}
         </Box>
