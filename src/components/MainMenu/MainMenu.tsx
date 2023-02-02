@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { Difficulty } from 'enums/difficulty.enum';
 import { GameMode } from 'enums/game-mode.enum';
+import { useTransitionDuration } from 'components/MainMenu/hooks/use-transition-duration';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { FC, useState } from 'react';
 
@@ -34,6 +35,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
   const [difficulty, setDifficulty] = useState(Difficulty.MEDIUM);
   const [gameMode, setGameMode] = useState<GameMode>(GameMode.WITH_BOT);
   const [names, setNames] = useState(['', '']);
+  const transitionDuration = useTransitionDuration();
 
   const onClickStart = () => {
     onStart({ gameMode, names, difficulty });
@@ -42,6 +44,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
   return (
     <Dialog
       open={open}
+      transitionDuration={transitionDuration}
       PaperProps={{
         sx: styles.dialogPaper,
       }}
