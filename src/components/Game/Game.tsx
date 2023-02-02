@@ -6,15 +6,17 @@ import { Difficulty } from 'enums/difficulty.enum';
 import { Field } from 'components/Game/components/Field/Field';
 import { FinishTurnButton } from 'components/Game/components/FinishTurnButton/FinishTurnButton';
 import { GameMode } from 'enums/game-mode.enum';
+import { HideUpMd } from 'components/_common/HideUpMd';
 import { InputError } from 'components/Game/enums/input-error.enum';
 import {
   LETTERS_SHAKING_DURATION,
   LETTER_ROTATING_DURATION,
 } from 'components/Game/constants';
 import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
+import { ShowUpMd } from 'components/_common/ShowUpMd';
 import { SideSection } from 'components/Game/styled';
 import { Statistic } from 'components/Game/components/Statistic/Statistic';
-import { StatisticsButton } from 'components/Game/components/Statistic/StatisticsButton';
+import { StatisticsButtonLazy } from 'components/Game/components/Statistic/StatisticsButton.lazy';
 import { TopScores } from 'components/Game/components/TopScores';
 import { WordPreview } from 'components/Game/components/WordPreview/WordPreview';
 import { checkIsFieldFilled } from 'components/Game/utils/check-is-field-filled';
@@ -53,6 +55,7 @@ export const Game: FC<Props> = ({
     null,
   );
   const [highlightedCoords, setHighlightedCoords] = useState<Coord[]>([]);
+
   const { players, turn, switchTurn, finishTurn } = usePlayers(names);
   const { error, setError, resetError } = useInputError();
   const { isRunning: isLettersShaking, run: shakeLetters } = useTimeout(
@@ -169,14 +172,16 @@ export const Game: FC<Props> = ({
 
   return (
     <Box display="flex" justifyContent="center">
-      <SideSection stick="right">
-        <Statistic
-          player={players[0]}
-          scoreOrientation={ScoreOrientation.RIGHT}
-          active={turn === 0}
-          setHighlightedCoords={setHighlightedCoords}
-        />
-      </SideSection>
+      <ShowUpMd>
+        <SideSection stick="right">
+          <Statistic
+            player={players[0]}
+            scoreOrientation={ScoreOrientation.RIGHT}
+            active={turn === 0}
+            setHighlightedCoords={setHighlightedCoords}
+          />
+        </SideSection>
+      </ShowUpMd>
       <Box display="flex" flexDirection="column" alignItems="center" pt={1.5}>
         <TopScores players={players} turn={turn} />
         <WordPreview
@@ -207,21 +212,25 @@ export const Game: FC<Props> = ({
           onCapitulate={openMenu}
           disabled={isBotsTurn}
         />
-        <StatisticsButton players={players} turn={turn} />
+        <HideUpMd>
+          <StatisticsButtonLazy players={players} turn={turn} />
+        </HideUpMd>
         <FinishTurnButton
           onClick={isEndGame ? openMenu : onCheckWord}
           botsTurn={isBotsTurn}
           endGame={isEndGame}
         />
       </Box>
-      <SideSection stick="left">
-        <Statistic
-          player={players[1]}
-          scoreOrientation={ScoreOrientation.LEFT}
-          active={turn === 1}
-          setHighlightedCoords={setHighlightedCoords}
-        />
-      </SideSection>
+      <ShowUpMd>
+        <SideSection stick="left">
+          <Statistic
+            player={players[1]}
+            scoreOrientation={ScoreOrientation.LEFT}
+            active={turn === 1}
+            setHighlightedCoords={setHighlightedCoords}
+          />
+        </SideSection>
+      </ShowUpMd>
     </Box>
   );
 };

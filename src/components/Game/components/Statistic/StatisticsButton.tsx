@@ -8,7 +8,7 @@ interface Props {
   turn: number;
 }
 
-export const StatisticsButton: FC<Props> = ({ players, turn }) => {
+const StatisticsButton: FC<Props> = ({ players, turn }) => {
   const [isStatisticOpened, setIsStatisticOpened] = useState(false);
 
   return (
@@ -17,7 +17,7 @@ export const StatisticsButton: FC<Props> = ({ players, turn }) => {
         variant="text"
         size="small"
         color="secondary"
-        sx={{ mt: 2, display: { md: 'none' } }}
+        sx={{ mt: 2 }}
         onClick={() => setIsStatisticOpened(true)}
       >
         Переглянути статистику
@@ -31,3 +31,6 @@ export const StatisticsButton: FC<Props> = ({ players, turn }) => {
     </>
   );
 };
+
+// eslint-disable-next-line import/no-default-export
+export default StatisticsButton;
