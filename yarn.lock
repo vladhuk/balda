@@ -6531,6 +6531,11 @@ log-update@^4.0.0:
     slice-ansi "^4.0.0"
     wrap-ansi "^6.2.0"
 
+loggly-jslogger@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/loggly-jslogger/-/loggly-jslogger-2.2.4.tgz#db6f64c43d6ad9d4a1778d9eb2f7ad2559780bce"
+  integrity sha512-3VttLHnmz1RdfJHP4x8ALsTwDt0ONqrgfV9B1y6UTijP9TWwNGKqdjK0P7FfoEEEM3Fmg2/pmmOA92U20YKRTw==
+
 loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"

@@ -1,7 +1,8 @@
 import 'index.css';
 import * as serviceWorkerRegistration from 'service-worker-registration';
-import { App } from 'components/App';
+import { App } from 'components/App/App';
 import { CssBaseline, ThemeProvider } from '@mui/material';
+import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 import { reportWebVitals } from 'utils/report-web-vitals';
 import { theme } from 'config/theme';
 import React from 'react';
@@ -15,7 +16,9 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </ThemeProvider>
   </React.StrictMode>,
 );

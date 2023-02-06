@@ -1,7 +1,7 @@
 import { Difficulty } from 'enums/difficulty.enum';
 import { Game } from 'components/Game/Game';
 import { GameMode } from 'enums/game-mode.enum';
-import { MainContainer } from 'components/styled';
+import { MainContainer } from 'components/App/styled';
 import { MainMenu } from 'components/MainMenu/MainMenu';
 import React, { FC, useState } from 'react';
 
