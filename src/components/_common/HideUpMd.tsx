@@ -1,9 +1,8 @@
-import { useMediaQuery, useTheme } from '@mui/material';
+import { useIsUpMd } from 'hooks/use-is-up-md';
 import React, { FC, PropsWithChildren } from 'react';
 
 export const HideUpMd: FC<PropsWithChildren> = ({ children }) => {
-  const { breakpoints } = useTheme();
-  const isUpMd = useMediaQuery(breakpoints.up('md'));
+  const isUpMd = useIsUpMd();
 
   if (isUpMd) {
     return null;

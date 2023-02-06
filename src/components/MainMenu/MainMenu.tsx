@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { Difficulty } from 'enums/difficulty.enum';
 import { GameMode } from 'enums/game-mode.enum';
+import { useIsUpMd } from 'hooks/use-is-up-md';
 import { useTransitionDuration } from 'components/MainMenu/hooks/use-transition-duration';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { FC, useState } from 'react';
@@ -32,10 +33,12 @@ interface Props {
 }
 
 export const MainMenu: FC<Props> = ({ open, onStart }) => {
+  const isUpMd = useIsUpMd();
+  const transitionDuration = useTransitionDuration();
+
   const [difficulty, setDifficulty] = useState(Difficulty.MEDIUM);
   const [gameMode, setGameMode] = useState<GameMode>(GameMode.WITH_BOT);
   const [names, setNames] = useState(['', '']);
-  const transitionDuration = useTransitionDuration();
 
   const onClickStart = () => {
     onStart({ gameMode, names, difficulty });
@@ -123,8 +126,8 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
           </AccordionDetails>
         </Accordion>
       </DialogContent>
-      <DialogActions sx={{ justifyContent: 'center' }}>
-        <Button size="large" onClick={onClickStart}>
+      <DialogActions sx={{ justifyContent: 'center', px: 3 }}>
+        <Button size="large" onClick={onClickStart} fullWidth={!isUpMd}>
           Почати!
         </Button>
       </DialogActions>
