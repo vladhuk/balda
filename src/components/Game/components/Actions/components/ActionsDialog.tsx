@@ -1,16 +1,7 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Fab,
-  Slide,
-  Zoom,
-} from '@mui/material';
+import { Backdrop, Box, Button, Fab, Slide, Zoom } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import FlagIcon from '@mui/icons-material/Flag';
-import React, { FC } from 'react';
+import React, { FC, useRef } from 'react';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 
 interface Props {
@@ -26,21 +17,26 @@ export const ActionsDialog: FC<Props> = ({
   onClose,
   onCapitulate,
 }) => {
+  const slideContainerRef = useRef(null);
+
   return (
-    <Dialog
+    <Backdrop
       open={open}
-      onClose={onClose}
-      PaperComponent={Box}
-      PaperProps={{
-        sx: {
-          py: 1,
-          alignItems: 'center',
-          overflow: 'hidden',
-        },
+      onClick={onClose}
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+        flexDirection: 'column',
+        justifyContent: 'start',
+        pt: 36,
       }}
     >
-      <DialogContent sx={{ overflow: 'hidden' }}>
-        <Slide in={open} direction="up" timeout={350}>
+      <div>
+        <Slide
+          in={open}
+          direction="up"
+          timeout={300}
+          container={slideContainerRef.current}
+        >
           <Box mb={3}>
             <Button
               size="large"
@@ -53,8 +49,13 @@ export const ActionsDialog: FC<Props> = ({
             </Button>
           </Box>
         </Slide>
-        <Slide in={open} direction="up" timeout={300}>
-          <Box mb={5}>
+        <Slide
+          in={open}
+          direction="up"
+          timeout={300}
+          container={slideContainerRef.current}
+        >
+          <Box mb={9}>
             <Button
               size="large"
               color="error"
@@ -66,14 +67,17 @@ export const ActionsDialog: FC<Props> = ({
             </Button>
           </Box>
         </Slide>
-      </DialogContent>
-      <DialogActions>
-        <Zoom in={open} timeout={400}>
-          <Fab size="large" color="secondary" onClick={onClose}>
-            <CloseIcon />
-          </Fab>
-        </Zoom>
-      </DialogActions>
-    </Dialog>
+      </div>
+      <Zoom in={open} timeout={400}>
+        <Fab
+          ref={slideContainerRef}
+          size="large"
+          color="secondary"
+          onClick={onClose}
+        >
+          <CloseIcon />
+        </Fab>
+      </Zoom>
+    </Backdrop>
   );
 };
