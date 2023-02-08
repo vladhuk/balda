@@ -1,7 +1,6 @@
 import * as styles from 'components/MainMenu/styles';
 import {
   Accordion,
-  AccordionDetails,
   AccordionSummary,
   Button,
   Chip,
@@ -9,11 +8,14 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Link,
   TextField,
   Typography,
 } from '@mui/material';
+import { AccordionDetails } from 'components/MainMenu/styled';
 import { Difficulty } from 'enums/difficulty.enum';
 import { GameMode } from 'enums/game-mode.enum';
+import { Tutorial } from 'components/_common/Tutorial/Tutorial';
 import { useIsUpMd } from 'hooks/use-is-up-md';
 import { useTransitionDuration } from 'components/MainMenu/hooks/use-transition-duration';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -39,6 +41,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
   const [difficulty, setDifficulty] = useState(Difficulty.MEDIUM);
   const [gameMode, setGameMode] = useState<GameMode>(GameMode.WITH_BOT);
   const [names, setNames] = useState(['', '']);
+  const [isTutorialOpened, setIsTutorialOpened] = useState(false);
 
   const onClickStart = () => {
     onStart({ gameMode, names, difficulty });
@@ -48,6 +51,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
     <Dialog
       open={open}
       transitionDuration={transitionDuration}
+      sx={{ height: [1, 1, '80%'] }}
       PaperProps={{
         sx: styles.dialogPaper,
       }}
@@ -64,7 +68,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
         </Typography>
         !
       </DialogTitle>
-      <DialogContent sx={{ height: [312, 312, 237] }}>
+      <DialogContent sx={{ height: [292, 292, 217], pb: 0, mb: 1 }}>
         <Accordion
           expanded={gameMode === GameMode.TOGETHER}
           onChange={(_, expanded) => expanded && setGameMode(GameMode.TOGETHER)}
@@ -76,7 +80,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
           >
             Гра вдвох
           </AccordionSummary>
-          <AccordionDetails sx={styles.accordionDetails}>
+          <AccordionDetails disablePaddingTop>
             {names.map((name, nameIndex) => (
               <TextField
                 // eslint-disable-next-line react/no-array-index-key
@@ -110,7 +114,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
           >
             Гра з ботом
           </AccordionSummary>
-          <AccordionDetails sx={styles.difficultyAccordionDetails}>
+          <AccordionDetails>
             {[Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD].map(
               (value) => (
                 <Chip
@@ -126,7 +130,20 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
           </AccordionDetails>
         </Accordion>
       </DialogContent>
-      <DialogActions sx={{ justifyContent: 'center', px: 3 }}>
+      <DialogActions sx={styles.dialogActions}>
+        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+        <Link
+          component="button"
+          color="secondary"
+          sx={{ mb: 2, width: 1 }}
+          onClick={() => setIsTutorialOpened(true)}
+        >
+          Як грати?
+        </Link>
+        <Tutorial
+          open={isTutorialOpened}
+          onClose={() => setIsTutorialOpened(false)}
+        />
         <Button size="large" onClick={onClickStart} fullWidth={!isUpMd}>
           Почати!
         </Button>

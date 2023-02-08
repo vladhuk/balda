@@ -1,7 +1,9 @@
 import { Backdrop, Box, Button, Fab, Slide, Zoom } from '@mui/material';
+import { Tutorial } from 'components/_common/Tutorial/Tutorial';
 import CloseIcon from '@mui/icons-material/Close';
 import FlagIcon from '@mui/icons-material/Flag';
-import React, { FC, useRef } from 'react';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import React, { FC, useRef, useState } from 'react';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 
 interface Props {
@@ -18,66 +20,94 @@ export const ActionsDialog: FC<Props> = ({
   onCapitulate,
 }) => {
   const slideContainerRef = useRef(null);
+  const [isTutorialOpened, setIsTutorialOpened] = useState(false);
 
   return (
-    <Backdrop
-      open={open}
-      onClick={onClose}
-      sx={{
-        zIndex: (theme) => theme.zIndex.drawer + 1,
-        flexDirection: 'column',
-        justifyContent: 'start',
-        pt: 36,
-      }}
-    >
-      <div>
-        <Slide
-          in={open}
-          direction="up"
-          timeout={300}
-          container={slideContainerRef.current}
-        >
-          <Box mb={3}>
-            <Button
-              size="large"
-              color="error"
-              endIcon={<SkipNextIcon />}
-              onClick={onSkipTurn}
-              fullWidth
-            >
-              Пропустити хід
-            </Button>
-          </Box>
-        </Slide>
-        <Slide
-          in={open}
-          direction="up"
-          timeout={300}
-          container={slideContainerRef.current}
-        >
-          <Box mb={9}>
-            <Button
-              size="large"
-              color="error"
-              endIcon={<FlagIcon />}
-              onClick={onCapitulate}
-              fullWidth
-            >
-              Здатися
-            </Button>
-          </Box>
-        </Slide>
-      </div>
-      <Zoom in={open} timeout={400}>
-        <Fab
-          ref={slideContainerRef}
-          size="large"
-          color="secondary"
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </Fab>
-      </Zoom>
-    </Backdrop>
+    <>
+      <Backdrop
+        open={open}
+        onClick={onClose}
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer,
+          flexDirection: 'column',
+          justifyContent: 'start',
+          pt: 28,
+        }}
+      >
+        <div>
+          <Slide
+            in={open}
+            direction="up"
+            timeout={200}
+            container={slideContainerRef.current}
+          >
+            <Box mb={3}>
+              <Button
+                size="large"
+                color="error"
+                endIcon={<SkipNextIcon />}
+                onClick={onSkipTurn}
+                fullWidth
+              >
+                Пропустити хід
+              </Button>
+            </Box>
+          </Slide>
+          <Slide
+            in={open}
+            direction="up"
+            timeout={200}
+            container={slideContainerRef.current}
+          >
+            <Box mb={3}>
+              <Button
+                size="large"
+                color="error"
+                endIcon={<FlagIcon />}
+                onClick={onCapitulate}
+                fullWidth
+              >
+                Здатися
+              </Button>
+            </Box>
+          </Slide>
+          <Slide
+            in={open}
+            direction="up"
+            timeout={200}
+            container={slideContainerRef.current}
+          >
+            <Box mb={9}>
+              <Button
+                size="large"
+                color="secondary"
+                endIcon={<HelpOutlineIcon />}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setIsTutorialOpened(true);
+                }}
+                fullWidth
+              >
+                Як грати
+              </Button>
+            </Box>
+          </Slide>
+        </div>
+        <Zoom in={open} timeout={400}>
+          <Fab
+            ref={slideContainerRef}
+            size="large"
+            color="secondary"
+            onClick={onClose}
+          >
+            <CloseIcon />
+          </Fab>
+        </Zoom>
+      </Backdrop>
+      <Tutorial
+        open={isTutorialOpened}
+        onClose={() => setIsTutorialOpened(false)}
+      />
+    </>
   );
 };

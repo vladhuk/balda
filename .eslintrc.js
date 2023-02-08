@@ -29,7 +29,7 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.js', '**/*.png'],
   rules: {
     'prettier/prettier': WARN,
 

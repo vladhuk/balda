@@ -3,8 +3,8 @@ import { Box } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { FieldCell } from 'components/Game/components/Field/styled';
+import { IS_TOUCH_DEVICE } from 'constants/common';
 import { Key } from 'enums/key.enum';
-import { checkIsTouchDevice } from 'components/Game/utils/check-is-touch-device';
 import { getCellKey } from 'utils/cell/get-cell-key';
 import { isEmpty, isNull } from 'lodash';
 import { isNotEmpty } from 'utils/null/is-not-empty';
@@ -44,7 +44,6 @@ export const Field: FC<Props> = ({
   lettersZoomIn,
   lettersZoomOut,
 }) => {
-  const isTouchDevice = checkIsTouchDevice();
   const lastSelected: Cell | undefined =
     selectedCells[selectedCells.length - 1];
 
@@ -127,7 +126,7 @@ export const Field: FC<Props> = ({
     if (isNotEmpty(cell.value)) {
       return false;
     }
-    if (isTouchDevice) {
+    if (IS_TOUCH_DEVICE) {
       return checkCanSelect(cell);
     }
     return checkIsLastSelected(cell);
@@ -171,7 +170,7 @@ export const Field: FC<Props> = ({
               key={getCellKey(cell)}
               inputRef={(input: HTMLInputElement | null) => {
                 if (
-                  !isTouchDevice &&
+                  !IS_TOUCH_DEVICE &&
                   isNotNull(input) &&
                   checkCanEnterLetter(cell)
                 ) {

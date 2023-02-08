@@ -7,17 +7,9 @@ export const dialogPaper: SxProps = {
   zIndex: 1,
 };
 
-export const accordionDetails: SxProps = {
+export const dialogActions: SxProps = {
+  justifyContent: 'center',
+  px: 3,
   display: 'flex',
-  justifyContent: 'space-around',
-  gap: 1,
-  pt: 0,
-  flexDirection: ['column', 'column', 'row'],
-};
-
-export const difficultyAccordionDetails: SxProps = {
-  display: 'flex',
-  flexDirection: ['column', 'column', 'row'],
-  justifyContent: 'space-around',
-  gap: 1,
+  flexDirection: 'column',
 };
