@@ -25,7 +25,7 @@ export const Tutorial: FC<Props> = ({ open, onClose }) => {
       <IconButton size="large" sx={styles.closeButton}>
         <CloseIcon fontSize="large" />
       </IconButton>
-      <Box width={[0.9, 0.9, 0.5]} height={1} pt={2}>
+      <Box width={[0.9, 0.9, 0.5]}>
         <Typography variant="h3" sx={styles.heading}>
           Правила
         </Typography>
@@ -59,7 +59,7 @@ export const Tutorial: FC<Props> = ({ open, onClose }) => {
         <Typography>
           Протягом гри повинні дотримуватися також такі правила:
         </Typography>
-        <Box component="ol" pb={2} mb={0}>
+        <ol>
           <Typography component="li">Гравці ходять по черзі.</Typography>
           <Typography component="li">
             Кожна клітка містить лише одну букву, кожна буква у складеному слові
@@ -71,7 +71,7 @@ export const Tutorial: FC<Props> = ({ open, onClose }) => {
             Слово має бути <b>іменником.</b>
           </Typography>
           <Typography component="li">Слова не можуть повторюватися</Typography>
-        </Box>
+        </ol>
         <HideForTouchDevice>
           <Typography variant="h3" sx={styles.heading}>
             Керування

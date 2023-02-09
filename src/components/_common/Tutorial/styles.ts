@@ -19,6 +19,8 @@ export const backdrop: SxProps<Theme> = ({ zIndex, palette }) => ({
   background: palette.background.default,
   alignItems: 'start',
   overflow: 'auto',
+  height: 1,
+  py: 2,
 });
 
 export const heading: SxProps = {
