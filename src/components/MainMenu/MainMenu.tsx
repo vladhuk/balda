@@ -58,7 +58,6 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
       }}
     >
       <DialogTitle variant="h4" textAlign="center">
-        Ласкаво просимо до гри{' '}
         <Typography
           component="span"
           variant="h4"
@@ -66,8 +65,8 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
           fontWeight={600}
         >
           БАЛДА
-        </Typography>
-        !
+        </Typography>{' '}
+        українською
       </DialogTitle>
       <DialogContent sx={{ height: [292, 292, 217], pb: 0, mb: 1 }}>
         <Accordion

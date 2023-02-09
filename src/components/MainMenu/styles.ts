@@ -5,6 +5,7 @@ export const dialogPaper: SxProps = {
   py: 1,
   px: [0, 0, 1],
   zIndex: 1,
+  width: 600,
 };
 
 export const dialogActions: SxProps = {
