@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { AccordionDetails } from 'components/MainMenu/styled';
 import { Difficulty } from 'enums/difficulty.enum';
+import { Feedback } from 'components/Feedback/Feedback';
 import { GameMode } from 'enums/game-mode.enum';
 import { Tutorial } from 'components/_common/Tutorial/Tutorial';
 import { useIsUpMd } from 'hooks/use-is-up-md';
@@ -140,14 +141,15 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
         >
           Як грати?
         </Link>
-        <Tutorial
-          open={isTutorialOpened}
-          onClose={() => setIsTutorialOpened(false)}
-        />
         <Button size="large" onClick={onClickStart} fullWidth={!isUpMd}>
           Почати!
         </Button>
       </DialogActions>
+      <Tutorial
+        open={isTutorialOpened}
+        onClose={() => setIsTutorialOpened(false)}
+      />
+      <Feedback />
     </Dialog>
   );
 };
