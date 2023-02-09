@@ -35,12 +35,7 @@ export const ActionsDialog: FC<Props> = ({
         }}
       >
         <div>
-          <Slide
-            in={open}
-            direction="up"
-            timeout={200}
-            container={slideContainerRef.current}
-          >
+          <Slide in={open} direction="up" container={slideContainerRef.current}>
             <Box mb={3}>
               <Button
                 size="large"
@@ -53,12 +48,7 @@ export const ActionsDialog: FC<Props> = ({
               </Button>
             </Box>
           </Slide>
-          <Slide
-            in={open}
-            direction="up"
-            timeout={200}
-            container={slideContainerRef.current}
-          >
+          <Slide in={open} direction="up" container={slideContainerRef.current}>
             <Box mb={3}>
               <Button
                 size="large"
@@ -71,12 +61,7 @@ export const ActionsDialog: FC<Props> = ({
               </Button>
             </Box>
           </Slide>
-          <Slide
-            in={open}
-            direction="up"
-            timeout={200}
-            container={slideContainerRef.current}
-          >
+          <Slide in={open} direction="up" container={slideContainerRef.current}>
             <Box mb={9}>
               <Button
                 size="large"
@@ -93,7 +78,7 @@ export const ActionsDialog: FC<Props> = ({
             </Box>
           </Slide>
         </div>
-        <Zoom in={open} timeout={400}>
+        <Zoom in={open}>
           <Fab
             ref={slideContainerRef}
             size="large"
