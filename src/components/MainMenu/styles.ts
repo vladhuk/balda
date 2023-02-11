@@ -10,6 +10,7 @@ export const dialogPaper: SxProps = {
 
 export const dialogActions: SxProps = {
   justifyContent: 'center',
+  alignItems: 'center',
   px: 3,
   display: 'flex',
   flexDirection: 'column',

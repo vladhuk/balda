@@ -135,7 +135,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
         <Link
           component="button"
           color="secondary"
-          sx={{ mb: 2, width: 1 }}
+          sx={{ mb: 2 }}
           onClick={() => setIsTutorialOpened(true)}
         >
           Як грати?
