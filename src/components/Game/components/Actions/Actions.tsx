@@ -28,23 +28,15 @@ export const Actions: FC<Props> = ({
     <Box width={352} display="flex" mt={1} justifyContent="space-between">
       <Button
         color="secondary"
-        onClick={() => setTimeout(() => setIsActionsDialogOpened(true))}
+        onClick={() => setIsActionsDialogOpened(true)}
         disabled={disabled}
       >
         <MoreHorizIcon />
       </Button>
-      <Button
-        color="secondary"
-        onClick={() => onClearSelection()}
-        disabled={disabled}
-      >
+      <Button color="secondary" onClick={onClearSelection} disabled={disabled}>
         <DeleteIcon />
       </Button>
-      <Button
-        color="secondary"
-        onClick={() => setTimeout(() => onUndo())}
-        disabled={disabled}
-      >
+      <Button color="secondary" onClick={onUndo} disabled={disabled}>
         <BackspaceIcon />
       </Button>
       <ActionsDialog

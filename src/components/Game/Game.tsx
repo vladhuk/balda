@@ -19,6 +19,7 @@ import { Statistic } from 'components/Game/components/Statistic/Statistic';
 import { StatisticsButtonLazy } from 'components/Game/components/Statistic/StatisticsButton.lazy';
 import { TopScores } from 'components/Game/components/TopScores';
 import { WordPreview } from 'components/Game/components/WordPreview/WordPreview';
+import { blurActiveInput } from 'utils/blur-active-input';
 import { checkIsFieldFilled } from 'components/Game/utils/check-is-field-filled';
 import { checkIsWordExist } from 'utils/word/check-is-word-exist';
 import { getWordsFromPlayers } from 'components/Game/utils/get-words-from-players';
@@ -82,10 +83,6 @@ export const Game: FC<Props> = ({
 
   const getUsedWords = () => getWordsFromPlayers(players).concat(initialWord);
 
-  const blurActiveCell = () => {
-    (document.activeElement as HTMLElement).blur();
-  };
-
   const undo = () => {
     if (
       isNotNull(enteredLetterCoord) &&
@@ -97,13 +94,13 @@ export const Game: FC<Props> = ({
 
     setSelectedCells((prev) => prev.slice(0, prev.length - 1));
     resetError();
-    blurActiveCell();
+    blurActiveInput();
   };
 
   const clearSelection = (options?: { keepEntered?: boolean }) => {
     setSelectedCells([]);
     resetError();
-    blurActiveCell();
+    blurActiveInput();
 
     if (isNull(enteredLetterCoord)) {
       return;

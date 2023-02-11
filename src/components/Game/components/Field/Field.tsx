@@ -1,5 +1,5 @@
 import { ALPHABET } from 'components/Game/components/Field/constants';
-import { Box } from '@mui/material';
+import { Box, ClickAwayListener } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { FieldCell } from 'components/Game/components/Field/styled';
@@ -11,7 +11,13 @@ import { isNotEmpty } from 'utils/null/is-not-empty';
 import { isNotNull } from 'utils/null/is-not-null';
 import { isNotUndefined } from 'utils/null/is-not-undefined';
 import { useCellHandlerOnPressArrows } from 'components/Game/components/Field/hooks/use-cell-handler-on-press-arrows';
-import React, { ChangeEvent, Dispatch, FC, SetStateAction } from 'react';
+import React, {
+  ChangeEvent,
+  Dispatch,
+  FC,
+  KeyboardEvent,
+  SetStateAction,
+} from 'react';
 
 interface Props {
   cells: Cell[][];
@@ -65,7 +71,7 @@ export const Field: FC<Props> = ({
   const checkIsLastSelected = (cell: Cell) =>
     lastSelected?.coord.equals(cell.coord);
 
-  const checkCanSelect = (cell: Cell) => {
+  const checkIsCellClickable = (cell: Cell) => {
     if (botsTurn) {
       return false;
     }
@@ -88,7 +94,7 @@ export const Field: FC<Props> = ({
   };
 
   const selectCell = (cell: Cell) => {
-    if (!checkCanSelect(cell)) {
+    if (!checkIsCellClickable(cell)) {
       return;
     }
     if (checkIsLastSelected(cell)) {
@@ -127,7 +133,7 @@ export const Field: FC<Props> = ({
       return false;
     }
     if (IS_TOUCH_DEVICE) {
-      return checkCanSelect(cell);
+      return checkIsCellClickable(cell);
     }
     return checkIsLastSelected(cell);
   };
@@ -146,11 +152,34 @@ export const Field: FC<Props> = ({
       return false;
     }
     if (isNotEmpty(selectedCells)) {
-      return !checkIsCellSelected(cell) && !checkCanSelect(cell);
+      return !checkIsCellSelected(cell) && !checkIsCellClickable(cell);
     }
 
     return false;
   };
+
+  const undoIfEmptyEnteredCell = (cell: Cell) => {
+    if (checkIsCellEntered(cell) && isEmpty(cell.value)) {
+      undo();
+    }
+  };
+
+  const focusEnterableCellInputForNonTouchDevices = (
+    cell: Cell,
+    input: HTMLInputElement | null,
+  ) => {
+    if (!IS_TOUCH_DEVICE && isNotNull(input) && checkCanEnterLetter(cell)) {
+      input.focus();
+    }
+  };
+
+  const handleOnKeyDown =
+    (cell: Cell) =>
+    ({ key }: KeyboardEvent) => {
+      if (key === Key.SPACE) {
+        selectCell(cell);
+      }
+    };
 
   useCellHandlerOnPressArrows({
     cellHandler: selectCell,
@@ -166,41 +195,36 @@ export const Field: FC<Props> = ({
           display="flex"
         >
           {row.map((cell) => (
-            <FieldCell
+            <ClickAwayListener
               key={getCellKey(cell)}
-              inputRef={(input: HTMLInputElement | null) => {
-                if (
-                  !IS_TOUCH_DEVICE &&
-                  isNotNull(input) &&
-                  checkCanEnterLetter(cell)
-                ) {
-                  input.focus();
+              touchEvent={false}
+              onClickAway={() => undoIfEmptyEnteredCell(cell)}
+            >
+              <FieldCell
+                inputRef={(input: HTMLInputElement | null) =>
+                  focusEnterableCellInputForNonTouchDevices(cell, input)
                 }
-              }}
-              translucent={checkIsCellTranslucent(cell)}
-              clickable={checkCanSelect(cell)}
-              lastSelected={checkIsLastSelected(cell)}
-              selected={
-                checkIsCellSelected(cell) && !checkIsCellHighlighted(cell)
-              }
-              entered={checkIsCellEntered(cell)}
-              rotating={checkIsCellEntered(cell) && enteredLetterRotating}
-              highlighted={checkIsCellHighlighted(cell)}
-              inputProps={{
-                maxLength: 1,
-              }}
-              value={cell.value}
-              onClick={() => selectCell(cell)}
-              onKeyDown={({ key }) => {
-                if (key === Key.SPACE) {
-                  selectCell(cell);
+                inputProps={{
+                  maxLength: 1,
+                }}
+                translucent={checkIsCellTranslucent(cell)}
+                clickable={checkIsCellClickable(cell)}
+                lastSelected={checkIsLastSelected(cell)}
+                selected={
+                  checkIsCellSelected(cell) && !checkIsCellHighlighted(cell)
                 }
-              }}
-              onChange={handleEnterLetter(cell)}
-              readOnly={!checkCanEnterLetter(cell)}
-              zoomIn={lettersZoomIn}
-              zoomOut={lettersZoomOut}
-            />
+                entered={checkIsCellEntered(cell)}
+                rotating={checkIsCellEntered(cell) && enteredLetterRotating}
+                highlighted={checkIsCellHighlighted(cell)}
+                readOnly={!checkCanEnterLetter(cell)}
+                zoomIn={lettersZoomIn}
+                zoomOut={lettersZoomOut}
+                value={cell.value}
+                onClick={() => selectCell(cell)}
+                onKeyDown={handleOnKeyDown(cell)}
+                onChange={handleEnterLetter(cell)}
+              />
+            </ClickAwayListener>
           ))}
         </Box>
       ))}

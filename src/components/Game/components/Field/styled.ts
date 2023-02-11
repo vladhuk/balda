@@ -44,11 +44,11 @@ export const FieldCell = styled(InputBase, {
 })<FieldCellProps>(({ theme: { palette, ...theme }, ...props }) => ({
   cursor: 'default',
   display: 'block',
+  margin: theme.spacing(0.5),
 
   '& input': {
     cursor: 'default',
     padding: 0,
-    margin: theme.spacing(0.5),
     width: 64,
     height: 64,
     fontSize: 28,
