@@ -68,7 +68,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
         </Typography>{' '}
         українською
       </DialogTitle>
-      <DialogContent sx={{ height: [292, 292, 217], pb: 0, mb: 1 }}>
+      <DialogContent sx={{ height: [286, 292, 217], pb: 0, mb: 1 }}>
         <Accordion
           expanded={gameMode === GameMode.TOGETHER}
           onChange={(_, expanded) => expanded && setGameMode(GameMode.TOGETHER)}
