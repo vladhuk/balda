@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 
-export function useEndGame(isFieldFilled: boolean): {
+export function useEndGame(isEnd: boolean): {
   isEndGame: boolean;
   endGame: () => void;
 } {
-  const [isEndGame, setIsEndGame] = useState(isFieldFilled);
+  const [isEndGame, setIsEndGame] = useState(isEnd);
 
   useEffect(() => {
-    setIsEndGame(isFieldFilled);
-  }, [isFieldFilled]);
+    setIsEndGame(isEnd);
+  }, [isEnd]);
 
   return {
     isEndGame,

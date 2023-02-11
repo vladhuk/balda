@@ -57,7 +57,6 @@ export const Game: FC<Props> = ({
   );
   const [highlightedCoords, setHighlightedCoords] = useState<Coord[]>([]);
 
-  const { players, turn, switchTurn, finishTurn } = usePlayers(names);
   const { error, setError, resetError } = useInputError();
   const { isRunning: isLettersShaking, run: shakeLetters } = useTimeout(
     LETTERS_SHAKING_DURATION,
@@ -74,12 +73,17 @@ export const Game: FC<Props> = ({
     },
   });
   const { cells, setFieldCell } = useField(initialWord);
+  const { players, isDraw, isBotsTurn, turn, skipTurn, finishTurn } =
+    usePlayers({
+      names,
+      gameMode,
+      isPause: Boolean(pause),
+    });
   const { isEndGame, endGame } = useEndGame(
-    checkIsFieldFilled(cells) && isNull(enteredLetterCoord),
+    (checkIsFieldFilled(cells) && isNull(enteredLetterCoord)) || isDraw,
   );
 
   const lastSelected = selectedCells[selectedCells.length - 1];
-  const isBotsTurn = gameMode === GameMode.WITH_BOT && turn === 1;
 
   const getUsedWords = () => getWordsFromPlayers(players).concat(initialWord);
 
@@ -143,8 +147,8 @@ export const Game: FC<Props> = ({
     clearSelection({ keepEntered: true });
   };
 
-  const skipTurn = () => {
-    switchTurn();
+  const onSkipTurn = () => {
+    skipTurn();
     clearSelection();
   };
 
@@ -204,10 +208,10 @@ export const Game: FC<Props> = ({
         />
         <Actions
           onClearSelection={clearSelection}
-          onSkipTurn={skipTurn}
+          onSkipTurn={onSkipTurn}
           onUndo={undo}
           onCapitulate={openMenu}
-          disabled={isBotsTurn}
+          disabled={isBotsTurn || isEndGame}
         />
         <HideUpMd>
           <StatisticsButtonLazy players={players} turn={turn} />

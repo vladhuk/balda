@@ -7,7 +7,7 @@ export const closeButton: SxProps = {
 };
 
 export const screenshot: SxProps = {
-  width: [150, 200, 200, 250],
+  width: [150, 200, 200, 220],
 };
 
 export const keyImage: SxProps = {
@@ -20,11 +20,11 @@ export const backdrop: SxProps<Theme> = ({ zIndex, palette }) => ({
   alignItems: 'start',
   overflow: 'auto',
   height: 1,
-  py: 2,
+  pb: 2,
 });
 
 export const heading: SxProps = {
   textAlign: 'center',
   fontWeight: 600,
-  mb: 2,
+  my: 2,
 };

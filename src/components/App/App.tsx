@@ -18,14 +18,7 @@ export const App: FC = () => {
   }) => {
     setGameMode(options.gameMode);
     setDifficulty(options.difficulty);
-
-    if (options.gameMode === GameMode.TOGETHER) {
-      setNames(options.names);
-    }
-    if (options.gameMode === GameMode.WITH_BOT) {
-      setNames(['Ти', 'Бот 🤖']);
-    }
-
+    setNames(options.names);
     setIsMenuOpened(false);
   };
 

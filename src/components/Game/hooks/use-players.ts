@@ -1,7 +1,10 @@
+import { GameMode } from 'enums/game-mode.enum';
 import { Player } from 'types/player.interface';
 import { Word } from 'types/word.interface';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
+
+const MAX_DRAWS_IN_ROW = 4;
 
 function createPlayer(name: string, playerIndex: number): Player {
   return {
@@ -11,17 +14,41 @@ function createPlayer(name: string, playerIndex: number): Player {
   };
 }
 
-export function usePlayers(names: string[]): {
+function adjustNames(names: string[], gameMode: GameMode): string[] {
+  return gameMode === GameMode.WITH_BOT ? ['Ти', 'Бот 🤖'] : names;
+}
+
+export function usePlayers({
+  names,
+  isPause,
+  gameMode,
+}: {
+  names: string[];
+  isPause: boolean;
+  gameMode: GameMode;
+}): {
   players: Player[];
   turn: number;
-  switchTurn: () => void;
+  isDraw: boolean;
+  isBotsTurn: boolean;
+  skipTurn: () => void;
   finishTurn: (word: Word) => void;
 } {
   const [players, setPlayers] = useState<Player[]>(names.map(createPlayer));
   const [turn, setTurn] = useState(0);
+  const [skipsCount, setSkipsCount] = useState(0);
+
+  const resetSkips = () => setSkipsCount(0);
 
   useEffect(() => {
-    setPlayers(names.map(createPlayer));
+    if (!isPause) {
+      setSkipsCount(0);
+    }
+  }, [isPause]);
+
+  useEffect(() => {
+    setPlayers(adjustNames(names, gameMode).map(createPlayer));
+    resetSkips();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [names]);
 
@@ -31,7 +58,12 @@ export function usePlayers(names: string[]): {
   return {
     players,
     turn,
-    switchTurn,
+    isDraw: skipsCount === MAX_DRAWS_IN_ROW,
+    isBotsTurn: gameMode === GameMode.WITH_BOT && turn === 1,
+    skipTurn: () => {
+      switchTurn();
+      setSkipsCount((prev) => prev + 1);
+    },
     finishTurn: (word) => {
       setPlayers((prevPlayers) =>
         prevPlayers.map((player, i) => {
@@ -46,6 +78,7 @@ export function usePlayers(names: string[]): {
         }),
       );
       switchTurn();
+      resetSkips();
     },
   };
 }
