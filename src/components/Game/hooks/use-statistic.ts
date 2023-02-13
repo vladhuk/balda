@@ -18,39 +18,50 @@ function adjustNames(names: string[], gameMode: GameMode): string[] {
   return gameMode === GameMode.WITH_BOT ? ['Ти', 'Бот 🤖'] : names;
 }
 
-export function usePlayers({
+export function useStatistic({
   names,
   isPause,
   gameMode,
+  isFieldFilled,
 }: {
   names: string[];
   isPause: boolean;
   gameMode: GameMode;
+  isFieldFilled: boolean;
 }): {
   players: Player[];
   turn: number;
   isDraw: boolean;
   isBotsTurn: boolean;
+  isEndGame: boolean;
+  endGame: () => void;
   skipTurn: () => void;
   finishTurn: (word: Word) => void;
 } {
-  const [players, setPlayers] = useState<Player[]>(names.map(createPlayer));
+  const [players, setPlayers] = useState<Player[]>(
+    adjustNames(names, gameMode).map(createPlayer),
+  );
   const [turn, setTurn] = useState(0);
   const [skipsCount, setSkipsCount] = useState(0);
+  const [cantEnterAnyWord, setCantEnterAnyWord] = useState(isFieldFilled);
+
+  const isSkipsLimit = skipsCount === MAX_DRAWS_IN_ROW;
+  const isScoresDraw = players[0].score === players[1].score;
+
+  useEffect(() => {
+    setCantEnterAnyWord(isFieldFilled);
+  }, [isFieldFilled]);
 
   const resetSkips = () => setSkipsCount(0);
 
   useEffect(() => {
     if (!isPause) {
-      setSkipsCount(0);
+      setCantEnterAnyWord(false);
+      resetSkips();
+      setTurn(0);
+      setPlayers(adjustNames(names, gameMode).map(createPlayer));
     }
-  }, [isPause]);
-
-  useEffect(() => {
-    setPlayers(adjustNames(names, gameMode).map(createPlayer));
-    resetSkips();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [names]);
+  }, [isPause, names, gameMode]);
 
   const switchTurn = () =>
     setTurn((prevTurn) => (prevTurn === players.length - 1 ? 0 : prevTurn + 1));
@@ -58,8 +69,10 @@ export function usePlayers({
   return {
     players,
     turn,
-    isDraw: skipsCount === MAX_DRAWS_IN_ROW,
+    isDraw: isScoresDraw || isSkipsLimit,
     isBotsTurn: gameMode === GameMode.WITH_BOT && turn === 1,
+    isEndGame: cantEnterAnyWord || isSkipsLimit,
+    endGame: () => setCantEnterAnyWord(true),
     skipTurn: () => {
       switchTurn();
       setSkipsCount((prev) => prev + 1);

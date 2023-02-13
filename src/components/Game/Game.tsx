@@ -12,6 +12,7 @@ import {
   LETTERS_SHAKING_DURATION,
   LETTER_ROTATING_DURATION,
 } from 'components/Game/constants';
+import { Results } from 'components/Game/components/Results/Results';
 import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
 import { ShowUpMd } from 'components/_common/ShowUpMd';
 import { SideSection } from 'components/Game/styled';
@@ -28,11 +29,10 @@ import { isNotNull } from 'utils/null/is-not-null';
 import { mapCellsToWord } from 'components/Game/utils/map-cells-to-word';
 import { useAnimatedStart } from 'components/Game/hooks/use-animated-start';
 import { useBotsTurn } from 'components/Game/hooks/use-bots-turn/use-bots-turn';
-import { useEndGame } from 'components/Game/hooks/use-end-game';
 import { useField } from 'components/Game/hooks/use-field';
 import { useInputError } from 'components/Game/hooks/use-input-error';
 import { useKeyboard } from 'components/Game/hooks/use-keyboard';
-import { usePlayers } from 'components/Game/hooks/use-players';
+import { useStatistic } from 'components/Game/hooks/use-statistic';
 import { useTimeout } from 'hooks/use-timeout';
 import React, { FC, useState } from 'react';
 
@@ -73,17 +73,24 @@ export const Game: FC<Props> = ({
     },
   });
   const { cells, setFieldCell } = useField(initialWord);
-  const { players, isDraw, isBotsTurn, turn, skipTurn, finishTurn } =
-    usePlayers({
-      names,
-      gameMode,
-      isPause: Boolean(pause),
-    });
-  const { isEndGame, endGame } = useEndGame(
-    (checkIsFieldFilled(cells) && isNull(enteredLetterCoord)) || isDraw,
-  );
+  const {
+    players,
+    isDraw,
+    isBotsTurn,
+    turn,
+    isEndGame,
+    endGame,
+    skipTurn,
+    finishTurn,
+  } = useStatistic({
+    names,
+    gameMode,
+    isPause: Boolean(pause),
+    isFieldFilled: checkIsFieldFilled(cells) && isNull(enteredLetterCoord),
+  });
 
   const lastSelected = selectedCells[selectedCells.length - 1];
+  const winner = players[0].score > players[1].score ? players[0] : players[1];
 
   const getUsedWords = () => getWordsFromPlayers(players).concat(initialWord);
 
@@ -172,66 +179,69 @@ export const Game: FC<Props> = ({
   });
 
   return (
-    <Box display="flex" justifyContent="center">
-      <ShowUpMd>
-        <SideSection stick="right">
-          <Statistic
-            player={players[0]}
-            scoreOrientation={ScoreOrientation.RIGHT}
-            active={turn === 0}
-            setHighlightedCoords={setHighlightedCoords}
+    <>
+      <Box display="flex" justifyContent="center">
+        <ShowUpMd>
+          <SideSection stick="right">
+            <Statistic
+              player={players[0]}
+              scoreOrientation={ScoreOrientation.RIGHT}
+              active={turn === 0}
+              setHighlightedCoords={setHighlightedCoords}
+            />
+          </SideSection>
+        </ShowUpMd>
+        <Box display="flex" flexDirection="column" alignItems="center" pt={1.5}>
+          <TopScores players={players} turn={turn} />
+          <WordPreview
+            enteredLetterCoord={enteredLetterCoord}
+            selectedCells={selectedCells}
+            error={error}
+            lettersShaking={isLettersShaking}
           />
-        </SideSection>
-      </ShowUpMd>
-      <Box display="flex" flexDirection="column" alignItems="center" pt={1.5}>
-        <TopScores players={players} turn={turn} />
-        <WordPreview
-          enteredLetterCoord={enteredLetterCoord}
-          selectedCells={selectedCells}
-          error={error}
-          lettersShaking={isLettersShaking}
-        />
-        <Field
-          cells={cells}
-          setFieldCell={setFieldCell}
-          enteredLetterCoord={enteredLetterCoord}
-          setEnteredLetterCoord={setEnteredLetterCoord}
-          selectedCells={selectedCells}
-          setSelectedCells={setSelectedCells}
-          resetError={resetError}
-          undo={undo}
-          enteredLetterRotating={isEnteredLetterRotating}
-          highlightedCoords={highlightedCoords}
-          botsTurn={isBotsTurn}
-          lettersZoomIn={isZoomIn}
-          lettersZoomOut={isZoomOut}
-        />
-        <Actions
-          onClearSelection={clearSelection}
-          onSkipTurn={onSkipTurn}
-          onUndo={undo}
-          onCapitulate={openMenu}
-          disabled={isBotsTurn || isEndGame}
-        />
-        <HideUpMd>
-          <StatisticsButtonLazy players={players} turn={turn} />
-        </HideUpMd>
-        <FinishTurnButton
-          onClick={isEndGame ? openMenu : onCheckWord}
-          botsTurn={isBotsTurn}
-          endGame={isEndGame}
-        />
+          <Field
+            cells={cells}
+            setFieldCell={setFieldCell}
+            enteredLetterCoord={enteredLetterCoord}
+            setEnteredLetterCoord={setEnteredLetterCoord}
+            selectedCells={selectedCells}
+            setSelectedCells={setSelectedCells}
+            resetError={resetError}
+            undo={undo}
+            enteredLetterRotating={isEnteredLetterRotating}
+            highlightedCoords={highlightedCoords}
+            botsTurn={isBotsTurn}
+            lettersZoomIn={isZoomIn}
+            lettersZoomOut={isZoomOut}
+          />
+          <Actions
+            onClearSelection={clearSelection}
+            onSkipTurn={onSkipTurn}
+            onUndo={undo}
+            onCapitulate={openMenu}
+            disabled={isBotsTurn || isEndGame}
+          />
+          <HideUpMd>
+            <StatisticsButtonLazy players={players} turn={turn} />
+          </HideUpMd>
+          <FinishTurnButton
+            onClick={isEndGame ? openMenu : onCheckWord}
+            botsTurn={isBotsTurn}
+            endGame={isEndGame}
+          />
+        </Box>
+        <ShowUpMd>
+          <SideSection stick="left">
+            <Statistic
+              player={players[1]}
+              scoreOrientation={ScoreOrientation.LEFT}
+              active={turn === 1}
+              setHighlightedCoords={setHighlightedCoords}
+            />
+          </SideSection>
+        </ShowUpMd>
       </Box>
-      <ShowUpMd>
-        <SideSection stick="left">
-          <Statistic
-            player={players[1]}
-            scoreOrientation={ScoreOrientation.LEFT}
-            active={turn === 1}
-            setHighlightedCoords={setHighlightedCoords}
-          />
-        </SideSection>
-      </ShowUpMd>
-    </Box>
+      <Results winnerName={winner.name} draw={isDraw} endGame={isEndGame} />
+    </>
   );
 };
