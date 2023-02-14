@@ -57,16 +57,18 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
         sx: styles.dialogPaper,
       }}
     >
-      <DialogTitle variant="h4" textAlign="center">
+      <DialogTitle textAlign="center">
         <Typography
-          component="span"
+          component="h1"
           variant="h4"
           color="primary"
           fontWeight={600}
         >
           БАЛДА
-        </Typography>{' '}
-        українською
+        </Typography>
+        <Typography component="h2" variant="h5">
+          гра в слова українською
+        </Typography>
       </DialogTitle>
       <DialogContent sx={{ height: [286, 292, 217], pb: 0, mb: 1 }}>
         <Accordion
