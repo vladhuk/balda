@@ -18,8 +18,12 @@ export const Feedback: FC = () => {
         <IconButton size="small" href="https://t.me/vladhuk" target="_blank">
           <TelegramIcon fontSize="small" />
         </IconButton>
-        <Divider orientation="vertical" sx={{ height: '60%', mx: 0.5 }} />
-        <IconButton size="small" href="https://github.com/hraimo/balda">
+        <Divider orientation="vertical" sx={{ height: '60%', mx: 0.75 }} />
+        <IconButton
+          size="small"
+          href="https://github.com/hraimo/balda"
+          target="_blank"
+        >
           <GitHubIcon fontSize="small" />
         </IconButton>
       </Box>
