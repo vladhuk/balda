@@ -27,7 +27,7 @@ export const WordScoreList: FC<Props> = ({
       <Link
         color="secondary.dark"
         target="_blank"
-        href={`http://sum.in.ua/?swrd=${word.letters}`}
+        href={`https://goroh.pp.ua/%D0%A2%D0%BB%D1%83%D0%BC%D0%B0%D1%87%D0%B5%D0%BD%D0%BD%D1%8F/${word.letters}`}
         onMouseEnter={() =>
           setHighlighDelayTimeout(
             setTimeout(() => setHighlightedCoords?.(word.coords), 100),

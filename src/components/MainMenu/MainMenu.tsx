@@ -57,7 +57,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
         sx: styles.dialogPaper,
       }}
     >
-      <DialogTitle textAlign="center">
+      <DialogTitle component="div" textAlign="center">
         <Typography
           component="h1"
           variant="h4"
