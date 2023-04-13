@@ -8,10 +8,12 @@ export const closeButton: SxProps = {
 
 export const screenshot: SxProps = {
   width: [150, 200, 200, 220],
+  height: 'auto',
 };
 
 export const keyImage: SxProps = {
   height: 30,
+  width: 'auto',
 };
 
 export const backdrop: SxProps<Theme> = ({ zIndex, palette }) => ({

@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { AccordionDetails } from 'components/MainMenu/styled';
 import { Difficulty } from 'enums/difficulty.enum';
-import { Feedback } from 'components/Feedback/Feedback';
+import { Feedback } from 'components/MainMenu/components/Feedback/Feedback';
 import { GameMode } from 'enums/game-mode.enum';
 import { Tutorial } from 'components/_common/Tutorial/Tutorial';
 import { useIsUpMd } from 'hooks/use-is-up-md';

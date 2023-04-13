@@ -1,9 +1,8 @@
 import * as styles from 'components/Game/components/Results/styles';
 import { Backdrop, Box, Button, Typography } from '@mui/material';
 import { Confetti } from 'components/Game/components/Results/utils/confetti';
+import { useOnFirstRender } from 'hooks/use-on-first-render';
 import React, { FC, useEffect, useState } from 'react';
-
-const confetti = new Confetti(500 / window.innerHeight);
 
 interface Props {
   winnerName: string;
@@ -12,6 +11,9 @@ interface Props {
 }
 
 export const Results: FC<Props> = ({ winnerName, endGame, draw }) => {
+  const confetti = useOnFirstRender(
+    () => new Confetti(500 / window.innerHeight),
+  );
   const [isOpened, setIsOpened] = useState(false);
 
   useEffect(() => {
@@ -23,10 +25,10 @@ export const Results: FC<Props> = ({ winnerName, endGame, draw }) => {
       return;
     }
     if (isOpened) {
-      confetti.fire();
+      confetti?.fire();
       return;
     }
-    confetti.reset();
+    confetti?.reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpened]);
 

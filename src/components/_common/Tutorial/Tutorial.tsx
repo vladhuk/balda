@@ -10,6 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Delete from 'assets/del-button.png';
 import Enter from 'assets/enter-button.png';
 import Escape from 'assets/esc-button.png';
+import Image from 'next/image';
 import React, { FC } from 'react';
 import Screenshot1 from 'assets/tutorial-1.png';
 import Screenshot2 from 'assets/tutorial-2.png';
@@ -46,13 +47,13 @@ export const Tutorial: FC<Props> = ({ open, onClose }) => {
         </Typography>
         <Box display="flex" justifyContent="space-around" my={2}>
           <Box
-            component="img"
+            component={Image}
             src={Screenshot1}
             alt="Приклад 1"
             sx={styles.screenshot}
           />
           <Box
-            component="img"
+            component={Image}
             src={Screenshot2}
             alt="Приклад 2"
             sx={styles.screenshot}
@@ -86,28 +87,28 @@ export const Tutorial: FC<Props> = ({ open, onClose }) => {
           </Typography>
           <ControlsDescription>
             <Box
-              component="img"
+              component={Image}
               src={ArrowUp}
               alt="Вгору"
               sx={styles.keyImage}
             />
             ,
             <Box
-              component="img"
+              component={Image}
               src={ArrowRight}
               alt="Вправо"
               sx={styles.keyImage}
             />
             ,
             <Box
-              component="img"
+              component={Image}
               src={ArrowDown}
               alt="Вниз"
               sx={styles.keyImage}
             />
             ,
             <Box
-              component="img"
+              component={Image}
               src={ArrowLeft}
               alt="Вліво"
               sx={styles.keyImage}
@@ -115,12 +116,17 @@ export const Tutorial: FC<Props> = ({ open, onClose }) => {
             - вибрати наступну клітинку.
           </ControlsDescription>
           <ControlsDescription>
-            <Box component="img" src={Enter} alt="Enter" sx={styles.keyImage} />
+            <Box
+              component={Image}
+              src={Enter}
+              alt="Enter"
+              sx={styles.keyImage}
+            />
             - завершити хід.
           </ControlsDescription>
           <ControlsDescription>
             <Box
-              component="img"
+              component={Image}
               src={Delete}
               alt="Delete"
               sx={styles.keyImage}
@@ -129,7 +135,7 @@ export const Tutorial: FC<Props> = ({ open, onClose }) => {
           </ControlsDescription>
           <ControlsDescription>
             <Box
-              component="img"
+              component={Image}
               src={Escape}
               alt="Escape"
               sx={styles.keyImage}

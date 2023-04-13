@@ -1,6 +1,6 @@
-import { IS_TOUCH_DEVICE } from 'constants/common';
+import { useIsTouchDevice } from 'hooks/use-is-touch-device';
 import React, { FC, PropsWithChildren } from 'react';
 
 export const HideForTouchDevice: FC<PropsWithChildren> = ({ children }) => {
-  return IS_TOUCH_DEVICE ? null : <>{children}</>;
+  return useIsTouchDevice() ? null : <>{children}</>;
 };

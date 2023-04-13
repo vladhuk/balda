@@ -1,12 +1,13 @@
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { Difficulty } from 'enums/difficulty.enum';
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { LETTER_SELECTION_DELAY_FOR_BOT } from 'components/Game/constants';
 import { Word, deserialize as deserializeWord } from 'types/word.interface';
 import { getWordByDifficulty } from 'components/Game/hooks/use-bots-turn/utils/get-words-by-difficulty';
 import { isNotEmpty } from 'utils/null/is-not-empty';
 import { isUndefined } from 'lodash';
+import { useOnFirstRender } from 'hooks/use-on-first-render';
 
 export function useBotsTurn({
   onFinishTurn,
@@ -29,12 +30,11 @@ export function useBotsTurn({
   difficulty: Difficulty;
   endGame: () => void;
 }): void {
-  const getAvailableWordsWorker = useMemo(
+  const getAvailableWordsWorker = useOnFirstRender(
     () =>
       new Worker(
         new URL('./workers/get-available-words.worker', import.meta.url),
       ),
-    [],
   );
   const [shouldBotFinishTurn, setShouldBotFinishTurn] = useState(false);
 
@@ -62,7 +62,7 @@ export function useBotsTurn({
   };
 
   useEffect(() => {
-    if (!isBotsTurn) {
+    if (!isBotsTurn || isUndefined(getAvailableWordsWorker)) {
       return;
     }
 

@@ -1,5 +1,4 @@
 import { Box, Link, Typography } from '@mui/material';
-import { logger } from 'config/logger/logger';
 import React, { Component, ErrorInfo, PropsWithChildren } from 'react';
 
 interface State {
@@ -16,7 +15,8 @@ export class ErrorBoundary extends Component<PropsWithChildren, State> {
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  async componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    const logger = (await import('config/logger/logger')).default;
     logger.error({ message: error.message, errorInfo });
   }
 

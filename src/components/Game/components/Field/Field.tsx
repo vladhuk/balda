@@ -3,7 +3,6 @@ import { Box, ClickAwayListener } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { FieldCell } from 'components/Game/components/Field/styled';
-import { IS_TOUCH_DEVICE } from 'constants/common';
 import { Key } from 'enums/key.enum';
 import { getCellKey } from 'utils/cell/get-cell-key';
 import { isEmpty, isNull } from 'lodash';
@@ -11,6 +10,7 @@ import { isNotEmpty } from 'utils/null/is-not-empty';
 import { isNotNull } from 'utils/null/is-not-null';
 import { isNotUndefined } from 'utils/null/is-not-undefined';
 import { useCellHandlerOnPressArrows } from 'components/Game/components/Field/hooks/use-cell-handler-on-press-arrows';
+import { useIsTouchDevice } from 'hooks/use-is-touch-device';
 import React, {
   ChangeEvent,
   Dispatch,
@@ -50,6 +50,8 @@ export const Field: FC<Props> = ({
   lettersZoomIn,
   lettersZoomOut,
 }) => {
+  const isTouchDevice = useIsTouchDevice();
+
   const lastSelected: Cell | undefined =
     selectedCells[selectedCells.length - 1];
 
@@ -132,7 +134,7 @@ export const Field: FC<Props> = ({
     if (isNotEmpty(cell.value)) {
       return false;
     }
-    if (IS_TOUCH_DEVICE) {
+    if (isTouchDevice) {
       return checkIsCellClickable(cell);
     }
     return checkIsLastSelected(cell);
@@ -168,7 +170,7 @@ export const Field: FC<Props> = ({
     cell: Cell,
     input: HTMLInputElement | null,
   ) => {
-    if (!IS_TOUCH_DEVICE && isNotNull(input) && checkCanEnterLetter(cell)) {
+    if (!isTouchDevice && isNotNull(input) && checkCanEnterLetter(cell)) {
       input.focus();
     }
   };

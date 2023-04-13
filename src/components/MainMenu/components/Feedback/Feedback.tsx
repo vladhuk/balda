@@ -1,4 +1,4 @@
-import * as styles from 'components/Feedback/styles';
+import * as styles from 'components/MainMenu/components/Feedback/styles';
 import { Box, Divider, IconButton, Typography } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
