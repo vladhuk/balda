@@ -1,13 +1,18 @@
 import { FC } from 'react';
 import { GtmNoscript } from 'lib/google-tag-manager/gtm.noscript';
-import { GtmScript } from 'lib/google-tag-manager/gtm.script';
 import { Head, Html, Main, NextScript } from 'next/document';
+import { gtmScriptInnerHtml } from 'lib/google-tag-manager/inner-html';
+import Script from 'next/script';
 
 const Document: FC = () => {
   return (
     <Html lang="en">
       <Head>
-        <GtmScript strategy="beforeInteractive" />
+        <Script
+          id="gtm"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: gtmScriptInnerHtml }}
+        />
 
         <meta name="theme-color" content="#e4eff1" />
         <meta
