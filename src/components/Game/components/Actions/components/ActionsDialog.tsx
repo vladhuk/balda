@@ -7,11 +7,11 @@ import {
   Slide,
   Zoom,
 } from '@mui/material';
+import { FC, useRef, useState } from 'react';
 import { Tutorial } from 'components/_common/Tutorial/Tutorial';
 import CloseIcon from '@mui/icons-material/Close';
 import FlagIcon from '@mui/icons-material/Flag';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import React, { FC, useRef, useState } from 'react';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 
 interface Props {

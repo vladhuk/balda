@@ -1,8 +1,8 @@
 import * as styles from 'components/MainMenu/components/Feedback/styles';
 import { Box, Divider, IconButton, Typography } from '@mui/material';
+import { FC } from 'react';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import React, { FC } from 'react';
 import TelegramIcon from '@mui/icons-material/Telegram';
 
 export const Feedback: FC = () => {

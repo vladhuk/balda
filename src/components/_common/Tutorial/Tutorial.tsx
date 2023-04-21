@@ -1,6 +1,7 @@
 import * as styles from 'components/_common/Tutorial/styles';
 import { Backdrop, Box, IconButton, Typography } from '@mui/material';
 import { ControlsDescription } from 'components/_common/Tutorial/styled';
+import { FC } from 'react';
 import { HideForTouchDevice } from 'components/_common/HideForTouchDevice';
 import ArrowDown from 'assets/down-arrow-button.png';
 import ArrowLeft from 'assets/left-arrow-button.png';
@@ -11,7 +12,6 @@ import Delete from 'assets/del-button.png';
 import Enter from 'assets/enter-button.png';
 import Escape from 'assets/esc-button.png';
 import Image from 'next/image';
-import React, { FC } from 'react';
 import Screenshot1 from 'assets/tutorial-1.png';
 import Screenshot2 from 'assets/tutorial-2.png';
 

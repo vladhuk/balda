@@ -1,4 +1,5 @@
 import * as styles from 'components/Game/components/Statistic/styles';
+import { FC } from 'react';
 import {
   Name,
   NameAndScoreOrientationContainer,
@@ -6,7 +7,6 @@ import {
 import { Player } from 'types/player.interface';
 import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
 import { Typography } from '@mui/material';
-import React, { FC } from 'react';
 
 interface Props {
   player: Player;

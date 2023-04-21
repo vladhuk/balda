@@ -1,6 +1,13 @@
 import { ALPHABET } from 'components/Game/components/Field/constants';
 import { Box, ClickAwayListener } from '@mui/material';
 import { Cell } from 'types/cell.interface';
+import {
+  ChangeEvent,
+  Dispatch,
+  FC,
+  KeyboardEvent,
+  SetStateAction,
+} from 'react';
 import { Coord } from 'helpers/coord';
 import { FieldCell } from 'components/Game/components/Field/styled';
 import { Key } from 'enums/key.enum';
@@ -11,13 +18,6 @@ import { isNotNull } from 'utils/null/is-not-null';
 import { isNotUndefined } from 'utils/null/is-not-undefined';
 import { useCellHandlerOnPressArrows } from 'components/Game/components/Field/hooks/use-cell-handler-on-press-arrows';
 import { useIsTouchDevice } from 'hooks/use-is-touch-device';
-import React, {
-  ChangeEvent,
-  Dispatch,
-  FC,
-  KeyboardEvent,
-  SetStateAction,
-} from 'react';
 
 interface Props {
   cells: Cell[][];

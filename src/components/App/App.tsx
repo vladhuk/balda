@@ -1,9 +1,9 @@
 import { Difficulty } from 'enums/difficulty.enum';
+import { FC, useState } from 'react';
 import { Game } from 'components/Game/Game';
 import { GameMode } from 'enums/game-mode.enum';
 import { MainContainer } from 'components/App/styled';
 import { MainMenu } from 'components/MainMenu/MainMenu';
-import React, { FC, useState } from 'react';
 
 export const App: FC = () => {
   const [difficulty, setDifficulty] = useState(Difficulty.MEDIUM);

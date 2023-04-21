@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { Difficulty } from 'enums/difficulty.enum';
+import { FC, useState } from 'react';
 import { Field } from 'components/Game/components/Field/Field';
 import { FinishTurnButton } from 'components/Game/components/FinishTurnButton/FinishTurnButton';
 import { GameMode } from 'enums/game-mode.enum';
@@ -34,7 +35,6 @@ import { useInputError } from 'components/Game/hooks/use-input-error';
 import { useKeyboard } from 'components/Game/hooks/use-keyboard';
 import { useStatistic } from 'components/Game/hooks/use-statistic';
 import { useTimeout } from 'hooks/use-timeout';
-import React, { FC, useState } from 'react';
 
 interface Props {
   pause?: boolean;

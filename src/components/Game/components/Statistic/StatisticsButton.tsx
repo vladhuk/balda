@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { Drawer } from 'components/Game/components/Statistic/components/Drawer/Drawer';
+import { FC, useState } from 'react';
 import { Player } from 'types/player.interface';
-import React, { FC, useState } from 'react';
 
 interface Props {
   players: Player[];

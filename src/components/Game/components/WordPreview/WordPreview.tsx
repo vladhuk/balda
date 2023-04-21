@@ -1,6 +1,7 @@
 import { Box, Divider, FormHelperText, Zoom } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
+import { FC } from 'react';
 import { InputError } from 'components/Game/enums/input-error.enum';
 import {
   Letter,
@@ -8,7 +9,6 @@ import {
 } from 'components/Game/components/WordPreview/styled';
 import { getCellKey } from 'utils/cell/get-cell-key';
 import { isEmpty, isNull } from 'lodash';
-import React, { FC } from 'react';
 
 interface Props {
   error: InputError;

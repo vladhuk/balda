@@ -1,5 +1,5 @@
 import { Box, Link, Typography } from '@mui/material';
-import React, { Component, ErrorInfo, PropsWithChildren } from 'react';
+import { Component, ErrorInfo, PropsWithChildren } from 'react';
 
 interface State {
   hasError: boolean;

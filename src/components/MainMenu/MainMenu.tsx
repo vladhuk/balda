@@ -14,13 +14,13 @@ import {
 } from '@mui/material';
 import { AccordionDetails } from 'components/MainMenu/styled';
 import { Difficulty } from 'enums/difficulty.enum';
+import { FC, useState } from 'react';
 import { Feedback } from 'components/MainMenu/components/Feedback/Feedback';
 import { GameMode } from 'enums/game-mode.enum';
 import { Tutorial } from 'components/_common/Tutorial/Tutorial';
 import { useIsUpMd } from 'hooks/use-is-up-md';
 import { useTransitionDuration } from 'components/MainMenu/hooks/use-transition-duration';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React, { FC, useState } from 'react';
 
 interface Props {
   open: boolean;

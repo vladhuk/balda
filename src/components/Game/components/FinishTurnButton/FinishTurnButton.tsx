@@ -1,7 +1,7 @@
 import * as styles from 'components/Game/components/FinishTurnButton/styles';
 import { Box, Button } from '@mui/material';
+import { FC } from 'react';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
-import React, { FC } from 'react';
 
 interface Props {
   onClick: () => void;

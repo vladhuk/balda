@@ -1,8 +1,8 @@
 import * as styles from 'components/Game/components/Results/styles';
 import { Backdrop, Box, Button, Typography } from '@mui/material';
 import { Confetti } from 'components/Game/components/Results/utils/confetti';
+import { FC, useEffect, useState } from 'react';
 import { useOnFirstRender } from 'hooks/use-on-first-render';
-import React, { FC, useEffect, useState } from 'react';
 
 interface Props {
   winnerName: string;
