@@ -3,55 +3,44 @@
   "version": "1.0.0",
   "dependencies": {
     "@emotion/is-prop-valid": "^1.2.0",
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@mui/icons-material": "^5.11.0",
-    "@mui/material": "^5.10.17",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^13.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "@types/jest": "^27.0.1",
-    "@types/node": "^16.7.13",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.13.1",
     "canvas-confetti": "^1.6.0",
     "lodash": "^4.17.21",
     "loggly-jslogger": "^2.2.4",
     "next": "^13.3.0",
     "next-pwa": "^5.6.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "typescript": "^4.4.2"
+    "react-dom": "^18.2.0"
   },
   "scripts": {
     "build": "next build",
     "start": "next dev",
-    "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings=0 --fix",
+    "lint": "next lint --max-warnings=0 --fix",
     "prepare": "husky install"
   },
   "devDependencies": {
     "@types/canvas-confetti": "^1.6.0",
     "@types/lodash": "^4.14.191",
-    "@typescript-eslint/eslint-plugin": "^5.13.0",
-    "@typescript-eslint/parser": "^5.0.0",
+    "@types/node": "^20.1.7",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.6",
+    "@typescript-eslint/parser": "^5.59.6",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-next": "^13.3.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-no-relative-import-paths": "^1.5.2",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^8.0.2",
     "lint-staged": "^13.1.0",
-    "prettier": "^2.8.1"
-  },
-  "lint-staged": {
-    "src/**/*.{ts,tsx}": "eslint --max-warnings=0 --fix"
+    "prettier": "^2.8.1",
+    "typescript": "^5.0.4"
   }
 }

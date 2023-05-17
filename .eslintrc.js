@@ -17,7 +17,6 @@ module.exports = {
   ],
   extends: [
     'airbnb',
-    'airbnb/hooks',
     'airbnb-typescript',
     'next/core-web-vitals',
     'plugin:@typescript-eslint/recommended',
@@ -30,7 +29,12 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js', '**/*.png', 'next.config.js'],
+  ignorePatterns: [
+    '.eslintrc.js',
+    '**/*.png',
+    'next.config.js',
+    '.lintstagedrc.js',
+  ],
   rules: {
     'prettier/prettier': WARN,
 

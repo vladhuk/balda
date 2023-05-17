@@ -137,6 +137,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
         <Link
           component="button"
           color="secondary"
+          fontSize="small"
           sx={{ mb: 2 }}
           onClick={() => setIsTutorialOpened(true)}
         >
