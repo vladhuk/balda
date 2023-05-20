@@ -21,7 +21,7 @@ export const Feedback: FC = () => {
         <Divider orientation="vertical" sx={{ height: '60%', mx: 0.75 }} />
         <IconButton
           size="small"
-          href="https://github.com/hraimo/balda"
+          href="https://github.com/vladhuk/balda"
           target="_blank"
         >
           <GitHubIcon fontSize="small" />
