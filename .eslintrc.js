@@ -18,23 +18,19 @@ module.exports = {
   extends: [
     'airbnb',
     'airbnb-typescript',
-    'next/core-web-vitals',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'prettier',
     'plugin:prettier/recommended',
+    'plugin:@next/next/recommended',
+    'next/core-web-vitals',
   ],
   root: true,
   env: {
     node: true,
     jest: true,
   },
-  ignorePatterns: [
-    '.eslintrc.js',
-    '**/*.png',
-    'next.config.js',
-    '.lintstagedrc.js',
-  ],
+  ignorePatterns: ['.eslintrc.js', '**/*.png', 'next.config.js'],
   rules: {
     'prettier/prettier': WARN,
 

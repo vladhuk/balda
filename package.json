@@ -18,10 +18,11 @@
   "scripts": {
     "build": "next build",
     "start": "next dev",
-    "lint": "next lint --max-warnings=0 --fix",
+    "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings=0 --fix",
     "prepare": "husky install"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^13.3.0",
     "@types/canvas-confetti": "^1.6.0",
     "@types/lodash": "^4.14.191",
     "@types/node": "^20.1.7",
@@ -34,13 +35,20 @@
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-next": "^13.3.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-no-relative-import-paths": "^1.5.2",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^8.0.2",
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.1",
     "typescript": "^5.0.4"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": "eslint --max-warnings=0 --fix"
   }
 }

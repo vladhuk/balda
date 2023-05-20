@@ -39,6 +39,9 @@ dependencies:
     version: 18.2.0(react@18.2.0)
 
 devDependencies:
+  '@next/eslint-plugin-next':
+    specifier: ^13.3.0
+    version: 13.3.0
   '@types/canvas-confetti':
     specifier: ^1.6.0
     version: 1.6.0
@@ -75,12 +78,24 @@ devDependencies:
   eslint-config-prettier:
     specifier: ^8.5.0
     version: 8.5.0(eslint@8.2.0)
+  eslint-plugin-import:
+    specifier: ^2.25.3
+    version: 2.27.5(@typescript-eslint/parser@5.59.6)(eslint-import-resolver-typescript@3.5.5)(eslint@8.2.0)
+  eslint-plugin-jsx-a11y:
+    specifier: ^6.5.1
+    version: 6.5.1(eslint@8.2.0)
   eslint-plugin-no-relative-import-paths:
     specifier: ^1.5.2
     version: 1.5.2
   eslint-plugin-prettier:
     specifier: ^4.2.1
     version: 4.2.1(eslint-config-prettier@8.5.0)(eslint@8.2.0)(prettier@2.8.1)
+  eslint-plugin-react:
+    specifier: ^7.28.0
+    version: 7.32.2(eslint@8.2.0)
+  eslint-plugin-react-hooks:
+    specifier: ^4.3.0
+    version: 4.6.0(eslint@8.2.0)
   eslint-plugin-sort-imports-es6-autofix:
     specifier: ^0.6.0
     version: 0.6.0(eslint@8.2.0)
