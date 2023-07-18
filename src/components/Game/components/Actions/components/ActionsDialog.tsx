@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { FC, useRef, useState } from 'react';
 import { Tutorial } from 'components/_common/Tutorial/Tutorial';
+import { useCommonTranslation } from 'hooks/use-common-translation';
 import CloseIcon from '@mui/icons-material/Close';
 import FlagIcon from '@mui/icons-material/Flag';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
@@ -27,6 +28,7 @@ export const ActionsDialog: FC<Props> = ({
   onClose,
   onCapitulate,
 }) => {
+  const t = useCommonTranslation('actions');
   const slideContainerRef = useRef(null);
   const [isTutorialOpened, setIsTutorialOpened] = useState(false);
 
@@ -51,7 +53,7 @@ export const ActionsDialog: FC<Props> = ({
                 onClick={onSkipTurn}
                 fullWidth
               >
-                Пропустити хід
+                {t('skipTurn')}
               </Button>
             </Box>
           </Slide>
@@ -64,7 +66,7 @@ export const ActionsDialog: FC<Props> = ({
                 onClick={onCapitulate}
                 fullWidth
               >
-                Здатися
+                {t('surrender')}
               </Button>
             </Box>
           </Slide>
@@ -77,7 +79,7 @@ export const ActionsDialog: FC<Props> = ({
                 onClick={() => setIsTutorialOpened(true)}
                 fullWidth
               >
-                Як грати
+                {t('tutorial')}
               </Button>
             </div>
           </Slide>

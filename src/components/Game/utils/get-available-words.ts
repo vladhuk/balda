@@ -1,15 +1,13 @@
-import { ALPHABET } from 'components/Game/components/Field/constants';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { Word } from 'types/word.interface';
 import { difference, groupBy, sample } from 'lodash';
-import { getNouns } from 'data/lazy';
 import { isNotEmpty } from 'utils/null/is-not-empty';
 import { isNotNull } from 'utils/null/is-not-null';
 
 class TemplateBuilder {
   constructor(
-    private readonly field: Cell[][],
+    private readonly cells: Cell[][],
     private readonly dictionary: string[],
   ) {}
 
@@ -30,9 +28,9 @@ class TemplateBuilder {
 
   /**
    * @example
-   * getTemplatesForCoord(field);
+   * getTemplatesForCoord(cells);
    * // {
-   * //   { letters: 'п*', coords: [{ x: 0, y: 0 }, { x: 0, y: 1 }]},
+   * //   { letters: 'a*', coords: [{ x: 0, y: 0 }, { x: 0, y: 1 }]},
    * // }
    * @returns Return words with one empty letter marked as `*`
    */
@@ -41,7 +39,7 @@ class TemplateBuilder {
     templates: Word[] = [],
     template: Word = { letters: '', coords: [] },
   ): Word[] {
-    const cell = this.field[coord.y][coord.x];
+    const cell = this.cells[coord.y][coord.x];
 
     if (!cell.value && template.letters.includes('*')) {
       return templates;
@@ -79,40 +77,51 @@ class TemplateBuilder {
   }
 
   getTemplates(): Word[] {
-    return this.field
+    return this.cells
       .flatMap((row) => row)
       .map(({ coord }) => this.getTemplatesForCoord(coord))
       .flatMap((word) => word);
   }
 }
 
-function mapTemplateToRegExp(template: string): RegExp {
+/**
+ * @example
+ * mapTemplateToRegExp('a*', 'ABC'); // /^a[ABC]$/
+ */
+function mapTemplateToRegExp(template: string, alphabet: string): RegExp {
   const slices = template.split('*');
   return new RegExp(
-    `^${slices[0] ?? ''}[${ALPHABET}]${slices[1] ?? ''}$`.toLowerCase(),
+    `^${slices[0] ?? ''}[${alphabet}]${slices[1] ?? ''}$`.toLowerCase(),
   );
 }
 
 /**
- * @returns Available words for field. If there are different possible words for
+ * @returns Available words for given cells. If there are different possible words for
  * single position, returns random one. If there are different positions available
  * for single word, gives random position
  */
-export function getAvailableWords(
-  field: Cell[][],
-  excludedWords: string[] = [],
-): Word[] {
-  const nouns = getNouns();
-  const templates = new TemplateBuilder(field, nouns).getTemplates();
+export function getAvailableWords({
+  cells,
+  excludedWords = [],
+  dictionary,
+  alphabet,
+}: {
+  cells: Cell[][];
+  excludedWords?: string[];
+  dictionary: string[];
+  alphabet: string;
+}): Word[] {
+  const templates = new TemplateBuilder(cells, dictionary).getTemplates();
   const templatesGroups = groupBy(templates, ({ letters }) => letters);
-  const vocabulary = difference(nouns, excludedWords);
+  const filteredDictionary = difference(dictionary, excludedWords);
 
   return Object.keys(templatesGroups)
     .map((template) => {
-      const regExp = mapTemplateToRegExp(template);
+      const regExp = mapTemplateToRegExp(template, alphabet);
 
       return {
-        letters: sample(vocabulary.filter((noun) => regExp.test(noun))) ?? '',
+        letters:
+          sample(filteredDictionary.filter((noun) => regExp.test(noun))) ?? '',
         coords: sample(templatesGroups[template])?.coords ?? [],
       };
     })

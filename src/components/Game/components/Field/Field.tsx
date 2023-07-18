@@ -1,4 +1,3 @@
-import { ALPHABET } from 'components/Game/components/Field/constants';
 import { Box, ClickAwayListener } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import {
@@ -16,6 +15,7 @@ import { isEmpty, isNull } from 'lodash';
 import { isNotEmpty } from 'utils/null/is-not-empty';
 import { isNotNull } from 'utils/null/is-not-null';
 import { isNotUndefined } from 'utils/null/is-not-undefined';
+import { useAlphabet } from 'components/Game/hooks/use-alphabet';
 import { useCellHandlerOnPressArrows } from 'components/Game/components/Field/hooks/use-cell-handler-on-press-arrows';
 import { useIsTouchDevice } from 'hooks/use-is-touch-device';
 
@@ -51,6 +51,7 @@ export const Field: FC<Props> = ({
   lettersZoomOut,
 }) => {
   const isTouchDevice = useIsTouchDevice();
+  const alphabet = useAlphabet();
 
   const lastSelected: Cell | undefined =
     selectedCells[selectedCells.length - 1];
@@ -116,7 +117,7 @@ export const Field: FC<Props> = ({
     (cell: Cell) => (event: ChangeEvent<HTMLInputElement>) => {
       const uppercasedValue = event.target.value.toUpperCase();
 
-      if (!ALPHABET.includes(uppercasedValue)) {
+      if (!alphabet.includes(uppercasedValue)) {
         return;
       }
       if (isNull(enteredLetterCoord)) {

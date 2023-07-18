@@ -1,12 +1,19 @@
+import { DocumentProps, Head, Html, Main, NextScript } from 'next/document';
 import { FC } from 'react';
 import { GtmNoscript } from 'lib/google-tag-manager/gtm.noscript';
-import { Head, Html, Main, NextScript } from 'next/document';
 import { gtmScriptInnerHtml } from 'lib/google-tag-manager/inner-html';
+import { i18n } from '../../next-i18next.config';
 import Script from 'next/script';
 
-const Document: FC = () => {
+const Document: FC<DocumentProps> = ({
+  __NEXT_DATA__: {
+    query: { locale },
+  },
+}) => {
+  const lang = typeof locale === 'string' ? locale : i18n.defaultLocale;
+
   return (
-    <Html lang="en">
+    <Html lang={lang}>
       <Head>
         <Script
           id="gtm"
@@ -15,23 +22,10 @@ const Document: FC = () => {
         />
 
         <meta name="theme-color" content="#e4eff1" />
-        <meta
-          name="description"
-          content="Балда - це лінгвістична настільна гра або простіше кажучи 'гра в слова'. Грай удвох із другом або ботом навіть за відсутності інтернету."
-        />
 
         <link rel="icon" href="/images/favicon.ico" />
         <link rel="apple-touch-icon" href="/images/maskable_192.png" />
         <link rel="manifest" href="/manifest.json" />
-
-        <meta property="og:url" content="https://balda.org.ua" />
-        <meta property="og:title" content="Балда - Гра в слова українською" />
-        <meta
-          property="og:description"
-          content="Балда - це лінгвістична настільна гра або простіше кажучи 'гра в слова'. Грай удвох із другом або ботом навіть за відсутності інтернету."
-        />
-        <meta property="og:image" content="/images/og.png" />
-        <meta property="og:locale" content="uk_UA" />
       </Head>
       <body>
         <GtmNoscript />

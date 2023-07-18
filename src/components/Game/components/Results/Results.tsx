@@ -2,6 +2,7 @@ import * as styles from 'components/Game/components/Results/styles';
 import { Backdrop, Box, Button, Typography } from '@mui/material';
 import { Confetti } from 'components/Game/components/Results/utils/confetti';
 import { FC, useEffect, useState } from 'react';
+import { useCommonTranslation } from 'hooks/use-common-translation';
 import { useOnFirstRender } from 'hooks/use-on-first-render';
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export const Results: FC<Props> = ({ winnerName, endGame, draw }) => {
+  const t = useCommonTranslation('results');
   const confetti = useOnFirstRender(
     () => new Confetti(500 / window.innerHeight),
   );
@@ -42,7 +44,7 @@ export const Results: FC<Props> = ({ winnerName, endGame, draw }) => {
       transitionDuration={500}
     >
       <Typography variant="h3" fontWeight={600} mb={2}>
-        {draw ? 'Нічия 🗿' : 'Переможець'}
+        {draw ? `${t('draw')} 🗿` : t('winner')}
       </Typography>
       {!draw && (
         <Box display="flex" justifyContent="center">
@@ -54,7 +56,7 @@ export const Results: FC<Props> = ({ winnerName, endGame, draw }) => {
         </Box>
       )}
       <Button size="large" sx={{ mt: 15 }}>
-        Зрозуміло
+        {t('ok')}
       </Button>
     </Backdrop>
   );

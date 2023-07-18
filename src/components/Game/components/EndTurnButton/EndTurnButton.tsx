@@ -1,6 +1,7 @@
-import * as styles from 'components/Game/components/FinishTurnButton/styles';
+import * as styles from 'components/Game/components/EndTurnButton/styles';
 import { Box, Button } from '@mui/material';
 import { FC } from 'react';
+import { useCommonTranslation } from 'hooks/use-common-translation';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 interface Props {
@@ -9,15 +10,17 @@ interface Props {
   botsTurn?: boolean;
 }
 
-export const FinishTurnButton: FC<Props> = ({ onClick, endGame, botsTurn }) => {
+export const EndTurnButton: FC<Props> = ({ onClick, endGame, botsTurn }) => {
+  const t = useCommonTranslation('endTurnButton');
+
   const getMessage = () => {
     if (endGame) {
-      return 'Повернутися до меню';
+      return t('returnToMenu');
     }
     if (botsTurn) {
-      return 'Хід опонента...';
+      return t('opponentsTurn');
     }
-    return 'Завершити хід';
+    return t('endTurn');
   };
 
   const isBotsTurn = !endGame && botsTurn;

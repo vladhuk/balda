@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "title": "Balda - Word game",
+    "description": "Balda is a linguistic board game or, more simply, a 'word game'. Play with a friend or a bot, even if you don't have internet access.",
+    "ogLocale": "en_US"
+  },
+  "mainMenu": {
+    "title": "BALDA",
+    "subtitle": "word game",
+    "options": {
+      "together": {
+        "title": "Two-player game",
+        "playerLabel": "Player"
+      },
+      "bot": {
+        "title": "Game with a bot",
+        "difficulty": {
+          "easy": "Easy",
+          "medium": "Medium",
+          "hard": "Hard"
+        }
+      }
+    },
+    "tutorial": "How to play?",
+    "start": "Start!"
+  },
+  "tutorial": {
+    "rules": {
+      "title": "Rules",
+      "content1": "«Balda» is a linguistic board game for 2 players, in which you need to form words using letters that are added to a square playing field by moving from letter to letter at a right angle.",
+      "content2": "During the turn, player <b>must add a letter</b> to the cell that touches the filled cell <b>vertically/horizontally</b> so that an unbroken rectangular line (<b>«snake»</b>) of non-intersecting cells is obtained, or <b>skip the turn</b> (if both players skip the turn twice in a row, <b>a draw</b> is recorded).",
+      "listTitle": "The following rules must also be observed during the game:",
+      "list": "<li>Players take turns.</li><li>Each square contains only one letter, each letter in the word is worth one point. <b>Hyphens</b> are omitted (e.g. the word «e-mail» will be written as «email»).</li><li>The word must be a <b>noun</b>.</li><li>Words cannot be repeated.</li >",
+      "content3": "The game <b>ends</b> when all the cells are filled or when it is impossible to form another word according to the above rules. The player who scores the most points wins, except in the case of a draw after both players miss a move twice.",
+      "alt": {
+        "example1": "Example 1",
+        "example2": "Example 2"
+      }
+    },
+    "control": {
+      "title": "Controls",
+      "arrows": "select the next cell.",
+      "enter": "end the turn.",
+      "delete": "remove the last letter.",
+      "escape": "remove all letters.",
+      "alt": {
+        "left": "Left",
+        "right": "Right",
+        "up": "Up",
+        "down": "Down"
+      }
+    }
+  },
+  "inputError": {
+    "wordDoesNotExist": "Word not found",
+    "wordHasBeenAlreadyEntered": "The word has already been entered",
+    "letterNotEntered": "The word must contain one entered letter"
+  },
+  "actions": {
+    "skipTurn": "Skip turn",
+    "surrender": "Surrender",
+    "tutorial": "How to play"
+  },
+  "results": {
+    "draw": "Draw",
+    "winner": "Winner",
+    "ok": "Got it"
+  },
+  "playerAlias": {
+    "bot": "Bot",
+    "you": "You",
+    "player": "Player"
+  },
+  "endTurnButton": {
+    "returnToMenu": "Return to the menu",
+    "opponentsTurn": "Opponent's turn...",
+    "endTurn": "End the turn"
+  },
+  "feedback": "Feedback:"
+}

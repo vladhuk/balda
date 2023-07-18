@@ -1,0 +1,35 @@
+{
+  "short_name": "Balda",
+  "name": "Balda - Word game",
+  "description": "Balda is a linguistic board game or, more simply, a 'word game'. Play with a friend or a bot, even if you don't have internet access.",
+  "icons": [
+    {
+      "src": "images/maskable_192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "images/regular_192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "images/maskable_512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    },
+    {
+      "src": "images/regular_512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "/en",
+  "display": "standalone",
+  "theme_color": "#e4eff1",
+  "background_color": "#e4eff1"
+}

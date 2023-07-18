@@ -1,10 +1,11 @@
 import 'index.css';
+import { AppProps } from 'next/app';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 import { FC } from 'react';
+import { appWithTranslation } from 'next-i18next';
 import { theme } from 'config/theme';
 import Head from 'next/head';
-import type { AppProps } from 'next/app';
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   return (
@@ -24,4 +25,4 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
 };
 
 // eslint-disable-next-line import/no-default-export
-export default App;
+export default appWithTranslation(App);

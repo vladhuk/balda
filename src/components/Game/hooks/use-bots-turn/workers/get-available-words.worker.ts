@@ -2,10 +2,22 @@ import { Cell, deserialize } from 'types/cell.interface';
 import { getAvailableWords } from 'components/Game/utils/get-available-words';
 
 onmessage = ({
-  data: { cells, excludedWords },
+  data: { cells, excludedWords, dictionary, alphabet },
 }: {
-  data: { cells: Cell[][]; excludedWords: string[] };
+  data: {
+    cells: Cell[][];
+    excludedWords: string[];
+    dictionary: string[];
+    alphabet: string;
+  };
 }) => {
   const deserializedCells = cells.map((row) => row.map(deserialize));
-  postMessage(getAvailableWords(deserializedCells, excludedWords));
+  postMessage(
+    getAvailableWords({
+      cells: deserializedCells,
+      excludedWords,
+      dictionary,
+      alphabet,
+    }),
+  );
 };

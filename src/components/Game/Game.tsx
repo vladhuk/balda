@@ -3,9 +3,9 @@ import { Box } from '@mui/material';
 import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { Difficulty } from 'enums/difficulty.enum';
+import { EndTurnButton } from 'components/Game/components/EndTurnButton/EndTurnButton';
 import { FC, useState } from 'react';
 import { Field } from 'components/Game/components/Field/Field';
-import { FinishTurnButton } from 'components/Game/components/FinishTurnButton/FinishTurnButton';
 import { GameMode } from 'enums/game-mode.enum';
 import { HideUpMd } from 'components/_common/HideUpMd';
 import { InputError } from 'components/Game/enums/input-error.enum';
@@ -30,6 +30,7 @@ import { isNotNull } from 'utils/null/is-not-null';
 import { mapCellsToWord } from 'components/Game/utils/map-cells-to-word';
 import { useAnimatedStart } from 'components/Game/hooks/use-animated-start';
 import { useBotsTurn } from 'components/Game/hooks/use-bots-turn/use-bots-turn';
+import { useDictionary } from 'providers/DictionaryProvider';
 import { useField } from 'components/Game/hooks/use-field';
 import { useInputError } from 'components/Game/hooks/use-input-error';
 import { useKeyboard } from 'components/Game/hooks/use-keyboard';
@@ -57,6 +58,7 @@ export const Game: FC<Props> = ({
   );
   const [highlightedCoords, setHighlightedCoords] = useState<Coord[]>([]);
 
+  const { dictionary } = useDictionary();
   const { error, setError, resetError } = useInputError();
   const { isRunning: isLettersShaking, run: shakeLetters } = useTimeout(
     LETTERS_SHAKING_DURATION,
@@ -142,7 +144,7 @@ export const Game: FC<Props> = ({
       handleError(InputError.WORD_HAS_BEEN_ALREADY_ENTERED);
       return;
     }
-    if (!checkIsWordExist(word)) {
+    if (!checkIsWordExist(dictionary, word)) {
       handleError(InputError.WORD_DOES_NOT_EXIST);
       return;
     }
@@ -224,7 +226,7 @@ export const Game: FC<Props> = ({
           <HideUpMd>
             <StatisticsButtonLazy players={players} turn={turn} />
           </HideUpMd>
-          <FinishTurnButton
+          <EndTurnButton
             onClick={isEndGame ? openMenu : onCheckWord}
             botsTurn={isBotsTurn}
             endGame={isEndGame}

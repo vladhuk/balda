@@ -18,7 +18,7 @@
     "jsx": "preserve",
     "baseUrl": "./src",
     "isolatedModules": true,
-    "allowJs": false,
+    "allowJs": true,
     "skipLibCheck": false
   },
   "include": [

@@ -1,5 +1,8 @@
+/**
+ * Enum values are connected to i18n
+ */
 export enum Difficulty {
-  EASY = 'Легкий',
-  MEDIUM = 'Середній',
-  HARD = 'Важкий',
+  EASY = 'easy',
+  MEDIUM = 'medium',
+  HARD = 'hard',
 }

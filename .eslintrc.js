@@ -30,7 +30,7 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js', '**/*.png', 'next.config.js'],
+  ignorePatterns: ['.eslintrc.js', '**/*.png', '*.js'],
   rules: {
     'prettier/prettier': WARN,
 

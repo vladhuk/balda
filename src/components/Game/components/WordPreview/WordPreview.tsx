@@ -9,6 +9,7 @@ import {
 } from 'components/Game/components/WordPreview/styled';
 import { getCellKey } from 'utils/cell/get-cell-key';
 import { isEmpty, isNull } from 'lodash';
+import { useCommonTranslation } from 'hooks/use-common-translation';
 
 interface Props {
   error: InputError;
@@ -23,6 +24,8 @@ export const WordPreview: FC<Props> = ({
   selectedCells,
   lettersShaking,
 }) => {
+  const t = useCommonTranslation('inputError');
+
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <Box display="flex">
@@ -65,7 +68,7 @@ export const WordPreview: FC<Props> = ({
         error
       >
         <Zoom in={error !== InputError.NONE}>
-          <div>{error}</div>
+          <div>{t(error)}</div>
         </Zoom>
       </FormHelperText>
     </Box>

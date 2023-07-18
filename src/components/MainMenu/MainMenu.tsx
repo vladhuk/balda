@@ -17,7 +17,9 @@ import { Difficulty } from 'enums/difficulty.enum';
 import { FC, useState } from 'react';
 import { Feedback } from 'components/MainMenu/components/Feedback/Feedback';
 import { GameMode } from 'enums/game-mode.enum';
+import { LanguageSelect } from 'components/MainMenu/components/LanguageSelect/LanguageSelect';
 import { Tutorial } from 'components/_common/Tutorial/Tutorial';
+import { useCommonTranslation } from 'hooks/use-common-translation';
 import { useIsUpMd } from 'hooks/use-is-up-md';
 import { useTransitionDuration } from 'components/MainMenu/hooks/use-transition-duration';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -36,6 +38,7 @@ interface Props {
 }
 
 export const MainMenu: FC<Props> = ({ open, onStart }) => {
+  const t = useCommonTranslation('mainMenu');
   const isUpMd = useIsUpMd();
   const transitionDuration = useTransitionDuration();
 
@@ -64,11 +67,12 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
           color="primary"
           fontWeight={600}
         >
-          БАЛДА
+          {t('title')}
         </Typography>
         <Typography component="h2" variant="h5">
-          гра в слова українською
+          {t('subtitle')}
         </Typography>
+        <LanguageSelect />
       </DialogTitle>
       <DialogContent sx={{ height: [286, 292, 217], pb: 0, mb: 1 }}>
         <Accordion
@@ -80,7 +84,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
             variant="h6"
             expandIcon={<ExpandMoreIcon />}
           >
-            Гра вдвох
+            {t('options.together.title')}
           </AccordionSummary>
           <AccordionDetails disablePaddingTop>
             {names.map((name, nameIndex) => (
@@ -90,7 +94,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
                 size="small"
                 color="secondary"
                 variant="standard"
-                label={`Гравець ${nameIndex + 1}`}
+                label={`${t('options.together.playerLabel')} ${nameIndex + 1}`}
                 value={name}
                 onChange={(event) =>
                   setNames((prevNames) =>
@@ -114,7 +118,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
             variant="h6"
             expandIcon={<ExpandMoreIcon />}
           >
-            Гра з ботом
+            {t('options.bot.title')}
           </AccordionSummary>
           <AccordionDetails>
             {[Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD].map(
@@ -124,7 +128,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
                   color="secondary"
                   variant={difficulty === value ? 'filled' : 'outlined'}
                   onClick={() => setDifficulty(value)}
-                  label={value}
+                  label={t(`options.bot.difficulty.${value}`)}
                   clickable
                 />
               ),
@@ -132,7 +136,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
           </AccordionDetails>
         </Accordion>
       </DialogContent>
-      <DialogActions sx={styles.dialogActions}>
+      <DialogActions sx={styles.dialogActions} disableSpacing>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <Link
           component="button"
@@ -141,10 +145,10 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
           sx={{ mb: 2 }}
           onClick={() => setIsTutorialOpened(true)}
         >
-          Як грати?
+          {t('tutorial')}
         </Link>
         <Button size="large" onClick={onClickStart} fullWidth={!isUpMd}>
-          Почати!
+          {t('start')}
         </Button>
       </DialogActions>
       <Tutorial

@@ -3,17 +3,23 @@ import { Backdrop, Box, IconButton, Typography } from '@mui/material';
 import { ControlsDescription } from 'components/_common/Tutorial/styled';
 import { FC } from 'react';
 import { HideForTouchDevice } from 'components/_common/HideForTouchDevice';
-import ArrowDown from 'assets/down-arrow-button.png';
-import ArrowLeft from 'assets/left-arrow-button.png';
-import ArrowRight from 'assets/right-arrow-button.png';
-import ArrowUp from 'assets/up-arrow-button.png';
+import { Locale } from 'enums/locale.enum';
+import { LocalizedImage } from 'components/_common/LocalizedImage';
+import { Trans } from 'next-i18next';
+import { useCommonTranslation } from 'hooks/use-common-translation';
+import ArrowDown from 'components/_common/Tutorial/assets/down-arrow-button.png';
+import ArrowLeft from 'components/_common/Tutorial/assets/left-arrow-button.png';
+import ArrowRight from 'components/_common/Tutorial/assets/right-arrow-button.png';
+import ArrowUp from 'components/_common/Tutorial/assets/up-arrow-button.png';
 import CloseIcon from '@mui/icons-material/Close';
-import Delete from 'assets/del-button.png';
-import Enter from 'assets/enter-button.png';
-import Escape from 'assets/esc-button.png';
+import Delete from 'components/_common/Tutorial/assets/del-button.png';
+import Enter from 'components/_common/Tutorial/assets/enter-button.png';
+import Escape from 'components/_common/Tutorial/assets/esc-button.png';
 import Image from 'next/image';
-import Screenshot1 from 'assets/tutorial-1.png';
-import Screenshot2 from 'assets/tutorial-2.png';
+import Screenshot1En from 'components/_common/Tutorial/assets/tutorial-1_en.png';
+import Screenshot1Uk from 'components/_common/Tutorial/assets/tutorial-1_uk.png';
+import Screenshot2En from 'components/_common/Tutorial/assets/tutorial-2_en.png';
+import Screenshot2Uk from 'components/_common/Tutorial/assets/tutorial-2_uk.png';
 
 interface Props {
   open: boolean;
@@ -21,6 +27,8 @@ interface Props {
 }
 
 export const Tutorial: FC<Props> = ({ open, onClose }) => {
+  const t = useCommonTranslation('tutorial');
+
   return (
     <Backdrop open={open} onClick={onClose} sx={styles.backdrop}>
       <IconButton size="large" sx={styles.closeButton}>
@@ -28,92 +36,80 @@ export const Tutorial: FC<Props> = ({ open, onClose }) => {
       </IconButton>
       <Box width={[0.9, 0.9, 0.5]}>
         <Typography variant="h3" sx={styles.heading}>
-          Правила
+          {t('rules.title')}
         </Typography>
-        <Typography>
-          «Балда» - лінгвістична настільна гра для 2-ох гравців, в якій
-          необхідно складати слова за допомогою букв, що додаються на квадратне
-          ігрове поле за допомогою переходів від букви до букви під прямим
-          кутом.
-        </Typography>
+        <Typography>{t('rules.content1')}</Typography>
         <br />
         <Typography>
-          Під час свого ходу гравець <b>має додати букву</b> в клітинку, що
-          дотикається по <b>вертикалі/горизонталі</b> до заповненої клітинки
-          таким чином, щоб виходила нерозривна прямокутна ламана (
-          <b>«змійка»</b>) з клітинок, що не самоперетинаються, або{' '}
-          <b>пропустити хід</b> (якщо обидва гравці двічі поспіль пропускають
-          хід, то фіксується <b>нічия</b>).
+          <Trans i18nKey="tutorial.rules.content2" components={{ b: <b /> }} />
         </Typography>
         <Box display="flex" justifyContent="space-around" my={2}>
-          <Box
-            component={Image}
-            src={Screenshot1}
-            alt="Приклад 1"
+          <LocalizedImage
+            src={{
+              // TODO: Add english image
+              [Locale.EN]: Screenshot1En,
+              [Locale.UK]: Screenshot1Uk,
+            }}
+            alt={t('rules.alt.example1')}
             sx={styles.screenshot}
           />
-          <Box
-            component={Image}
-            src={Screenshot2}
-            alt="Приклад 2"
+          <LocalizedImage
+            src={{
+              // TODO: Add english image
+              [Locale.EN]: Screenshot2En,
+              [Locale.UK]: Screenshot2Uk,
+            }}
+            alt={t('rules.alt.example2')}
             sx={styles.screenshot}
           />
         </Box>
-        <Typography>
-          Протягом гри повинні дотримуватися також такі правила:
-        </Typography>
+        <Typography>{t('rules.listTitle')}</Typography>
         <ol>
-          <Typography component="li">Гравці ходять по черзі.</Typography>
-          <Typography component="li">
-            Кожна клітка містить лише одну букву, кожна буква у складеному слові
-            приносить гравцю одне очко. <b>Апострофи та дефіси</b> опускаються
-            (наприклад слово &quot;підʼїзд&quot; буде записуватися як
-            &quot;підїзд&quot;).
-          </Typography>
-          <Typography component="li">
-            Слово має бути <b>іменником.</b>
-          </Typography>
-          <Typography component="li">Слова не можуть повторюватися</Typography>
+          <Trans
+            i18nKey="tutorial.rules.list"
+            components={{ b: <b />, li: <Typography component="li" /> }}
+          />
         </ol>
         <Typography>
-          Гра <b>закінчується</b> тоді, коли заповнені всі клітинки або
-          неможливо скласти чергове слово відповідно до вищезазначених правил.
-          Виграє той гравець, який набере більше очок, крім випадку нічиєї після
-          дворазового пропуску ходу обома гравцями.
+          <Trans i18nKey="tutorial.rules.content3" components={{ b: <b /> }} />
         </Typography>
         <HideForTouchDevice>
           <Typography variant="h3" sx={styles.heading}>
-            Керування
+            {t('control.title')}
           </Typography>
           <ControlsDescription>
             <Box
               component={Image}
               src={ArrowUp}
-              alt="Вгору"
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              alt={t('control.alt.up')}
               sx={styles.keyImage}
             />
             ,
             <Box
               component={Image}
               src={ArrowRight}
-              alt="Вправо"
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              alt={t('control.alt.rigt')}
               sx={styles.keyImage}
             />
             ,
             <Box
               component={Image}
               src={ArrowDown}
-              alt="Вниз"
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              alt={t('control.alt.down')}
               sx={styles.keyImage}
             />
             ,
             <Box
               component={Image}
               src={ArrowLeft}
-              alt="Вліво"
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              alt={t('control.alt.left')}
               sx={styles.keyImage}
             />
-            - вибрати наступну клітинку.
+            - {t('control.arrows')}
           </ControlsDescription>
           <ControlsDescription>
             <Box
@@ -122,7 +118,7 @@ export const Tutorial: FC<Props> = ({ open, onClose }) => {
               alt="Enter"
               sx={styles.keyImage}
             />
-            - завершити хід.
+            - {t('control.enter')}
           </ControlsDescription>
           <ControlsDescription>
             <Box
@@ -131,7 +127,7 @@ export const Tutorial: FC<Props> = ({ open, onClose }) => {
               alt="Delete"
               sx={styles.keyImage}
             />
-            - стерти останню літеру.
+            - {t('control.delete')}
           </ControlsDescription>
           <ControlsDescription>
             <Box
@@ -140,7 +136,7 @@ export const Tutorial: FC<Props> = ({ open, onClose }) => {
               alt="Escape"
               sx={styles.keyImage}
             />
-            - стерти всі літери.
+            - {t('control.escape')}
           </ControlsDescription>
         </HideForTouchDevice>
       </Box>

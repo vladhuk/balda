@@ -1,16 +1,19 @@
 import * as styles from 'components/MainMenu/components/Feedback/styles';
 import { Box, Divider, IconButton, Typography } from '@mui/material';
 import { FC } from 'react';
+import { useCommonTranslation } from 'hooks/use-common-translation';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TelegramIcon from '@mui/icons-material/Telegram';
 
 export const Feedback: FC = () => {
+  const t = useCommonTranslation();
+
   return (
     <Box sx={styles.container}>
       <Box sx={styles.feedback}>
         <Typography mx={1} variant="body2">
-          Зворотній звʼязок:
+          {t('feedback')}
         </Typography>
         <IconButton size="small" href="mailto:vladhookovskiy@gmail.com">
           <EmailIcon fontSize="small" />

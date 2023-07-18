@@ -1,3 +1,4 @@
+import * as styles from 'components/Game/components/Statistic/components/Drawer/styles';
 import { Box, SwipeableDrawer } from '@mui/material';
 import { Dispatch, FC } from 'react';
 import { Player } from 'types/player.interface';
@@ -19,14 +20,10 @@ export const Drawer: FC<Props> = ({ open, setOpen, players, turn }) => {
       open={open}
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
-      disableBackdropTransition
       disableSwipeToOpen
       PaperProps={{
-        sx: {
-          height: '60%',
-          borderTopRightRadius: '10px',
-          borderTopLeftRadius: '10px',
-        },
+        square: false,
+        sx: styles.paper,
       }}
     >
       <Puller />

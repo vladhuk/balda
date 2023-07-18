@@ -1,6 +1,9 @@
+/**
+ * Enum values are connected to i18n
+ */
 export enum InputError {
   NONE = '',
-  WORD_DOES_NOT_EXIST = 'Слово не знайдено',
-  WORD_HAS_BEEN_ALREADY_ENTERED = 'Слово вже було введено',
-  LETTER_NOT_ENTERED = 'Слово має містити одну введену букву',
+  WORD_DOES_NOT_EXIST = 'wordDoesNotExist',
+  WORD_HAS_BEEN_ALREADY_ENTERED = 'wordHasBeenAlreadyEntered',
+  LETTER_NOT_ENTERED = 'letterNotEntered',
 }

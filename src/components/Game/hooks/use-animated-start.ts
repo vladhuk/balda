@@ -1,6 +1,7 @@
 import { FIELD_SIZE, LETTERS_ZOOM_DURATION } from 'components/Game/constants';
 import { getRandomWord } from 'utils/word/get-random-word';
 import { isEmpty } from 'lodash';
+import { useDictionary } from 'providers/DictionaryProvider';
 import { useEffect, useState } from 'react';
 
 export function useAnimatedStart({
@@ -14,6 +15,8 @@ export function useAnimatedStart({
   isZoomOut: boolean;
   initialWord: string;
 } {
+  const { dictionary } = useDictionary();
+
   const [initialWord, setInitialWord] = useState('');
   const [isZoomOut, setIsZoomOut] = useState(false);
   const [isZoomIn, setIsZoomIn] = useState(false);
@@ -22,7 +25,8 @@ export function useAnimatedStart({
     if (isPause) {
       return;
     }
-    const newInitialWord = getRandomWord(FIELD_SIZE) ?? '';
+
+    const newInitialWord = getRandomWord(dictionary, FIELD_SIZE) ?? '';
 
     if (isEmpty(initialWord)) {
       setIsZoomIn(true);

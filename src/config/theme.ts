@@ -1,6 +1,8 @@
 import { createTheme, darken, responsiveFontSizes } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 
+export const PAPER_BORDER_RADIUS = 14;
+
 export const theme = responsiveFontSizes(
   createTheme({
     palette: {
@@ -118,10 +120,65 @@ export const theme = responsiveFontSizes(
           }),
           rounded: {
             '&, &:first-of-type, &:last-of-type': {
-              borderRadius: '10px',
+              borderRadius: '12px',
             },
           },
         },
+      },
+      MuiSelect: {
+        variants: [
+          {
+            props: { variant: 'outlined' },
+            style: ({ theme: { palette } }) => ({
+              '& .MuiOutlinedInput-notchedOutline': {
+                border: `2px solid ${palette.divider}`,
+                borderRadius: '10px',
+                transition: `.1s`,
+              },
+              '&:hover': {
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: palette.primary.main,
+                },
+              },
+            }),
+          },
+        ],
+      },
+      MuiList: {
+        styleOverrides: {
+          root: ({ theme: { spacing } }) => ({
+            padding: spacing(1),
+
+            '& li:not(:last-child)': {
+              marginBottom: spacing(0.5),
+            },
+          }),
+        },
+      },
+      MuiMenuItem: {
+        defaultProps: {},
+        styleOverrides: {
+          root: ({ theme: { palette, spacing } }) => ({
+            padding: spacing(1.5, 2),
+
+            '&.Mui-selected, &:hover': {
+              borderRadius: '10px',
+            },
+            '&.Mui-selected *': {
+              color: palette.primary.main,
+            },
+          }),
+        },
+      },
+      MuiPaper: {
+        variants: [
+          {
+            props: { square: false },
+            style: {
+              borderRadius: PAPER_BORDER_RADIUS,
+            },
+          },
+        ],
       },
     },
   }),

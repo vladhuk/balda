@@ -7,6 +7,8 @@ import { Word, deserialize as deserializeWord } from 'types/word.interface';
 import { getWordByDifficulty } from 'components/Game/hooks/use-bots-turn/utils/get-words-by-difficulty';
 import { isNotEmpty } from 'utils/null/is-not-empty';
 import { isUndefined } from 'lodash';
+import { useAlphabet } from 'components/Game/hooks/use-alphabet';
+import { useDictionary } from 'providers/DictionaryProvider';
 import { useOnFirstRender } from 'hooks/use-on-first-render';
 
 export function useBotsTurn({
@@ -36,6 +38,9 @@ export function useBotsTurn({
         new URL('./workers/get-available-words.worker', import.meta.url),
       ),
   );
+  const alphabet = useAlphabet();
+  const { dictionary } = useDictionary();
+
   const [shouldBotFinishTurn, setShouldBotFinishTurn] = useState(false);
 
   const selectWord = (word: Word, onFinish?: () => void) => {
@@ -69,6 +74,8 @@ export function useBotsTurn({
     getAvailableWordsWorker.postMessage({
       cells,
       excludedWords: usedWords,
+      dictionary,
+      alphabet,
     });
     getAvailableWordsWorker.onmessage = ({ data }: { data: Word[] }) => {
       const words = data.map(deserializeWord);
