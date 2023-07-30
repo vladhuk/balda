@@ -1,4 +1,4 @@
-import { SxProps, alpha } from '@mui/material';
+import { alpha, SxProps } from '@mui/material';
 import { grey } from '@mui/material/colors';
 
 export const container: SxProps = {

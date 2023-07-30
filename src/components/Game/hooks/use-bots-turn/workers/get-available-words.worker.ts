@@ -1,5 +1,5 @@
-import { Cell, deserialize } from 'types/cell.interface';
 import { getAvailableWords } from 'components/Game/utils/get-available-words';
+import { Cell, deserialize } from 'types/cell.interface';
 
 onmessage = ({
   data: { cells, excludedWords, dictionary, alphabet },

@@ -1,8 +1,8 @@
-import * as styles from 'components/Game/components/EndTurnButton/styles';
-import { Box, Button } from '@mui/material';
-import { FC } from 'react';
-import { useCommonTranslation } from 'hooks/use-common-translation';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import { Box, Button } from '@mui/material';
+import * as styles from 'components/Game/components/EndTurnButton/styles';
+import { useCommonTranslation } from 'hooks/use-common-translation';
+import { FC } from 'react';
 
 interface Props {
   onClick: () => void;

@@ -1,9 +1,9 @@
+import { Key } from 'enums/key.enum';
+import { useOnKeyDown } from 'hooks/use-on-key-down';
+import { isUndefined } from 'lodash';
 import { Cell } from 'types/cell.interface';
 import { Directions } from 'types/directions.interface';
-import { Key } from 'enums/key.enum';
 import { isNotNull } from 'utils/null/is-not-null';
-import { isUndefined } from 'lodash';
-import { useOnKeyDown } from 'hooks/use-on-key-down';
 
 export function useCellHandlerOnPressArrows({
   cellHandler,

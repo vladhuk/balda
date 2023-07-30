@@ -1,12 +1,12 @@
-import * as styles from 'components/Game/components/Statistic/styles';
-import { FC } from 'react';
+import { Typography } from '@mui/material';
+import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
 import {
   Name,
   NameAndScoreOrientationContainer,
 } from 'components/Game/components/Statistic/styled';
+import * as styles from 'components/Game/components/Statistic/styles';
+import { FC } from 'react';
 import { Player } from 'types/player.interface';
-import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
-import { Typography } from '@mui/material';
 
 interface Props {
   player: Player;

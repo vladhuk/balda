@@ -1,9 +1,9 @@
 import { GameMode } from 'enums/game-mode.enum';
+import { useCommonTranslation } from 'hooks/use-common-translation';
+import { isEmpty } from 'lodash';
+import { useState } from 'react';
 import { Player } from 'types/player.interface';
 import { Word } from 'types/word.interface';
-import { isEmpty } from 'lodash';
-import { useCommonTranslation } from 'hooks/use-common-translation';
-import { useState } from 'react';
 
 export function usePlayers(props: { gameMode: GameMode; names: string[] }): {
   players: Player[];

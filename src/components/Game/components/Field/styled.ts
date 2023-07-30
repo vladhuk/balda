@@ -1,9 +1,9 @@
-import { InputBase, alpha, styled } from '@mui/material';
-import {
-  LETTERS_ZOOM_DURATION,
-  LETTER_ROTATING_DURATION,
-} from 'components/Game/constants';
 import isPropValid from '@emotion/is-prop-valid';
+import { alpha, InputBase, styled } from '@mui/material';
+import {
+  LETTER_ROTATING_DURATION,
+  LETTERS_ZOOM_DURATION,
+} from 'components/Game/constants';
 
 const LETTER_ROTATING_DURATION_ERROR_MS = 10;
 const rotatingDuration =

@@ -1,9 +1,10 @@
-import { DocumentProps, Head, Html, Main, NextScript } from 'next/document';
-import { FC } from 'react';
 import { GtmNoscript } from 'lib/google-tag-manager/gtm.noscript';
 import { gtmScriptInnerHtml } from 'lib/google-tag-manager/inner-html';
-import { i18n } from '../../next-i18next.config';
+import { DocumentProps, Head, Html, Main, NextScript } from 'next/document';
 import Script from 'next/script';
+import { FC } from 'react';
+
+import { i18n } from '../../next-i18next.config';
 
 const Document: FC<DocumentProps> = ({
   __NEXT_DATA__: {

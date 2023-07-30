@@ -1,11 +1,11 @@
 import { App } from 'components/App/App';
-import { DictionaryProvider } from 'providers/DictionaryProvider';
-import { FC } from 'react';
-import { I18NextClientProvider } from 'lib/i18next/providers/I18nextClientProvider';
-import { getStaticProps } from 'lib/i18next/utils/get-static';
 import { useCommonTranslation } from 'hooks/use-common-translation';
 import { useLocale } from 'lib/i18next/hooks/use-locale';
+import { I18NextClientProvider } from 'lib/i18next/providers/I18nextClientProvider';
+import { getStaticProps } from 'lib/i18next/utils/get-static';
 import Head from 'next/head';
+import { DictionaryProvider } from 'providers/DictionaryProvider';
+import { FC } from 'react';
 
 export { getStaticProps };
 

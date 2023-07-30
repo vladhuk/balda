@@ -1,7 +1,7 @@
-import { FC, PropsWithChildren, useEffect, useState } from 'react';
-import { I18nextProvider } from 'react-i18next';
 import { useLocale } from 'lib/i18next/hooks/use-locale';
 import i18nextClientConfig from 'lib/i18next/i18next-client';
+import { FC, PropsWithChildren, useEffect, useState } from 'react';
+import { I18nextProvider } from 'react-i18next';
 
 export const I18NextClientProvider: FC<PropsWithChildren<unknown>> = ({
   children,

@@ -1,15 +1,15 @@
 import { Box, Divider, FormHelperText, Zoom } from '@mui/material';
-import { Cell } from 'types/cell.interface';
-import { Coord } from 'helpers/coord';
-import { FC } from 'react';
-import { InputError } from 'components/Game/enums/input-error.enum';
 import {
   Letter,
   LetterContainer,
 } from 'components/Game/components/WordPreview/styled';
-import { getCellKey } from 'utils/cell/get-cell-key';
-import { isEmpty, isNull } from 'lodash';
+import { InputError } from 'components/Game/enums/input-error.enum';
+import { Coord } from 'helpers/coord';
 import { useCommonTranslation } from 'hooks/use-common-translation';
+import { isEmpty, isNull } from 'lodash';
+import { FC } from 'react';
+import { Cell } from 'types/cell.interface';
+import { getCellKey } from 'utils/cell/get-cell-key';
 
 interface Props {
   error: InputError;

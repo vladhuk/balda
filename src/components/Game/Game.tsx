@@ -1,41 +1,41 @@
-import { Actions } from 'components/Game/components/Actions/Actions';
 import { Box } from '@mui/material';
-import { Cell } from 'types/cell.interface';
-import { Coord } from 'helpers/coord';
-import { Difficulty } from 'enums/difficulty.enum';
-import { EndTurnButton } from 'components/Game/components/EndTurnButton/EndTurnButton';
-import { FC, useState } from 'react';
-import { Field } from 'components/Game/components/Field/Field';
-import { GameMode } from 'enums/game-mode.enum';
 import { HideUpMd } from 'components/_common/HideUpMd';
-import { InputError } from 'components/Game/enums/input-error.enum';
-import {
-  LETTERS_SHAKING_DURATION,
-  LETTER_ROTATING_DURATION,
-} from 'components/Game/constants';
+import { ShowUpMd } from 'components/_common/ShowUpMd';
+import { Actions } from 'components/Game/components/Actions/Actions';
+import { EndTurnButton } from 'components/Game/components/EndTurnButton/EndTurnButton';
+import { Field } from 'components/Game/components/Field/Field';
 import { Results } from 'components/Game/components/Results/Results';
 import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
-import { ShowUpMd } from 'components/_common/ShowUpMd';
-import { SideSection } from 'components/Game/styled';
 import { Statistic } from 'components/Game/components/Statistic/Statistic';
 import { StatisticsButtonLazy } from 'components/Game/components/Statistic/StatisticsButton.lazy';
 import { TopScores } from 'components/Game/components/TopScores';
 import { WordPreview } from 'components/Game/components/WordPreview/WordPreview';
-import { blurActiveInput } from 'utils/blur-active-input';
-import { checkIsFieldFilled } from 'components/Game/utils/check-is-field-filled';
-import { checkIsWordExist } from 'utils/word/check-is-word-exist';
-import { getWordsFromPlayers } from 'components/Game/utils/get-words-from-players';
-import { isEmpty, isNull } from 'lodash';
-import { isNotNull } from 'utils/null/is-not-null';
-import { mapCellsToWord } from 'components/Game/utils/map-cells-to-word';
+import {
+  LETTER_ROTATING_DURATION,
+  LETTERS_SHAKING_DURATION,
+} from 'components/Game/constants';
+import { InputError } from 'components/Game/enums/input-error.enum';
 import { useAnimatedStart } from 'components/Game/hooks/use-animated-start';
 import { useBotsTurn } from 'components/Game/hooks/use-bots-turn/use-bots-turn';
-import { useDictionary } from 'providers/DictionaryProvider';
 import { useField } from 'components/Game/hooks/use-field';
 import { useInputError } from 'components/Game/hooks/use-input-error';
 import { useKeyboard } from 'components/Game/hooks/use-keyboard';
 import { useStatistic } from 'components/Game/hooks/use-statistic';
+import { SideSection } from 'components/Game/styled';
+import { checkIsFieldFilled } from 'components/Game/utils/check-is-field-filled';
+import { getWordsFromPlayers } from 'components/Game/utils/get-words-from-players';
+import { mapCellsToWord } from 'components/Game/utils/map-cells-to-word';
+import { Difficulty } from 'enums/difficulty.enum';
+import { GameMode } from 'enums/game-mode.enum';
+import { Coord } from 'helpers/coord';
 import { useTimeout } from 'hooks/use-timeout';
+import { isEmpty, isNull } from 'lodash';
+import { useDictionary } from 'providers/DictionaryProvider';
+import { FC, useState } from 'react';
+import { Cell } from 'types/cell.interface';
+import { blurActiveInput } from 'utils/blur-active-input';
+import { isNotNull } from 'utils/null/is-not-null';
+import { checkIsWordExist } from 'utils/word/check-is-word-exist';
 
 interface Props {
   pause?: boolean;

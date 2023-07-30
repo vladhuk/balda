@@ -1,13 +1,13 @@
+import { Locale } from 'enums/locale.enum';
 import {
+  createContext,
   FC,
   PropsWithChildren,
-  createContext,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react';
-import { Locale } from 'enums/locale.enum';
 import { isNotUndefined } from 'utils/null/is-not-undefined';
 
 interface Context {

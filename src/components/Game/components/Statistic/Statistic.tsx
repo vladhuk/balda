@@ -1,10 +1,10 @@
 import { Box, Divider } from '@mui/material';
+import { WordScoreList } from 'components/Game/components/Statistic/components/WordScoreList';
+import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
+import { NameAndScore } from 'components/Game/components/Statistic/NameAndScore';
 import { Coord } from 'helpers/coord';
 import { Dispatch, FC } from 'react';
-import { NameAndScore } from 'components/Game/components/Statistic/NameAndScore';
 import { Player } from 'types/player.interface';
-import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
-import { WordScoreList } from 'components/Game/components/Statistic/components/WordScoreList';
 
 interface Props {
   player: Player;

@@ -1,6 +1,6 @@
 import { Coord } from 'helpers/coord';
-import { Directions } from 'types/directions.interface';
 import { isNull } from 'lodash';
+import { Directions } from 'types/directions.interface';
 
 export interface Cell {
   directions: Directions;

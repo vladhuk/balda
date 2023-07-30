@@ -1,11 +1,11 @@
-import { Coord } from 'helpers/coord';
-import { Dispatch, FC, useState } from 'react';
 import { Link, Typography } from '@mui/material';
-import { Locale } from 'enums/locale.enum';
 import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
 import { ScoreOrientationContainer } from 'components/Game/components/Statistic/styled';
-import { Word } from 'types/word.interface';
+import { Locale } from 'enums/locale.enum';
+import { Coord } from 'helpers/coord';
 import { useLocale } from 'lib/i18next/hooks/use-locale';
+import { Dispatch, FC, useState } from 'react';
+import { Word } from 'types/word.interface';
 
 const dictionaryLinks: Record<Locale, string> = {
   [Locale.UK]:

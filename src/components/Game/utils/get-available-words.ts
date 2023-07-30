@@ -1,7 +1,7 @@
-import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
-import { Word } from 'types/word.interface';
 import { difference, groupBy, sample } from 'lodash';
+import { Cell } from 'types/cell.interface';
+import { Word } from 'types/word.interface';
 import { isNotEmpty } from 'utils/null/is-not-empty';
 import { isNotNull } from 'utils/null/is-not-null';
 

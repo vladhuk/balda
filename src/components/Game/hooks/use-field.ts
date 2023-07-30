@@ -1,8 +1,8 @@
-import { Cell } from 'types/cell.interface';
-import { Coord } from 'helpers/coord';
 import { FIELD_SIZE } from 'components/Game/constants';
-import { createTable } from 'utils/cell/create-table';
+import { Coord } from 'helpers/coord';
 import { useEffect, useState } from 'react';
+import { Cell } from 'types/cell.interface';
+import { createTable } from 'utils/cell/create-table';
 
 export function useField(initialWord: string): {
   cells: Cell[][];

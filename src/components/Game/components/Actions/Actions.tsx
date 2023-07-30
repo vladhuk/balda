@@ -1,9 +1,9 @@
-import { ActionsDialog } from 'components/Game/components/Actions/components/ActionsDialog';
-import { Box, Button } from '@mui/material';
-import { FC, useState } from 'react';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { Box, Button } from '@mui/material';
+import { ActionsDialog } from 'components/Game/components/Actions/components/ActionsDialog';
+import { FC, useState } from 'react';
 
 interface Props {
   onSkipTurn: () => void;

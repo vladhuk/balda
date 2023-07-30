@@ -1,5 +1,5 @@
-import { AccordionDetails as MuiAccordionDetails, styled } from '@mui/material';
 import isPropValid from '@emotion/is-prop-valid';
+import { AccordionDetails as MuiAccordionDetails, styled } from '@mui/material';
 
 interface Props {
   disablePaddingTop?: boolean;

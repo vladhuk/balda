@@ -1,11 +1,12 @@
 import 'index.css';
-import { AppProps } from 'next/app';
+
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
-import { FC } from 'react';
-import { appWithTranslation } from 'next-i18next';
 import { theme } from 'config/theme';
+import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { appWithTranslation } from 'next-i18next';
+import { FC } from 'react';
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   return (

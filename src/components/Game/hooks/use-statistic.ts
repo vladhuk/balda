@@ -1,8 +1,8 @@
+import { usePlayers } from 'components/Game/hooks/use-players';
 import { GameMode } from 'enums/game-mode.enum';
+import { useEffect, useState } from 'react';
 import { Player } from 'types/player.interface';
 import { Word } from 'types/word.interface';
-import { useEffect, useState } from 'react';
-import { usePlayers } from 'components/Game/hooks/use-players';
 
 const MAX_DRAWS_IN_ROW = 4;
 

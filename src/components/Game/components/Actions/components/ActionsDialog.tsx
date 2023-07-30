@@ -1,3 +1,7 @@
+import CloseIcon from '@mui/icons-material/Close';
+import FlagIcon from '@mui/icons-material/Flag';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
 import {
   Backdrop,
   Box,
@@ -7,13 +11,9 @@ import {
   Slide,
   Zoom,
 } from '@mui/material';
-import { FC, useRef, useState } from 'react';
 import { Tutorial } from 'components/_common/Tutorial/Tutorial';
 import { useCommonTranslation } from 'hooks/use-common-translation';
-import CloseIcon from '@mui/icons-material/Close';
-import FlagIcon from '@mui/icons-material/Flag';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
+import { FC, useRef, useState } from 'react';
 
 interface Props {
   open: boolean;

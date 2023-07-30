@@ -1,5 +1,11 @@
 import { Box, ClickAwayListener } from '@mui/material';
-import { Cell } from 'types/cell.interface';
+import { useCellHandlerOnPressArrows } from 'components/Game/components/Field/hooks/use-cell-handler-on-press-arrows';
+import { FieldCell } from 'components/Game/components/Field/styled';
+import { useAlphabet } from 'components/Game/hooks/use-alphabet';
+import { Key } from 'enums/key.enum';
+import { Coord } from 'helpers/coord';
+import { useIsTouchDevice } from 'hooks/use-is-touch-device';
+import { isEmpty, isNull } from 'lodash';
 import {
   ChangeEvent,
   Dispatch,
@@ -7,17 +13,11 @@ import {
   KeyboardEvent,
   SetStateAction,
 } from 'react';
-import { Coord } from 'helpers/coord';
-import { FieldCell } from 'components/Game/components/Field/styled';
-import { Key } from 'enums/key.enum';
+import { Cell } from 'types/cell.interface';
 import { getCellKey } from 'utils/cell/get-cell-key';
-import { isEmpty, isNull } from 'lodash';
 import { isNotEmpty } from 'utils/null/is-not-empty';
 import { isNotNull } from 'utils/null/is-not-null';
 import { isNotUndefined } from 'utils/null/is-not-undefined';
-import { useAlphabet } from 'components/Game/hooks/use-alphabet';
-import { useCellHandlerOnPressArrows } from 'components/Game/components/Field/hooks/use-cell-handler-on-press-arrows';
-import { useIsTouchDevice } from 'hooks/use-is-touch-device';
 
 interface Props {
   cells: Cell[][];
@@ -179,7 +179,7 @@ export const Field: FC<Props> = ({
   const handleOnKeyDown =
     (cell: Cell) =>
     ({ key }: KeyboardEvent) => {
-      if (key === Key.SPACE) {
+      if ((key as Key) === Key.SPACE) {
         selectCell(cell);
       }
     };

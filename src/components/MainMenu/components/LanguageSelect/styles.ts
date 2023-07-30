@@ -1,5 +1,5 @@
-import { PAPER_BORDER_RADIUS } from 'config/theme';
 import { SxProps, Theme } from '@mui/material';
+import { PAPER_BORDER_RADIUS } from 'config/theme';
 
 export const select: SxProps<Theme> = ({ breakpoints }) => ({
   position: 'absolute',

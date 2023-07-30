@@ -1,4 +1,4 @@
-import { Typography, styled } from '@mui/material';
+import { styled, Typography } from '@mui/material';
 
 export const ControlsDescription = styled(Typography)(
   ({ theme: { spacing } }) => ({

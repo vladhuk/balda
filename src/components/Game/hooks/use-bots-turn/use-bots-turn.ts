@@ -1,15 +1,15 @@
-import { Cell } from 'types/cell.interface';
-import { Coord } from 'helpers/coord';
-import { Difficulty } from 'enums/difficulty.enum';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { LETTER_SELECTION_DELAY_FOR_BOT } from 'components/Game/constants';
-import { Word, deserialize as deserializeWord } from 'types/word.interface';
-import { getWordByDifficulty } from 'components/Game/hooks/use-bots-turn/utils/get-words-by-difficulty';
-import { isNotEmpty } from 'utils/null/is-not-empty';
-import { isUndefined } from 'lodash';
 import { useAlphabet } from 'components/Game/hooks/use-alphabet';
-import { useDictionary } from 'providers/DictionaryProvider';
+import { getWordByDifficulty } from 'components/Game/hooks/use-bots-turn/utils/get-words-by-difficulty';
+import { Difficulty } from 'enums/difficulty.enum';
+import { Coord } from 'helpers/coord';
 import { useOnFirstRender } from 'hooks/use-on-first-render';
+import { isUndefined } from 'lodash';
+import { useDictionary } from 'providers/DictionaryProvider';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Cell } from 'types/cell.interface';
+import { deserialize as deserializeWord, Word } from 'types/word.interface';
+import { isNotEmpty } from 'utils/null/is-not-empty';
 
 export function useBotsTurn({
   onFinishTurn,

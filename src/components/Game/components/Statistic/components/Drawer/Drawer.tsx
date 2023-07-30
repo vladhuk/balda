@@ -1,10 +1,10 @@
-import * as styles from 'components/Game/components/Statistic/components/Drawer/styles';
 import { Box, SwipeableDrawer } from '@mui/material';
-import { Dispatch, FC } from 'react';
-import { Player } from 'types/player.interface';
 import { Puller } from 'components/Game/components/Statistic/components/Drawer/styled';
+import * as styles from 'components/Game/components/Statistic/components/Drawer/styles';
 import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
 import { Statistic } from 'components/Game/components/Statistic/Statistic';
+import { Dispatch, FC } from 'react';
+import { Player } from 'types/player.interface';
 
 interface Props {
   open: boolean;

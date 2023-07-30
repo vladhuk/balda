@@ -1,6 +1,6 @@
 import { Locale } from 'enums/locale.enum';
-import { useDictionary } from 'providers/DictionaryProvider';
 import { useTranslation } from 'next-i18next';
+import { useDictionary } from 'providers/DictionaryProvider';
 
 /** Should be used inside DictionaryProvider and I18NextClientProvider */
 export function useChangeLocale(): (locale: Locale) => Promise<void> {

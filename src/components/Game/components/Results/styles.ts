@@ -1,4 +1,4 @@
-import { SxProps, Theme, alpha } from '@mui/material';
+import { alpha, SxProps, Theme } from '@mui/material';
 
 export const backdrop: SxProps<Theme> = {
   background: ({ palette }) => alpha(palette.background.default, 0.8),

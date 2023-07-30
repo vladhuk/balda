@@ -1,16 +1,16 @@
-import * as styles from 'components/MainMenu/components/LanguageSelect/styles';
-import { FC } from 'react';
-import { Item } from 'components/MainMenu/components/LanguageSelect/types/item.interface';
-import { ItemContent } from 'components/MainMenu/components/LanguageSelect/components/ItemContent';
-import { Locale } from 'enums/locale.enum';
 import { MenuItem, Select } from '@mui/material';
-import { StaticImageData } from 'next/image';
-import { isUndefined } from 'lodash';
+import uk from 'components/MainMenu/components/LanguageSelect/assets/uk.svg';
+import us from 'components/MainMenu/components/LanguageSelect/assets/us.svg';
+import { ItemContent } from 'components/MainMenu/components/LanguageSelect/components/ItemContent';
+import * as styles from 'components/MainMenu/components/LanguageSelect/styles';
+import { Item } from 'components/MainMenu/components/LanguageSelect/types/item.interface';
+import { Locale } from 'enums/locale.enum';
 import { useChangeLocale } from 'hooks/use-change-locale';
 import { useIsOnline } from 'hooks/use-is-online';
 import { useLocale } from 'lib/i18next/hooks/use-locale';
-import uk from 'components/MainMenu/components/LanguageSelect/assets/uk.svg';
-import us from 'components/MainMenu/components/LanguageSelect/assets/us.svg';
+import { isUndefined } from 'lodash';
+import { StaticImageData } from 'next/image';
+import { FC } from 'react';
 
 const items: Item[] = [
   {

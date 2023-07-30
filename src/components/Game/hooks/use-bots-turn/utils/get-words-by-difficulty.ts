@@ -1,6 +1,6 @@
 import { Difficulty } from 'enums/difficulty.enum';
-import { Word } from 'types/word.interface';
 import { groupBy, random, sample } from 'lodash';
+import { Word } from 'types/word.interface';
 
 const lengthsPercentageRangeByDifficulty: Record<Difficulty, [number, number]> =
   {

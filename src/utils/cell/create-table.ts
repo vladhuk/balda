@@ -1,6 +1,6 @@
-import { Cell } from 'types/cell.interface';
 import { Coord } from 'helpers/coord';
 import { range } from 'lodash';
+import { Cell } from 'types/cell.interface';
 
 export function createTable(size: number, word: string): Cell[][] {
   const letters = word.toUpperCase().split('');

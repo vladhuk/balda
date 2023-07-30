@@ -1,8 +1,8 @@
 import { FIELD_SIZE, LETTERS_ZOOM_DURATION } from 'components/Game/constants';
-import { getRandomWord } from 'utils/word/get-random-word';
 import { isEmpty } from 'lodash';
 import { useDictionary } from 'providers/DictionaryProvider';
 import { useEffect, useState } from 'react';
+import { getRandomWord } from 'utils/word/get-random-word';
 
 export function useAnimatedStart({
   isPause,

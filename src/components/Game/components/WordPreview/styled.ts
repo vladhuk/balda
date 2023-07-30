@@ -1,5 +1,5 @@
-import { Typography, styled } from '@mui/material';
 import isPropValid from '@emotion/is-prop-valid';
+import { styled, Typography } from '@mui/material';
 
 interface LetterContainerProps {
   lettersShaking?: boolean;

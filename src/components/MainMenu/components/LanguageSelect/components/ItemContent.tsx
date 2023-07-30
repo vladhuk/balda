@@ -1,9 +1,9 @@
-import { Box, Typography } from '@mui/material';
-import { FC } from 'react';
-import { Item } from 'components/MainMenu/components/LanguageSelect/types/item.interface';
-import { isNotUndefined } from 'utils/null/is-not-undefined';
-import Image from 'next/image';
 import WifiOffIcon from '@mui/icons-material/WifiOff';
+import { Box, Typography } from '@mui/material';
+import { Item } from 'components/MainMenu/components/LanguageSelect/types/item.interface';
+import Image from 'next/image';
+import { FC } from 'react';
+import { isNotUndefined } from 'utils/null/is-not-undefined';
 
 type Props = Omit<Item, 'label'> &
   Partial<Pick<Item, 'label'>> & {

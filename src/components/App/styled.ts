@@ -1,5 +1,5 @@
-import { styled } from '@mui/material';
 import isPropValid from '@emotion/is-prop-valid';
+import { styled } from '@mui/material';
 
 interface MainContainerProps {
   blur?: boolean;

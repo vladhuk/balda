@@ -1,17 +1,22 @@
 {
   "compilerOptions": {
     "module": "esnext",
+    "moduleResolution": "bundler",
     "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
     "resolveJsonModule": true,
     "incremental": true,
     "noEmit": true,
@@ -19,12 +24,13 @@
     "baseUrl": "./src",
     "isolatedModules": true,
     "allowJs": true,
-    "skipLibCheck": false
+    "skipLibCheck": true
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    ".next/types/**/*.ts",
   ],
   "exclude": [
     "node_modules"

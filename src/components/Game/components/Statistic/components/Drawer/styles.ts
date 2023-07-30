@@ -1,5 +1,5 @@
-import { PAPER_BORDER_RADIUS } from 'config/theme';
 import { SxProps } from '@mui/material';
+import { PAPER_BORDER_RADIUS } from 'config/theme';
 
 /**
  * It is a workaround to avoid adding a border radius to specific corners,

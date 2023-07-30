@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
-import { FC } from 'react';
-import { NameAndScore } from 'components/Game/components/Statistic/NameAndScore';
-import { Player } from 'types/player.interface';
 import { ScoreOrientation } from 'components/Game/components/Statistic/enums/score-orientation.enum';
+import { NameAndScore } from 'components/Game/components/Statistic/NameAndScore';
+import { FC } from 'react';
+import { Player } from 'types/player.interface';
 
 interface Props {
   players: Player[];

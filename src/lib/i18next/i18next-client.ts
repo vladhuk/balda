@@ -1,7 +1,8 @@
 import { Locale } from 'enums/locale.enum';
-import { initReactI18next } from 'react-i18next';
-import Backend from 'i18next-http-backend';
 import i18next from 'i18next';
+import Backend from 'i18next-http-backend';
+import { initReactI18next } from 'react-i18next';
+
 import nextI18nextConfig from '../../../next-i18next.config';
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

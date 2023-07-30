@@ -1,10 +1,10 @@
-import * as styles from 'components/MainMenu/components/Feedback/styles';
-import { Box, Divider, IconButton, Typography } from '@mui/material';
-import { FC } from 'react';
-import { useCommonTranslation } from 'hooks/use-common-translation';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TelegramIcon from '@mui/icons-material/Telegram';
+import { Box, Divider, IconButton, Typography } from '@mui/material';
+import * as styles from 'components/MainMenu/components/Feedback/styles';
+import { useCommonTranslation } from 'hooks/use-common-translation';
+import { FC } from 'react';
 
 export const Feedback: FC = () => {
   const t = useCommonTranslation();
