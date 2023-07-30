@@ -1,5 +1,6 @@
 import { Button } from '@mui/material';
 import { Drawer } from 'components/Game/components/Statistic/components/Drawer/Drawer';
+import { useCommonTranslation } from 'hooks/use-common-translation';
 import { FC, useState } from 'react';
 import { Player } from 'types/player.interface';
 
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const StatisticsButton: FC<Props> = ({ players, turn }) => {
+  const t = useCommonTranslation();
+
   const [isStatisticOpened, setIsStatisticOpened] = useState(false);
 
   return (
@@ -20,7 +23,7 @@ const StatisticsButton: FC<Props> = ({ players, turn }) => {
         sx={{ mt: 2 }}
         onClick={() => setIsStatisticOpened(true)}
       >
-        Переглянути статистику
+        {t('viewStatistics')}
       </Button>
       <Drawer
         open={isStatisticOpened}
