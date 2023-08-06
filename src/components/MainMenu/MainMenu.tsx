@@ -82,6 +82,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
           <AccordionSummary
             component={Typography}
             variant="h6"
+            sx={{ fontWeight: 400 }}
             expandIcon={<ExpandMoreIcon />}
           >
             {t('options.together.title')}
@@ -116,6 +117,7 @@ export const MainMenu: FC<Props> = ({ open, onStart }) => {
           <AccordionSummary
             component={Typography}
             variant="h6"
+            sx={{ fontWeight: 400 }}
             expandIcon={<ExpandMoreIcon />}
           >
             {t('options.bot.title')}
